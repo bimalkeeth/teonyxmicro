@@ -11,6 +11,7 @@ func main() {
 	apiServer.Use(middleware.Logger())
 	apiServer.Use(middleware.Recover())
 	if apiServer == nil {
+
 		apiServer.Logger.Debug("Error in starting server")
 	}
 	r := routers.New()
