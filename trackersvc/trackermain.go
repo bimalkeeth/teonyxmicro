@@ -16,6 +16,7 @@ import (
 func opts(o *micro.Options) {
 	o.Server = server.NewServer(func(o *server.Options) {
 		o.Name = "teonyx.tracker"
+		o.Broker = nats.NewBroker()
 	})
 }
 
@@ -31,9 +32,8 @@ func main() {
 	for _, add := range addrs {
 		log.Println(add.Network()+":", add.String())
 	}
-	broker := nats.NewBroker()
 
-	microServer := micro.NewService(opts, micro.Broker(broker))
+	microServer := micro.NewService(opts)
 	if serr := microServer.Run(); serr != nil {
 
 		log.Fatal("Error in server running")
