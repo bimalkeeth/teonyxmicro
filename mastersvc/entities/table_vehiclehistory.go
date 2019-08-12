@@ -18,7 +18,7 @@ type TableVehicleHistory struct {
 }
 
 func (t TableVehicleHistory) TableName() string {
-	return "table_states"
+	return "table_vehiclehistory"
 }
 
 func (t TableVehicleHistory) Validate(db *gorm.DB) {
