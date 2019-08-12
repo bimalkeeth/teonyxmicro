@@ -7,6 +7,8 @@ type TableFleetLocation struct {
 	gorm.Model
 	FleetId   uint `gorm:"column:fleetid;not_null"`
 	AddressId uint `gorm:"column:addressid;not_null"`
+	Fleet     *TableFleet
+	Address   *TableAddress
 }
 
 func (t TableFleetLocation) TableName() string {
