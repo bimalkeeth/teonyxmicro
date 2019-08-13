@@ -7,6 +7,7 @@ type TableVehicleMake struct {
 	gorm.Model
 	Make      string `gorm:"column:make;not_null"`
 	CountryId uint   `gorm:"column:countryid;not_null"`
+	Country   *TableCountry
 }
 
 func (t TableVehicleMake) TableName() string {
