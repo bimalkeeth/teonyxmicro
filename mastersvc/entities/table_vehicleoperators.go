@@ -5,9 +5,12 @@ import "errors"
 
 type TableVehicleOperators struct {
 	gorm.Model
-	Name       string `gorm:"column:name;not_null"`
-	SurName    string `gorm:"column:surname;not_null"`
-	DrivingLic string `gorm:"column:drivinglic;not_null"`
+	Name       string                          `gorm:"column:name;not_null"`
+	SurName    string                          `gorm:"column:surname;not_null"`
+	DrivingLic string                          `gorm:"column:drivinglic;not_null"`
+	Active     bool                            `gorm:"column:active;not_null"`
+	Bounds     *[]TableVehicleOperatorBound    `gorm:"foreignkey:operatorid;association_foreignkey:ID"`
+	Locations  *[]TableVehicleOperatorLocation `gorm:"foreignkey:operatorid;association_foreignkey:ID"`
 }
 
 func (t TableVehicleOperators) TableName() string {

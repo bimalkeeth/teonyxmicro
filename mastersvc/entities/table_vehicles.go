@@ -5,15 +5,19 @@ import "errors"
 
 type TableVehicle struct {
 	gorm.Model
-	ModelId      uint   `gorm:"column:modelid;not_null"`
-	MakeId       uint   `gorm:"column:makeid;not_null"`
-	Registration string `gorm:"column:registration;not_null"`
-	FleetId      uint   `gorm:"column:fleetid;not_null"`
-	StatusId     uint   `gorm:"column:statusid;not_null"`
-	VehicleModel *TableVehicleModel
-	VehicleMake  *TableVehicleMake
-	Fleet        *TableFleet
-	Status       *TableVehicleStatus
+	ModelId       uint                         `gorm:"column:modelid;not_null"`
+	MakeId        uint                         `gorm:"column:makeid;not_null"`
+	Registration  string                       `gorm:"column:registration;not_null"`
+	FleetId       uint                         `gorm:"column:fleetid;not_null"`
+	StatusId      uint                         `gorm:"column:statusid;not_null"`
+	VehicleModel  *TableVehicleModel           `gorm:"foreignkey:modelid"`
+	VehicleMake   *TableVehicleMake            `gorm:"foreignkey:makeid"`
+	Fleet         *TableFleet                  `gorm:"foreignkey:fleetid"`
+	Status        *TableVehicleStatus          `gorm:"foreignkey:statusid"`
+	Locations     *[]TableVehicleLocation      `gorm:"foreignkey:vehicleid;association_foreignkey:ID"`
+	History       *[]TableVehicleHistory       `gorm:"foreignkey:vehicleid;association_foreignkey:ID"`
+	Operators     *[]TableVehicleOperatorBound `gorm:"foreignkey:vehicleid;association_foreignkey:ID"`
+	Registrations *[]TableVehicleTrackReg      `gorm:"foreignkey:vehicleId;association_foreignkey:ID"`
 }
 
 func (t TableVehicle) TableName() string {

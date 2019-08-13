@@ -5,10 +5,11 @@ import "errors"
 
 type TableVehicleOperatorBound struct {
 	gorm.Model
-	OPeratorId uint `gorm:"column:operatorid;not_null"`
-	VehicleId  uint `gorm:"column:operatorid;not_null"`
-	Operator   *TableVehicleOperators
-	Vehicle    *TableVehicle
+	OperatorId uint                   `gorm:"column:operatorid;not_null;unique_index:vehicleoperatorbound_opvh_uindex"`
+	VehicleId  uint                   `gorm:"column:vehicleid;not_null;unique_index:vehicleoperatorbound_opvh_uindex"`
+	Active     bool                   `gorm:"column:active;not_null"`
+	Operator   *TableVehicleOperators `gorm:"foreignkey:operatorid"`
+	Vehicle    *TableVehicle          `gorm:"foreignkey:vehicleid"`
 }
 
 func (t TableVehicleOperatorBound) TableName() string {
@@ -17,7 +18,7 @@ func (t TableVehicleOperatorBound) TableName() string {
 
 func (t TableVehicleOperatorBound) Validate(db *gorm.DB) {
 
-	if t.OPeratorId == 0 {
+	if t.OperatorId == 0 {
 		_ = db.AddError(errors.New("operator should contain value"))
 	}
 	if t.VehicleId == 0 {

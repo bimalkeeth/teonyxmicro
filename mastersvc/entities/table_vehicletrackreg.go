@@ -8,12 +8,12 @@ import (
 
 type TableVehicleTrackReg struct {
 	gorm.Model
-	RegisterDate time.Time `gorm:"column:registrationdate;not_null"`
-	Duration     int       `gorm:"column:duration;not_null"`
-	ExpiredDate  time.Time `gorm:"column:duration"`
-	Active       bool      `gorm:"column:active;not_null"`
-	VehicleId    uint      `gorm:"column:VehicleId;not_null"`
-	Vehicle      *TableVehicle
+	RegisterDate time.Time     `gorm:"column:registrationdate;not_null"`
+	Duration     int           `gorm:"column:duration;not_null"`
+	ExpiredDate  time.Time     `gorm:"column:duration"`
+	Active       bool          `gorm:"column:active;not_null"`
+	VehicleId    uint          `gorm:"column:vehicleId;not_null"`
+	Vehicle      *TableVehicle `gorm:"foreignkey:vehicleId"`
 }
 
 func (t TableVehicleTrackReg) TableName() string {

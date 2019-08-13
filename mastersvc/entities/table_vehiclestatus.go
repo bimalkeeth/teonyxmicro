@@ -6,7 +6,7 @@ import "errors"
 type TableVehicleStatus struct {
 	gorm.Model
 	StatusType string `gorm:"column:statustype;not_null"`
-	StatusName string `gorm:"column:statusname;not_null"`
+	StatusName string `gorm:"column:statusname;not_null;unique_index:vehiclestatus_statusname_uindex"`
 }
 
 func (t TableVehicleStatus) TableName() string {
