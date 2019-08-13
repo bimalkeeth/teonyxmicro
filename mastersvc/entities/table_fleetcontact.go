@@ -5,10 +5,10 @@ import "errors"
 
 type TableFleetContact struct {
 	gorm.Model
-	ContactId uint `gorm:"column:contactid;not_null"`
-	FleetId   uint `gorm:"column:fleetid;not_null"`
-	Contact   *TableContact
-	Fleet     *TableFleet
+	ContactId uint          `gorm:"column:contactid;not_null;unique_index:fleetcontact_fleetcontact_uindex"`
+	FleetId   uint          `gorm:"column:fleetid;not_null;unique_index:fleetcontact_fleetcontact_uindex"`
+	Contact   *TableContact `gorm:"foreignkey:contactid"`
+	Fleet     *TableFleet   `gorm:"foreignkey:fleetid"`
 }
 
 func (t TableFleetContact) TableName() string {

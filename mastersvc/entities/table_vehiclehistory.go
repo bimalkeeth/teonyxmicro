@@ -8,13 +8,15 @@ import (
 
 type TableVehicleHistory struct {
 	gorm.Model
-	VehicleId    uint      `gorm:"column:vehicleid;not_null"`
-	ChangeDate   time.Time `gorm:"column:changedate;not_null"`
-	Description  string    `gorm:"column:description"`
-	FromStatusId uint      `gorm:"column:fromstatusid;not_null"`
-	ToStatusId   uint      `gorm:"column:tostatusid;not_null"`
-	OfficerName  string    `gorm:"column:officername;not_null"`
-	Status       *TableVehicleStatus
+	VehicleId    uint                `gorm:"column:vehicleid;not_null"`
+	ChangeDate   time.Time           `gorm:"column:changedate;not_null"`
+	Description  string              `gorm:"column:description"`
+	FromStatusId uint                `gorm:"column:fromstatusid;not_null"`
+	ToStatusId   uint                `gorm:"column:tostatusid;not_null"`
+	OfficerName  string              `gorm:"column:officername;not_null"`
+	FromStatus   *TableVehicleStatus `gorm:"foreignkey:fromstatusid"`
+	ToStatus     *TableVehicleStatus `gorm:"foreignkey:tostatusid"`
+	Vehicle      *TableVehicle       `gorm:"foreignkey:vehicleid"`
 }
 
 func (t TableVehicleHistory) TableName() string {

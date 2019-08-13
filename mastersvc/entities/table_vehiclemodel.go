@@ -5,10 +5,10 @@ import "errors"
 
 type TableVehicleModel struct {
 	gorm.Model
-	ModelName   string `gorm:"column:modelname;not_null"`
-	Description string `gorm:"column:description"`
-	MakeId      uint   `gorm:"column:modelname;not_null"`
-	Make        *TableVehicleMake
+	ModelName   string            `gorm:"column:modelname;not_null"`
+	Description string            `gorm:"column:description"`
+	MakeId      uint              `gorm:"column:makeid;not_null"`
+	Make        *TableVehicleMake `gorm:"foreignkey:makeid"`
 }
 
 func (t TableVehicleModel) TableName() string {

@@ -10,16 +10,16 @@ import (
 //-----------------------------------------
 type TableAddress struct {
 	gorm.Model
-	Address          string `gorm:"column:address;not_null"`
-	Street           string `gorm:"column:street:not_null"`
-	Suberb           string `gorm:"column:suberb"`
-	StateId          uint   `gorm:"column:stateid"`
-	CountryId        uint   `gorm:"column:countryid"`
-	AddressTypeId    uint   `gorm:"column:addresstypeid;not_null"`
-	Location         string `gorm:"column:location;not_null"`
-	TableAddressType *TableAddressType
-	State            *TableState
-	Country          *TableCountry
+	Address          string            `gorm:"column:address;not_null"`
+	Street           string            `gorm:"column:street:not_null"`
+	Suberb           string            `gorm:"column:suberb"`
+	StateId          uint              `gorm:"column:stateid"`
+	CountryId        uint              `gorm:"column:countryid"`
+	AddressTypeId    uint              `gorm:"column:addresstypeid;not_null"`
+	Location         string            `gorm:"column:location;not_null"`
+	TableAddressType *TableAddressType `gorm:"foreignkey:addresstypeid"`
+	State            *TableState       `gorm:"foreignkey:stateid"`
+	Country          *TableCountry     `gorm:"foreignkey:countryid"`
 }
 
 func (t TableAddress) TableName() string {

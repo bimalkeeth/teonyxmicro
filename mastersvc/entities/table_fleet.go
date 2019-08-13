@@ -8,11 +8,13 @@ import (
 
 type TableFleet struct {
 	gorm.Model
-	Name                 string    `gorm:"column:name;not_null"`
-	SurName              string    `gorm:"column:surname"`
-	OtherName            string    `gorm:"column:othernames"`
-	DateRegistered       time.Time `gorm:"column:dateregistered;not_null"`
-	RegistrationDuration int       `gorm:"column:regisrationduration;not_null"`
+	Name                 string                `gorm:"column:name;not_null"`
+	SurName              string                `gorm:"column:surname"`
+	OtherName            string                `gorm:"column:othernames"`
+	DateRegistered       time.Time             `gorm:"column:dateregistered;not_null"`
+	RegistrationDuration int                   `gorm:"column:regisrationduration;not_null"`
+	FleetContacts        *[]TableFleetContact  `gorm:"foreignkey:fleetid;association_foreignkey:ID"`
+	FleetLocations       *[]TableFleetLocation `gorm:"foreignkey:fleetid;association_foreignkey:ID"`
 }
 
 func (t TableFleet) TableName() string {

@@ -5,9 +5,10 @@ import "errors"
 
 type TableCountry struct {
 	gorm.Model
-	CountryName string `gorm:"column:countryname;not_null"`
-	RegionId    uint   `gorm:"column:regionid;not_null"`
-	Region      *TableRegion
+	CountryName string          `gorm:"column:countryname;not_null;unique_index:country_countryname_uindex"`
+	RegionId    uint            `gorm:"column:regionid;not_null"`
+	Region      *TableRegion    `gorm:"foreignkey:regionid"`
+	Countries   *[]TableCountry `gorm:"foreignkey:countryid;association_foreignkey:ID"`
 }
 
 func (t TableCountry) TableName() string {

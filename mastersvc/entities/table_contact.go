@@ -9,9 +9,9 @@ import "errors"
 
 type TableContact struct {
 	gorm.Model
-	Contact       string `gorm:"column:contact;not_null"`
-	ContactTypeId uint   `gorm:"column:contacttypeid;not_null"`
-	ContactType   *TableContactType
+	Contact       string            `gorm:"column:contact;not_null"`
+	ContactTypeId uint              `gorm:"column:contacttypeid;not_null"`
+	ContactType   *TableContactType `gorm:"foreignkey:contacttypeid"`
 }
 
 func (t TableContact) TableName() string {
