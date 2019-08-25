@@ -8,6 +8,7 @@ import (
 
 type TableFleet struct {
 	gorm.Model
+	FleetId              string                `gorm:"column:fleetid;not_null"`
 	Name                 string                `gorm:"column:name;not_null"`
 	SurName              string                `gorm:"column:surname"`
 	OtherName            string                `gorm:"column:othernames"`
@@ -24,15 +25,12 @@ func (t TableFleet) TableName() string {
 func (t TableFleet) Validate(db *gorm.DB) {
 
 	if len(t.Name) == 0 {
-
 		_ = db.AddError(errors.New("name should contain value"))
 	}
 	if t.RegistrationDuration == 0 {
-
 		_ = db.AddError(errors.New("registration duration should contain value"))
 	}
 	if t.DateRegistered.IsZero() {
-
 		_ = db.AddError(errors.New("registration date should contain value"))
 	}
 }

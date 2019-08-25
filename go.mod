@@ -6,7 +6,7 @@ require (
 	cloud.google.com/go v0.44.0 // indirect
 	github.com/denisenkom/go-mssqldb v0.0.0-20190806190131-db2462fef53b // indirect
 	github.com/google/go-cmp v0.3.1 // indirect
-	github.com/jinzhu/gorm v1.9.10 // indirect
+	github.com/jinzhu/gorm v1.9.10
 	github.com/labstack/echo/v4 v4.1.6
 	github.com/mattn/go-sqlite3 v1.11.0 // indirect
 	github.com/micro/go-micro v1.8.2

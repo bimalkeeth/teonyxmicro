@@ -12,8 +12,8 @@ type TableVehicleTrackReg struct {
 	Duration     int           `gorm:"column:duration;not_null"`
 	ExpiredDate  time.Time     `gorm:"column:duration"`
 	Active       bool          `gorm:"column:active;not_null"`
-	VehicleId    uint          `gorm:"column:vehicleId;not_null"`
-	Vehicle      *TableVehicle `gorm:"foreignkey:vehicleId"`
+	VehicleId    uint          `gorm:"column:vehicleid;not_null"`
+	Vehicle      *TableVehicle `gorm:"foreignkey:vehicleid"`
 }
 
 func (t TableVehicleTrackReg) TableName() string {

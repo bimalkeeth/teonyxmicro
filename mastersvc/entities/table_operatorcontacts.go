@@ -3,19 +3,19 @@ package entities
 import "github.com/jinzhu/gorm"
 import "errors"
 
-type TableOPeratorContacts struct {
+type TableOperatorContacts struct {
 	gorm.Model
-	ContactId  uint                   `gorm:"column:contactid;not_null;unique_index:operatorcontacts_contoperator_uindex"`
-	OperatorId uint                   `gorm:"column:operatorid;not_null;unique_index:operatorcontacts_contoperator_uindex"`
+	ContactId  uint                   `gorm:"column:contactid;not_null"`
+	OperatorId uint                   `gorm:"column:operatorid;not_null"`
 	Contact    *TableContact          `gorm:"foreignkey:contactid"`
 	Operator   *TableVehicleOperators `gorm:"foreignkey:operatorid"`
 }
 
-func (t TableOPeratorContacts) TableName() string {
+func (t TableOperatorContacts) TableName() string {
 	return "table_operatorcontacts"
 }
 
-func (t TableOPeratorContacts) Validate(db *gorm.DB) {
+func (t TableOperatorContacts) Validate(db *gorm.DB) {
 
 	if t.ContactId == 0 {
 
