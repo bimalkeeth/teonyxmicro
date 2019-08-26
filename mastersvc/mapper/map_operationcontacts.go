@@ -6,7 +6,7 @@ import ent "teonyxmicro/mastersvc/entities"
 //--------------------------------------
 // Create Fleet Location table
 //--------------------------------------
-func MapOperationContactsTable(db *gorm.DB) {
+func MapVehicleOperatorContactsTable(db *gorm.DB) {
 
 	if !db.HasTable(&ent.TableOperatorContacts{}) {
 

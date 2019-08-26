@@ -3,7 +3,6 @@ package mapper
 import (
 	"log"
 	con "teonyxmicro/mastersvc/connection"
-	ent "teonyxmicro/mastersvc/entities"
 )
 
 type IEntityMapper interface {
@@ -29,25 +28,27 @@ func (t SchemaGenerator) GenerateSchema() error {
 	if err != nil {
 		log.Fatal("error in connection")
 	}
-	if !dbase.HasTable(&ent.TableAddressType{}) {
-
-		dbase.CreateTable(&ent.TableAddressType{})
-	}
-	if !dbase.HasTable(&ent.TableRegion{}) {
-
-		dbase.CreateTable(&ent.TableRegion{})
-	}
-	if !dbase.HasTable(&ent.TableState{}) {
-
-		dbase.CreateTable(&ent.TableState{})
-	}
-	if !dbase.HasTable(&ent.TableCountry{}) {
-
-		dbase.CreateTable(&ent.TableCountry{})
-	}
-	if !dbase.HasTable(&ent.TableAddress{}) {
-
-		dbase.CreateTable(&ent.TableAddress{})
-	}
+	MapAddressTypeTable(dbase)
+	MapContactTypeTable(dbase)
+	MapRegionTable(dbase)
+	MapVehicleStatusTable(dbase)
+	MapCountryTable(dbase)
+	MapStatesTable(dbase)
+	MapAddressTable(dbase)
+	MapContactsTable(dbase)
+	MapVehicleMakeTable(dbase)
+	MapVehicleModelTable(dbase)
+	MapCompanyTable(dbase)
+	MapFleetTable(dbase)
+	MapFleetContactTable(dbase)
+	MapFleetLocationTable(dbase)
+	MapVehicleTable(dbase)
+	MapVehicleLocationTable(dbase)
+	MapVehicleTrackRegTable(dbase)
+	MapVehicleHistoryTable(dbase)
+	MapVehicleOperatorsTable(dbase)
+	MapVehicleOperatorBoundTable(dbase)
+	MapVehicleOperatorLocationTable(dbase)
+	MapVehicleOperatorContactsTable(dbase)
 	return nil
 }
