@@ -11,7 +11,5 @@ require (
 	github.com/mattn/go-sqlite3 v1.11.0 // indirect
 	github.com/micro/go-micro v1.8.2
 	github.com/micro/go-plugins v1.2.0
-	golang.org/x/mobile v0.0.0-20190806162312-597adff16ade // indirect
 	golang.org/x/sys v0.0.0-20190804053845-51ab0e2deafa // indirect
-	golang.org/x/tools v0.0.0-20190809145639-6d4652c779c4 // indirect
 )
