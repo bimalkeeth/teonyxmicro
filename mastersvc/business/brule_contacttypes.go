@@ -3,18 +3,18 @@ package business
 import (
 	"errors"
 	"github.com/jinzhu/gorm"
+	bu "teonyxmicro/mastersvc/bucontracts"
 	ent "teonyxmicro/mastersvc/entities"
 )
-import bu "teonyxmicro/mastersvc/bucontracts"
 
-type ContactTypes interface {
+type IContactTypes interface {
 	CreateContactType(db *gorm.DB, contactType bu.ContactTypeBO) (bool, error)
 	UpdateContactType(db *gorm.DB, contactType bu.ContactTypeBO) (bool, error)
 	DeleteContactType(db *gorm.DB, id uint) (bool, error)
 	GetContactTypeById(db *gorm.DB, id uint) (bu.ContactTypeBO, error)
 	GetContactTypeByName(db *gorm.DB, name string) (bu.ContactTypeBO, error)
 	GetAll(db *gorm.DB) ([]bu.ContactTypeBO, error)
-	GetAllNemes(db *gorm.DB, namePart string) ([]bu.ContactTypeBO, error)
+	GetAllNames(db *gorm.DB, namePart string) ([]bu.ContactTypeBO, error)
 }
 
 type ContactType struct{}
@@ -22,7 +22,7 @@ type ContactType struct{}
 //-------------------------------------------
 //Create instance to through above interface
 //-------------------------------------------
-func New() ContactTypes {
+func NewContactType() IContactTypes {
 	return &ContactType{}
 }
 
@@ -114,7 +114,7 @@ func (c *ContactType) GetAll(db *gorm.DB) ([]bu.ContactTypeBO, error) {
 //-------------------------------------------
 //Get all Names by name like
 //-------------------------------------------
-func (c *ContactType) GetAllNemes(db *gorm.DB, namePart string) ([]bu.ContactTypeBO, error) {
+func (c *ContactType) GetAllNames(db *gorm.DB, namePart string) ([]bu.ContactTypeBO, error) {
 
 	var contactTypes []ent.TableContactType
 	db.Where("contacttype LIKE ?", "%"+namePart+"%").Find(&contactTypes)

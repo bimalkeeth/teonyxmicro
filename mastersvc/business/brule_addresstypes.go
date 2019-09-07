@@ -7,19 +7,22 @@ import (
 	ent "teonyxmicro/mastersvc/entities"
 )
 
-type AddressTypes interface {
+type IAddressTypes interface {
 	CreateAddressType(db *gorm.DB, addressType bu.AddressTypeBO) (bool, error)
 	UpdateAddressType(db *gorm.DB, addressType bu.AddressTypeBO) (bool, error)
 	DeleteAddressType(db *gorm.DB, id uint) (bool, error)
 	GetAddressTypeById(db *gorm.DB, id uint) (bu.AddressTypeBO, error)
 	GetAddressTypeByName(db *gorm.DB, name string) (bu.AddressTypeBO, error)
 	GetAll(db *gorm.DB) ([]bu.AddressTypeBO, error)
-	GetAllNemes(db *gorm.DB, namePart string) ([]bu.AddressTypeBO, error)
+	GetAllNames(db *gorm.DB, namePart string) ([]bu.AddressTypeBO, error)
 }
 type AddressType struct{}
 
-func New() *AddressType { return &AddressType{} }
+func NewAddressType() IAddressTypes { return &AddressType{} }
 
+//-----------------------------------------
+// Create Address type
+//-----------------------------------------
 func (at *AddressType) CreateAddressType(db *gorm.DB, addressType bu.AddressTypeBO) (bool, error) {
 
 	result := db.NewRecord(ent.TableAddressType{AddressType: addressType.Name})
@@ -29,6 +32,9 @@ func (at *AddressType) CreateAddressType(db *gorm.DB, addressType bu.AddressType
 	return result, nil
 }
 
+//----------------------------------------
+//Update Address type
+//----------------------------------------
 func (at *AddressType) UpdateAddressType(db *gorm.DB, addressType bu.AddressTypeBO) (bool, error) {
 
 	addressTypes := &ent.TableAddressType{}
@@ -41,6 +47,9 @@ func (at *AddressType) UpdateAddressType(db *gorm.DB, addressType bu.AddressType
 	return true, nil
 }
 
+//-----------------------------------------
+// Delete Address type
+//-----------------------------------------
 func (at *AddressType) DeleteAddressType(db *gorm.DB, id uint) (bool, error) {
 
 	addressTypes := &ent.TableAddressType{}
@@ -53,6 +62,9 @@ func (at *AddressType) DeleteAddressType(db *gorm.DB, id uint) (bool, error) {
 	return true, nil
 }
 
+//------------------------------------------
+//Get Address type by Address Id
+//------------------------------------------
 func (at *AddressType) GetAddressTypeById(db *gorm.DB, id uint) (bu.AddressTypeBO, error) {
 
 	addressTypes := &ent.TableAddressType{}
@@ -65,6 +77,9 @@ func (at *AddressType) GetAddressTypeById(db *gorm.DB, id uint) (bu.AddressTypeB
 	return bu.AddressTypeBO{Name: addressTypes.Name, Id: addressTypes.ID}, nil
 }
 
+//------------------------------------------
+//Get Address by Address name
+//------------------------------------------
 func (at *AddressType) GetAddressTypeByName(db *gorm.DB, name string) (bu.AddressTypeBO, error) {
 
 	addressType := ent.TableAddressType{}
@@ -75,6 +90,9 @@ func (at *AddressType) GetAddressTypeByName(db *gorm.DB, name string) (bu.Addres
 	return bu.AddressTypeBO{Name: addressType.Name, Id: addressType.ID}, nil
 }
 
+//------------------------------------------
+//Get All Address
+//------------------------------------------
 func (at *AddressType) GetAll(db *gorm.DB) ([]bu.AddressTypeBO, error) {
 
 	var addressTypes []ent.TableAddressType
@@ -87,7 +105,10 @@ func (at *AddressType) GetAll(db *gorm.DB) ([]bu.AddressTypeBO, error) {
 	return result, nil
 }
 
-func (at *AddressType) GetAllNemes(db *gorm.DB, namePart string) ([]bu.AddressTypeBO, error) {
+//------------------------------------------
+//Get all address by name part
+//------------------------------------------
+func (at *AddressType) GetAllNames(db *gorm.DB, namePart string) ([]bu.AddressTypeBO, error) {
 	var addressTypes []ent.TableAddressType
 	db.Where("name LIKE ?", "%"+namePart+"%").Find(&addressTypes)
 	var result []bu.AddressTypeBO
