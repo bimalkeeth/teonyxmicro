@@ -40,7 +40,7 @@ func (at *AddressType) UpdateAddressType(db *gorm.DB, addressType bu.AddressType
 	addressTypes := &ent.TableAddressType{}
 	db.First(&addressTypes, addressType.Id)
 	if addressTypes.ID == 0 {
-		return false, nil
+		return false, errors.New("address type cannot be found")
 	}
 	addressTypes.Name = addressType.Name
 	db.Save(&addressTypes)
