@@ -18,7 +18,7 @@ type ICompany interface {
 
 type Company struct{}
 
-func NewCompany() ICompany { return Company{} }
+func NewCompany() *Company { return &Company{} }
 
 //----------------------------------------------
 //Create Company

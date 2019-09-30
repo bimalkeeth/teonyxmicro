@@ -22,7 +22,7 @@ type ContactType struct{}
 //-------------------------------------------
 //Create instance to through above interface
 //-------------------------------------------
-func NewContactType() IContactTypes {
+func NewContactType() *ContactType {
 	return &ContactType{}
 }
 

@@ -17,6 +17,8 @@ type IAddress interface {
 
 type Address struct{}
 
+func NewAddress() *Address { return &Address{} }
+
 //---------------------------------------------------
 //Create address
 //---------------------------------------------------

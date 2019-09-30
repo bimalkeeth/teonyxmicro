@@ -20,7 +20,7 @@ type IRegion interface {
 }
 type Region struct{}
 
-func NewRegion() IRegion { return &Region{} }
+func NewRegion() *Region { return &Region{} }
 
 //------------------------------------------------
 //Create region for the given data

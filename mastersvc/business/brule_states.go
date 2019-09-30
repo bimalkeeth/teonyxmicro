@@ -19,9 +19,7 @@ type IStates interface {
 
 type State struct{}
 
-func NewState() IStates {
-	return &State{}
-}
+func NewState() *State { return &State{} }
 
 func (s *State) CreateState(db *gorm.DB, bo bu.StateBO) (bool, error) {
 

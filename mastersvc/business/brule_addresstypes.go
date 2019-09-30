@@ -18,7 +18,7 @@ type IAddressTypes interface {
 }
 type AddressType struct{}
 
-func NewAddressType() IAddressTypes { return &AddressType{} }
+func NewAddressType() *AddressType { return &AddressType{} }
 
 //-----------------------------------------
 // Create Address type
