@@ -1,6 +1,7 @@
 package business
 
 import (
+	"errors"
 	"github.com/jinzhu/gorm"
 	bu "teonyxmicro/mastersvc/bucontracts"
 	ent "teonyxmicro/mastersvc/entities"
@@ -19,9 +20,9 @@ type Company struct{}
 
 func NewCompany() ICompany { return Company{} }
 
-//---------------------------------------------
+//----------------------------------------------
 //Create Company
-//---------------------------------------------
+//----------------------------------------------
 func (c Company) CreateCompany(db *gorm.DB, company bu.CompanyBO) (bool, error) {
 
 	db.Create(&ent.TableCompany{Name: company.Name,
@@ -30,12 +31,33 @@ func (c Company) CreateCompany(db *gorm.DB, company bu.CompanyBO) (bool, error) 
 	return true, nil
 }
 
+//-----------------------------------------------
+//Update company
+//-----------------------------------------------
 func (c Company) UpdateCompany(db *gorm.DB, company bu.CompanyBO) (bool, error) {
 
+	com := &ent.TableCompany{}
+	db.First(com, company.Id)
+	if com.ID == 0 {
+		return false, errors.New("company can not be found")
+	}
+	com.ContractId = company.ContactId
+	com.AddressId = company.AddressId
+	com.Name = company.Name
+	db.Save(com)
 	return true, nil
 }
 
+//-----------------------------------------------
+//Delete company
+//-----------------------------------------------
 func (c Company) DeleteCompany(db *gorm.DB, id uint) (bool, error) {
 
+	com := ent.TableCompany{}
+	db.First(&com, id)
+	if com.ID == 0 {
+		return false, errors.New("company type not found")
+	}
+	db.Delete(&com)
 	return true, nil
 }
