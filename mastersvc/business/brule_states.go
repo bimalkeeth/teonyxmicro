@@ -25,10 +25,7 @@ func NewState() IStates {
 
 func (s *State) CreateState(db *gorm.DB, bo bu.StateBO) (bool, error) {
 
-	result := db.NewRecord(&entities.TableState{Name: bo.Name, CountryId: bo.CountryId})
-	if !result {
-		return false, errors.New("error in creating state")
-	}
+	db.Create(&entities.TableState{Name: bo.Name, CountryId: bo.CountryId})
 	return true, nil
 }
 func (s *State) UpdateState(db *gorm.DB, bo bu.StateBO) (bool, error) {

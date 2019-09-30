@@ -27,10 +27,7 @@ func NewRegion() IRegion { return &Region{} }
 //------------------------------------------------
 func (r *Region) CreateRegion(db *gorm.DB, bo bu.RegionBO) (bool, error) {
 
-	result := db.NewRecord(&entities.TableRegion{Region: bo.Region, RegionName: bo.RegionName})
-	if !result {
-		return false, errors.New("error in creating region")
-	}
+	db.Create(&entities.TableRegion{Region: bo.Region, RegionName: bo.RegionName})
 	return true, nil
 }
 

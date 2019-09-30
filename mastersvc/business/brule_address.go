@@ -22,7 +22,7 @@ type Address struct{}
 //---------------------------------------------------
 func (a *Address) CreateAddress(db *gorm.DB, address bu.AddressBO) (bool, error) {
 
-	result := db.NewRecord(&ent.TableAddress{CountryId: address.CountryId,
+	db.Create(&ent.TableAddress{CountryId: address.CountryId,
 		AddressTypeId: address.AddressTypeId,
 		StateId:       address.StateId,
 		Location:      address.Location,
@@ -30,9 +30,6 @@ func (a *Address) CreateAddress(db *gorm.DB, address bu.AddressBO) (bool, error)
 		Street:        address.Street,
 		Suburb:        address.Suburb})
 
-	if !result {
-		return false, errors.New("error in creating address")
-	}
 	return true, nil
 }
 

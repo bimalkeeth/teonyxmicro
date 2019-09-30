@@ -31,10 +31,7 @@ func NewContactType() IContactTypes {
 //-------------------------------------------
 func (c *ContactType) CreateContactType(db *gorm.DB, contactType bu.ContactTypeBO) (bool, error) {
 
-	result := db.NewRecord(&ent.TableContactType{ContactType: contactType.ContactType})
-	if !result {
-		return false, errors.New("creation of contact type failed")
-	}
+	db.Create(&ent.TableContactType{ContactType: contactType.ContactType})
 	return true, nil
 }
 

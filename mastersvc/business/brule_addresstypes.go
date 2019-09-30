@@ -25,11 +25,8 @@ func NewAddressType() IAddressTypes { return &AddressType{} }
 //-----------------------------------------
 func (at *AddressType) CreateAddressType(db *gorm.DB, addressType bu.AddressTypeBO) (bool, error) {
 
-	result := db.NewRecord(ent.TableAddressType{AddressType: addressType.Name})
-	if !result {
-		return result, errors.New("address type creation not successful")
-	}
-	return result, nil
+	db.Create(ent.TableAddressType{AddressType: addressType.Name})
+	return true, nil
 }
 
 //----------------------------------------
