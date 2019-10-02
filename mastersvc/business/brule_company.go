@@ -44,7 +44,7 @@ func (c Company) UpdateCompany(db *gorm.DB, company bu.CompanyBO) (bool, error) 
 	com.ContractId = company.ContactId
 	com.AddressId = company.AddressId
 	com.Name = company.Name
-	db.Save(com)
+	db.Save(&com)
 	return true, nil
 }
 

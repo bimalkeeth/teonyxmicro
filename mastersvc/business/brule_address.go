@@ -52,7 +52,7 @@ func (a *Address) UpdateAddress(db *gorm.DB, address bu.AddressBO) (bool, error)
 	addr.StateId = address.StateId
 	addr.AddressTypeId = address.AddressTypeId
 	addr.CountryId = address.CountryId
-	db.Save(addr)
+	db.Save(&addr)
 	return true, nil
 }
 

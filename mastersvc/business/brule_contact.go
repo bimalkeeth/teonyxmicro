@@ -38,7 +38,7 @@ func (c *Contact) UpdateContact(db *gorm.DB, con bu.ContactBO) (bool, error) {
 	}
 	contact.ContactTypeId = con.ContactTypeId
 	contact.Contact = con.Contact
-	db.Save(contact)
+	db.Save(&contact)
 	return true, nil
 }
 
