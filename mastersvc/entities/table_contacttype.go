@@ -6,7 +6,7 @@ import "errors"
 type TableContactType struct {
 	gorm.Model
 	ContactType string          `gorm:"column:contacttype;not_null;"`
-	Contacts    *[]TableContact `gorm:"foreignkey:contacttypeid;association_foreignkey:ID"`
+	Contacts    []*TableContact `gorm:"foreignkey:contacttypeid;association_foreignkey:ID"`
 }
 
 func (t TableContactType) TableName() string {

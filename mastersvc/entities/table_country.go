@@ -8,7 +8,7 @@ type TableCountry struct {
 	CountryName string        `gorm:"column:countryname;not_null;unique_index:country_countryname_uindex"`
 	RegionId    uint          `gorm:"column:regionid;not_null"`
 	Region      *TableRegion  `gorm:"foreignkey:regionid"`
-	States      *[]TableState `gorm:"foreignkey:CountryId;association_foreignkey:id"`
+	States      []*TableState `gorm:"foreignkey:CountryId;association_foreignkey:id"`
 }
 
 func (t TableCountry) TableName() string {

@@ -14,10 +14,10 @@ type TableVehicle struct {
 	VehicleMake   *TableVehicleMake            `gorm:"foreignkey:makeid"`
 	Fleet         *TableFleet                  `gorm:"foreignkey:fleetid"`
 	Status        *TableVehicleStatus          `gorm:"foreignkey:statusid"`
-	Locations     *[]TableVehicleLocation      `gorm:"foreignkey:vehicleid;association_foreignkey:ID"`
-	History       *[]TableVehicleHistory       `gorm:"foreignkey:vehicleid;association_foreignkey:ID"`
-	Operators     *[]TableVehicleOperatorBound `gorm:"foreignkey:vehicleid;association_foreignkey:ID"`
-	Registrations *[]TableVehicleTrackReg      `gorm:"foreignkey:vehicleId;association_foreignkey:ID"`
+	Locations     []*TableVehicleLocation      `gorm:"foreignkey:vehicleid;association_foreignkey:ID"`
+	History       []*TableVehicleHistory       `gorm:"foreignkey:vehicleid;association_foreignkey:ID"`
+	Operators     []*TableVehicleOperatorBound `gorm:"foreignkey:vehicleid;association_foreignkey:ID"`
+	Registrations []*TableVehicleTrackReg      `gorm:"foreignkey:vehicleId;association_foreignkey:ID"`
 }
 
 func (t TableVehicle) TableName() string {

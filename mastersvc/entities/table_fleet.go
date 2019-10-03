@@ -14,8 +14,8 @@ type TableFleet struct {
 	OtherName            string                `gorm:"column:othernames"`
 	DateRegistered       time.Time             `gorm:"column:dateregistered;not_null"`
 	RegistrationDuration int                   `gorm:"column:regisrationduration;not_null"`
-	FleetContacts        *[]TableFleetContact  `gorm:"foreignkey:fleetid;association_foreignkey:ID"`
-	FleetLocations       *[]TableFleetLocation `gorm:"foreignkey:fleetid;association_foreignkey:ID"`
+	FleetContacts        []*TableFleetContact  `gorm:"foreignkey:fleetid;association_foreignkey:ID"`
+	FleetLocations       []*TableFleetLocation `gorm:"foreignkey:fleetid;association_foreignkey:ID"`
 }
 
 func (t TableFleet) TableName() string {
