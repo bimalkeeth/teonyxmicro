@@ -12,6 +12,6 @@ func MapVehicleHistoryTable(db *gorm.DB) {
 		db.CreateTable(&ent.TableVehicleHistory{})
 		db.Model(&ent.TableVehicleHistory{}).AddForeignKey("vehicleid", "table_vehicles(id)", "RESTRICT", "RESTRICT")
 		db.Model(&ent.TableVehicleHistory{}).AddForeignKey("fromstatusid", "table_vehiclestatus(id)", "RESTRICT", "RESTRICT")
-		db.Model(&ent.TableVehicleHistory{}).AddForeignKey("tostatusid", "tostatusid(id)", "RESTRICT", "RESTRICT")
+		db.Model(&ent.TableVehicleHistory{}).AddForeignKey("tostatusid", "table_vehiclestatus(id)", "RESTRICT", "RESTRICT")
 	}
 }

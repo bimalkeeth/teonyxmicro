@@ -14,7 +14,7 @@ type TableFleet struct {
 	OtherName            string                `gorm:"column:othernames"`
 	DateRegistered       time.Time             `gorm:"column:dateregistered;not_null"`
 	DateExpire           time.Time             `gorm:"column:dateexpire"`
-	RegistrationDuration int                   `gorm:"column:regisrationduration;not_null"`
+	RegistrationDuration float64               `gorm:"column:regisrationduration;not_null"`
 	FleetContacts        []*TableFleetContact  `gorm:"foreignkey:fleetid"`
 	FleetLocations       []*TableFleetLocation `gorm:"foreignkey:fleetid"`
 }
@@ -33,5 +33,17 @@ func (t TableFleet) Validate(db *gorm.DB) {
 	}
 	if t.DateRegistered.IsZero() {
 		_ = db.AddError(errors.New("registration date should contain value"))
+	}
+	if t.DateExpire.IsZero() {
+		_ = db.AddError(errors.New("expire date should contain value"))
+	}
+
+	if t.DateRegistered.Unix() > t.DateExpire.Unix() {
+		_ = db.AddError(errors.New("expire date should grater than registered date"))
+	}
+
+	if !t.DateRegistered.IsZero() && !t.DateExpire.IsZero() {
+
+		t.RegistrationDuration = t.DateExpire.Sub(t.DateRegistered).Hours() / 24
 	}
 }

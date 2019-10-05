@@ -11,8 +11,6 @@ func MapFleetTable(db *gorm.DB) {
 	if !db.HasTable(&ent.TableFleet{}) {
 
 		db.CreateTable(&ent.TableFleet{})
-		db.Model(&ent.TableFleet{}).AddUniqueIndex("ux_fleet_fleetid", "fleetid")
-		db.Model(&ent.TableFleet{}).Association("FleetContacts")
-		db.Model(&ent.TableFleet{}).Association("FleetLocations")
+		db.Model(&ent.TableFleet{}).AddUniqueIndex("ux_fleet_fleetcode", "fleetcode")
 	}
 }

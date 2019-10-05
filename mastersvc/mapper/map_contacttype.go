@@ -12,6 +12,5 @@ func MapContactTypeTable(db *gorm.DB) {
 
 		db.CreateTable(&ent.TableContactType{})
 		db.Model(&ent.TableContactType{}).AddUniqueIndex("ux_addresstype_contacttype", "contacttype")
-		db.Model(&ent.TableContactType{}).Association("Contacts")
 	}
 }

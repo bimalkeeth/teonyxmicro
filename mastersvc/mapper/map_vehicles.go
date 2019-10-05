@@ -16,9 +16,5 @@ func MapVehicleTable(db *gorm.DB) {
 		db.Model(&ent.TableVehicle{}).AddForeignKey("makeid", "table_vehiclemake(id)", "RESTRICT", "RESTRICT")
 		db.Model(&ent.TableVehicle{}).AddForeignKey("fleetid", "table_fleet(id)", "RESTRICT", "RESTRICT")
 		db.Model(&ent.TableVehicle{}).AddForeignKey("statusid", "table_vehiclestatus(id)", "RESTRICT", "RESTRICT")
-		db.Model(&ent.TableVehicle{}).Association("Locations")
-		db.Model(&ent.TableVehicle{}).Association("History")
-		db.Model(&ent.TableVehicle{}).Association("Operators")
-		db.Model(&ent.TableVehicle{}).Association("Registrations")
 	}
 }

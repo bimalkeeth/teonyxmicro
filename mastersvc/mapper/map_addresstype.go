@@ -12,6 +12,6 @@ func MapAddressTypeTable(db *gorm.DB) {
 
 		db.CreateTable(&ent.TableAddressType{})
 		db.Model(&ent.TableAddressType{}).AddUniqueIndex("ux_addresstype_name", "name")
-		db.Model(&ent.TableAddressType{}).Association("Address")
+
 	}
 }
