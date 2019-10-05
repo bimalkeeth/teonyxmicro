@@ -5,14 +5,14 @@ import "errors"
 
 type TableCountry struct {
 	gorm.Model
-	CountryName string        `gorm:"column:countryname;not_null;unique_index:country_countryname_uindex"`
+	CountryName string        `gorm:"column:countryname;not_null"`
 	RegionId    uint          `gorm:"column:regionid;not_null"`
 	Region      *TableRegion  `gorm:"foreignkey:regionid"`
-	States      []*TableState `gorm:"foreignkey:CountryId;association_foreignkey:id"`
+	States      []*TableState `gorm:"foreignkey:countryId"`
 }
 
 func (t TableCountry) TableName() string {
-	return "table_contacttype"
+	return "table_country"
 }
 
 func (t TableCountry) Validate(db *gorm.DB) {

@@ -5,7 +5,7 @@ import "errors"
 
 type TableVehicleMake struct {
 	gorm.Model
-	Make      string        `gorm:"column:make;not_null;unique_index:vehiclemake_make_uindex"`
+	Make      string        `gorm:"column:make;not_null"`
 	CountryId uint          `gorm:"column:countryid;not_null"`
 	Country   *TableCountry `gorm:"foreignkey:countryid"`
 }

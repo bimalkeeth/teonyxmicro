@@ -12,6 +12,6 @@ func MapStatesTable(db *gorm.DB) {
 
 		db.CreateTable(&ent.TableState{})
 		db.Model(&ent.TableState{}).AddUniqueIndex("ux_states_name", "name")
-		db.Model(&ent.TableState{}).AddForeignKey("countryid", "table_contacttype(id)", "RESTRICT", "RESTRICT")
+		db.Model(&ent.TableState{}).AddForeignKey("countryid", "table_country(id)", "RESTRICT", "RESTRICT")
 	}
 }

@@ -8,7 +8,7 @@ import "errors"
 //--------------------------------------------------
 type TableCompany struct {
 	gorm.Model
-	Name       string        `gorm:"column:name;not_null;unique_index:company_name_uindex"`
+	Name       string        `gorm:"column:name;not_null"`
 	AddressId  uint          `gorm:"column:addressid;not_null"`
 	ContractId uint          `gorm:"column:contactid;not_null"`
 	Address    *TableAddress `gorm:"foreignkey:AddressId"`

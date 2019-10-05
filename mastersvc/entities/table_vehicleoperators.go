@@ -9,8 +9,8 @@ type TableVehicleOperators struct {
 	SurName    string                          `gorm:"column:surname;not_null"`
 	DrivingLic string                          `gorm:"column:drivinglic;not_null"`
 	Active     bool                            `gorm:"column:active;not_null;default:false"`
-	Bounds     []*TableVehicleOperatorBound    `gorm:"foreignkey:operatorid;association_foreignkey:ID"`
-	Locations  []*TableVehicleOperatorLocation `gorm:"foreignkey:operatorid;association_foreignkey:ID"`
+	Bounds     []*TableVehicleOperatorBound    `gorm:"foreignkey:operatorid"`
+	Locations  []*TableVehicleOperatorLocation `gorm:"foreignkey:operatorid"`
 }
 
 func (t TableVehicleOperators) TableName() string {

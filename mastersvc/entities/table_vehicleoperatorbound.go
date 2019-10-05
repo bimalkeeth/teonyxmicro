@@ -5,8 +5,8 @@ import "errors"
 
 type TableVehicleOperatorBound struct {
 	gorm.Model
-	OperatorId uint                   `gorm:"column:operatorid;not_null;unique_index:vehicleoperatorbound_opvh_uindex"`
-	VehicleId  uint                   `gorm:"column:vehicleid;not_null;unique_index:vehicleoperatorbound_opvh_uindex"`
+	OperatorId uint                   `gorm:"column:operatorid;not_null"`
+	VehicleId  uint                   `gorm:"column:vehicleid;not_null"`
 	Active     bool                   `gorm:"column:active;not_null"`
 	Operator   *TableVehicleOperators `gorm:"foreignkey:operatorid"`
 	Vehicle    *TableVehicle          `gorm:"foreignkey:vehicleid"`

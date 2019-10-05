@@ -11,7 +11,6 @@ func MapRegionTable(db *gorm.DB) {
 	if !db.HasTable(&ent.TableRegion{}) {
 
 		db.CreateTable(&ent.TableRegion{})
-		db.Model(&ent.TableState{}).AddUniqueIndex("ux_states_name", "name")
-		db.Model(&ent.TableState{}).Association("Countries")
+		db.Model(&ent.TableRegion{}).AddUniqueIndex("ux_regioname", "regionname")
 	}
 }

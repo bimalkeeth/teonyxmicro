@@ -5,8 +5,8 @@ import "errors"
 
 type TableVehicleOperatorLocation struct {
 	gorm.Model
-	AddressId  uint                   `gorm:"column:addressid;not_null;unique_index:vehicleoptlocation_opaddress_uindex"`
-	OperatorId uint                   `gorm:"column:operatorid;not_null;unique_index:vehicleoptlocation_opaddress_uindex"`
+	AddressId  uint                   `gorm:"column:addressid;not_null"`
+	OperatorId uint                   `gorm:"column:operatorid;not_null"`
 	Address    *TableAddress          `gorm:"foreignkey:addressid"`
 	Operator   *TableVehicleOperators `gorm:"foreignkey:operatorid"`
 }

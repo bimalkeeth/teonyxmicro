@@ -5,8 +5,8 @@ import "errors"
 
 type TableFleetContact struct {
 	gorm.Model
-	ContactId uint          `gorm:"column:contactid;not_null;unique_index:fleetcontact_fleetcontact_uindex"`
-	FleetId   uint          `gorm:"column:fleetid;not_null;unique_index:fleetcontact_fleetcontact_uindex"`
+	ContactId uint          `gorm:"column:contactid;not_null"`
+	FleetId   uint          `gorm:"column:fleetid;not_null"`
 	Contact   *TableContact `gorm:"foreignkey:contactid"`
 	Fleet     *TableFleet   `gorm:"foreignkey:fleetid"`
 }

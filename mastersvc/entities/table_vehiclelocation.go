@@ -5,8 +5,8 @@ import "errors"
 
 type TableVehicleLocation struct {
 	gorm.Model
-	AddressId uint          `gorm:"column:addressid;not_null;unique_index:vehiclelocation_addressid_vehicleid_uindex"`
-	VehicleId uint          `gorm:"column:vehicleid;not_null;unique_index:vehiclelocation_addressid_vehicleid_uindex"`
+	AddressId uint          `gorm:"column:addressid;not_null"`
+	VehicleId uint          `gorm:"column:vehicleid;not_null"`
 	Address   *TableAddress `gorm:"foreignkey:addressid"`
 	Vehicle   *TableVehicle `gorm:"foreignkey:vehicleid"`
 }

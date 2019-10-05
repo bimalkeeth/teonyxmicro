@@ -11,7 +11,7 @@ import (
 
 type TableAddressType struct {
 	gorm.Model
-	AddressType string          `gorm:"column:addresstype;not_null;unique_index:addresstype_name_uindex"`
+	AddressType string          `gorm:"column:addresstype;not_null"`
 	Name        string          `gorm:"column:name;not_null"`
 	Address     []*TableAddress `gorm:"foreignkey:addresstypeid"`
 }
