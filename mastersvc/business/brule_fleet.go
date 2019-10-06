@@ -8,54 +8,54 @@ import bu "teonyxmicro/mastersvc/bucontracts"
 import en "teonyxmicro/mastersvc/entities"
 
 type IFleet interface {
-	CreateFleet(db *gorm.DB, bo bu.FleetBO) (bu.FleetBO, error)
-	UpdateFleet(db *gorm.DB, bo bu.FleetBO) (bool, error)
-	DeleteFleet(db *gorm.DB, id uint) (bool, error)
-	GetFleetById(db gorm.DB, id uint) (bu.FleetBO, error)
+	CreateFleet(bo bu.FleetBO) (bu.FleetBO, error)
+	UpdateFleet(bo bu.FleetBO) (bool, error)
+	DeleteFleet(id uint) (bool, error)
+	GetFleetById(id uint) (bu.FleetBO, error)
 }
 
-type Fleet struct{}
+type Fleet struct{ Db *gorm.DB }
 
-func NewFleet() Fleet {
-	return Fleet{}
+func NewFleet(db *gorm.DB) Fleet {
+	return Fleet{Db: db}
 }
 
 //--------------------------------------------------------
 //Create Fleet
 //--------------------------------------------------------
-func (f *Fleet) CreateFleet(db *gorm.DB, bo bu.FleetBO) (bu.FleetBO, error) {
+func (f *Fleet) CreateFleet(bo bu.FleetBO) (bu.FleetBO, error) {
 
 	fleet := &en.TableFleet{
-		FleetId:              bo.FleetId,
+		FleetCode:            bo.FleetCode,
 		Name:                 bo.Name,
 		SurName:              bo.SurName,
 		OtherName:            bo.OtherName,
 		DateRegistered:       bo.DateRegistered,
 		RegistrationDuration: bo.RegistrationDuration,
 	}
-	db.Create(fleet)
+	f.Db.Create(fleet)
 	return bo, nil
 }
 
 //----------------------------------------------------------
 //Update Fleet
 //----------------------------------------------------------
-func (f *Fleet) UpdateFleet(db *gorm.DB, bo bu.FleetBO) (bool, error) {
+func (f *Fleet) UpdateFleet(bo bu.FleetBO) (bool, error) {
 
 	fleet := &en.TableFleet{}
-	db.First(fleet, bo.Id)
+	f.Db.First(fleet, bo.Id)
 	if fleet.ID == 0 {
 		return false, errors.New("fleet can not be found")
 	}
 
 	fleet.SurName = bo.SurName
 	fleet.Name = bo.Name
-	fleet.FleetId = bo.FleetId
+	fleet.FleetCode = bo.FleetCode
 	fleet.OtherName = bo.OtherName
 	fleet.DateRegistered = bo.DateRegistered
 	fleet.RegistrationDuration = bo.RegistrationDuration
 
-	db.Save(fleet)
+	f.Db.Save(fleet)
 
 	return true, nil
 }
@@ -63,22 +63,26 @@ func (f *Fleet) UpdateFleet(db *gorm.DB, bo bu.FleetBO) (bool, error) {
 //----------------------------------------------------------
 //Update Fleet
 //----------------------------------------------------------
-func (f *Fleet) DeleteFleet(db *gorm.DB, id uint) (bool, error) {
+func (f *Fleet) DeleteFleet(id uint) (bool, error) {
 	fleet := &en.TableFleet{}
-	db.First(fleet, id)
+	f.Db.First(fleet, id)
 	if fleet.ID == 0 {
 		return false, errors.New("fleet can not be found")
 	}
-	db.Delete(fleet)
+	f.Db.Delete(fleet)
 	return true, nil
 }
 
 //----------------------------------------------------------
 //Get Fleet Id
 //----------------------------------------------------------
-func (f *Fleet) GetFleetById(db gorm.DB, id uint) (bu.FleetBO, error) {
+func (f *Fleet) GetFleetById(id uint) (bu.FleetBO, error) {
 	fleet := &en.TableFleet{}
-	db.Preload("FleetContacts").Preload("FleetLocations").First(fleet, id)
+	f.Db.Preload("FleetContacts").
+		Preload("FleetContacts.Contact").
+		Preload("FleetLocations").
+		Preload("FleetLocations.Address").
+		First(fleet, id)
 	if fleet.ID == 0 {
 		return bu.FleetBO{}, errors.New("fleet can not be found")
 	}
@@ -88,20 +92,30 @@ func (f *Fleet) GetFleetById(db gorm.DB, id uint) (bu.FleetBO, error) {
 	result.RegistrationDuration = fleet.RegistrationDuration
 	result.DateRegistered = fleet.DateRegistered
 	result.OtherName = fleet.OtherName
-	result.FleetId = fleet.FleetId
+	result.FleetCode = fleet.FleetCode
 	result.SurName = fleet.SurName
 	result.Name = fleet.Name
 
-	var contacts []bu.ContactBO
-
-	var contact = fleet.FleetContacts
-
-	for _, item := range *contact {
-		contacts = append(contacts, bu.ContactBO{
+	result.FleetContacts = []bu.ContactBO{}
+	for _, item := range fleet.FleetContacts {
+		result.FleetContacts = append(result.FleetContacts, bu.ContactBO{
 			Id:            item.Contact.ID,
 			Contact:       item.Contact.Contact,
 			ContactTypeId: item.Contact.ContactTypeId,
 		})
 	}
-
+	result.Address = []bu.AddressBO{}
+	for _, item := range fleet.FleetLocations {
+		result.Address = append(result.Address, bu.AddressBO{
+			Id:            item.Address.ID,
+			Address:       item.Address.Address,
+			Street:        item.Address.Street,
+			Suburb:        item.Address.Suburb,
+			StateId:       item.Address.StateId,
+			CountryId:     item.Address.CountryId,
+			AddressTypeId: item.Address.AddressTypeId,
+			Location:      item.Address.Location,
+		})
+	}
+	return result, nil
 }

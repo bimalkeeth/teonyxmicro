@@ -8,23 +8,25 @@ import (
 )
 
 type IAddress interface {
-	CreateAddress(db *gorm.DB, address bu.AddressBO) (bool, error)
-	UpdateAddress(db *gorm.DB, address bu.AddressBO) (bool, error)
-	DeleteAddress(db *gorm.DB, id uint) (bool, error)
-	GetAddressById(db *gorm.DB, id uint) (bu.AddressBO, error)
-	GetAddressByName(db *gorm.DB, name string) ([]bu.AddressBO, error)
+	CreateAddress(address bu.AddressBO) (bool, error)
+	UpdateAddress(address bu.AddressBO) (bool, error)
+	DeleteAddress(id uint) (bool, error)
+	GetAddressById(id uint) (bu.AddressBO, error)
+	GetAddressByName(name string) ([]bu.AddressBO, error)
 }
 
-type Address struct{}
+type Address struct {
+	Db *gorm.DB
+}
 
-func NewAddress() *Address { return &Address{} }
+func NewAddress(db *gorm.DB) *Address { return &Address{Db: db} }
 
 //---------------------------------------------------
 //Create address
 //---------------------------------------------------
-func (a *Address) CreateAddress(db *gorm.DB, address bu.AddressBO) (bool, error) {
+func (a *Address) CreateAddress(address bu.AddressBO) (bool, error) {
 
-	db.Create(&ent.TableAddress{CountryId: address.CountryId,
+	a.Db.Create(&ent.TableAddress{CountryId: address.CountryId,
 		AddressTypeId: address.AddressTypeId,
 		StateId:       address.StateId,
 		Location:      address.Location,
@@ -38,10 +40,10 @@ func (a *Address) CreateAddress(db *gorm.DB, address bu.AddressBO) (bool, error)
 //---------------------------------------------------
 //Update Address
 //---------------------------------------------------
-func (a *Address) UpdateAddress(db *gorm.DB, address bu.AddressBO) (bool, error) {
+func (a *Address) UpdateAddress(address bu.AddressBO) (bool, error) {
 
 	addr := &ent.TableAddress{}
-	db.First(addr, address.Id)
+	a.Db.First(addr, address.Id)
 	if addr.ID == 0 {
 		return false, errors.New("address not found")
 	}
@@ -52,32 +54,32 @@ func (a *Address) UpdateAddress(db *gorm.DB, address bu.AddressBO) (bool, error)
 	addr.StateId = address.StateId
 	addr.AddressTypeId = address.AddressTypeId
 	addr.CountryId = address.CountryId
-	db.Save(&addr)
+	a.Db.Save(&addr)
 	return true, nil
 }
 
 //---------------------------------------------------
 //Delete Address
 //---------------------------------------------------
-func (a *Address) DeleteAddress(db *gorm.DB, id uint) (bool, error) {
+func (a *Address) DeleteAddress(id uint) (bool, error) {
 
 	address := &ent.TableAddress{}
-	db.First(&address, id)
+	a.Db.First(&address, id)
 
 	if address.ID == 0 {
 		return false, errors.New("the record not exists in the storage")
 	}
-	db.Delete(&address)
+	a.Db.Delete(&address)
 	return true, nil
 }
 
 //----------------------------------------------------
 //Get Address by Id
 //----------------------------------------------------
-func (a *Address) GetAddressById(db *gorm.DB, id uint) (bu.AddressBO, error) {
+func (a *Address) GetAddressById(id uint) (bu.AddressBO, error) {
 
 	address := &ent.TableAddress{}
-	db.First(&address, id)
+	a.Db.First(&address, id)
 
 	result := bu.AddressBO{}
 	if address.ID == 0 {
@@ -97,10 +99,10 @@ func (a *Address) GetAddressById(db *gorm.DB, id uint) (bu.AddressBO, error) {
 //----------------------------------------------------
 //Get Address by Name
 //----------------------------------------------------
-func (a *Address) GetAddressByName(db *gorm.DB, name string) ([]bu.AddressBO, error) {
+func (a *Address) GetAddressByName(name string) ([]bu.AddressBO, error) {
 
 	var address []ent.TableAddress
-	db.Where("name LIKE ?", "%"+name+"%").Find(&address)
+	a.Db.Where("name LIKE ?", "%"+name+"%").Find(&address)
 	var result []bu.AddressBO
 	for _, item := range address {
 		result = append(result, bu.AddressBO{CountryId: item.CountryId,

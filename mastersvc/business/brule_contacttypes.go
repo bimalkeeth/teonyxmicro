@@ -8,58 +8,58 @@ import (
 )
 
 type IContactTypes interface {
-	CreateContactType(db *gorm.DB, contactType bu.ContactTypeBO) (bool, error)
-	UpdateContactType(db *gorm.DB, contactType bu.ContactTypeBO) (bool, error)
-	DeleteContactType(db *gorm.DB, id uint) (bool, error)
-	GetContactTypeById(db *gorm.DB, id uint) (bu.ContactTypeBO, error)
-	GetContactTypeByName(db *gorm.DB, name string) (bu.ContactTypeBO, error)
-	GetAll(db *gorm.DB) ([]bu.ContactTypeBO, error)
-	GetAllNames(db *gorm.DB, namePart string) ([]bu.ContactTypeBO, error)
+	CreateContactType(contactType bu.ContactTypeBO) (bool, error)
+	UpdateContactType(contactType bu.ContactTypeBO) (bool, error)
+	DeleteContactType(id uint) (bool, error)
+	GetContactTypeById(id uint) (bu.ContactTypeBO, error)
+	GetContactTypeByName(name string) (bu.ContactTypeBO, error)
+	GetAll() ([]bu.ContactTypeBO, error)
+	GetAllNames(namePart string) ([]bu.ContactTypeBO, error)
 }
 
-type ContactType struct{}
+type ContactType struct{ Db *gorm.DB }
 
 //-------------------------------------------
 //Create instance to through above interface
 //-------------------------------------------
-func NewContactType() *ContactType {
-	return &ContactType{}
+func NewContactType(db *gorm.DB) *ContactType {
+	return &ContactType{Db: db}
 }
 
 //-------------------------------------------
 // Create Address type
 //-------------------------------------------
-func (c *ContactType) CreateContactType(db *gorm.DB, contactType bu.ContactTypeBO) (bool, error) {
+func (c *ContactType) CreateContactType(contactType bu.ContactTypeBO) (bool, error) {
 
-	db.Create(&ent.TableContactType{ContactType: contactType.ContactType})
+	c.Db.Create(&ent.TableContactType{ContactType: contactType.ContactType})
 	return true, nil
 }
 
 //-------------------------------------------
 //Update Contact Type
 //-------------------------------------------
-func (c *ContactType) UpdateContactType(db *gorm.DB, contactType bu.ContactTypeBO) (bool, error) {
+func (c *ContactType) UpdateContactType(contactType bu.ContactTypeBO) (bool, error) {
 
 	contacttype := ent.TableContactType{}
-	db.First(&contacttype, contactType.Id)
+	c.Db.First(&contacttype, contactType.Id)
 	if contacttype.ID == 0 {
 		return false, errors.New("contact type not found")
 	}
 	contacttype.ContactType = contactType.ContactType
-	db.Save(&contactType)
+	c.Db.Save(&contactType)
 	return true, nil
 }
 
 //-------------------------------------------
 // Delete Contact Type
 //-------------------------------------------
-func (c *ContactType) DeleteContactType(db *gorm.DB, id uint) (bool, error) {
+func (c *ContactType) DeleteContactType(id uint) (bool, error) {
 	found := ent.TableContactType{}
-	db.First(&found, id)
+	c.Db.First(&found, id)
 	if found.ID == 0 {
 		return false, errors.New("contact type not found")
 	}
-	db.Delete(&found)
+	c.Db.Delete(&found)
 	return true, nil
 
 }
@@ -67,10 +67,10 @@ func (c *ContactType) DeleteContactType(db *gorm.DB, id uint) (bool, error) {
 //-------------------------------------------
 // Get Contact type by Id
 //-------------------------------------------
-func (c *ContactType) GetContactTypeById(db *gorm.DB, id uint) (bu.ContactTypeBO, error) {
+func (c *ContactType) GetContactTypeById(id uint) (bu.ContactTypeBO, error) {
 
 	contactTypes := &ent.TableContactType{}
-	db.First(&contactTypes, id)
+	c.Db.First(&contactTypes, id)
 
 	result := bu.ContactTypeBO{}
 	if contactTypes.ID == 0 {
@@ -82,10 +82,10 @@ func (c *ContactType) GetContactTypeById(db *gorm.DB, id uint) (bu.ContactTypeBO
 //-------------------------------------------
 // Get Contact Type by Name
 //-------------------------------------------
-func (c *ContactType) GetContactTypeByName(db *gorm.DB, name string) (bu.ContactTypeBO, error) {
+func (c *ContactType) GetContactTypeByName(name string) (bu.ContactTypeBO, error) {
 
 	contactType := ent.TableContactType{}
-	db.Where(&ent.TableContactType{ContactType: name}).First(&contactType)
+	c.Db.Where(&ent.TableContactType{ContactType: name}).First(&contactType)
 	if contactType.ID == 0 {
 		return bu.ContactTypeBO{}, errors.New("record not found")
 	}
@@ -95,12 +95,12 @@ func (c *ContactType) GetContactTypeByName(db *gorm.DB, name string) (bu.Contact
 //-------------------------------------------
 // Get All Contact type Name Value
 //-------------------------------------------
-func (c *ContactType) GetAll(db *gorm.DB) ([]bu.ContactTypeBO, error) {
+func (c *ContactType) GetAll() ([]bu.ContactTypeBO, error) {
 
 	var contactTypes []ent.TableContactType
 	var result []bu.ContactTypeBO
 
-	db.Find(&contactTypes)
+	c.Db.Find(&contactTypes)
 	for _, item := range contactTypes {
 		result = append(result, bu.ContactTypeBO{ContactType: item.ContactType, Id: item.ID})
 	}
@@ -111,10 +111,10 @@ func (c *ContactType) GetAll(db *gorm.DB) ([]bu.ContactTypeBO, error) {
 //-------------------------------------------
 //Get all Names by name like
 //-------------------------------------------
-func (c *ContactType) GetAllNames(db *gorm.DB, namePart string) ([]bu.ContactTypeBO, error) {
+func (c *ContactType) GetAllNames(namePart string) ([]bu.ContactTypeBO, error) {
 
 	var contactTypes []ent.TableContactType
-	db.Where("contacttype LIKE ?", "%"+namePart+"%").Find(&contactTypes)
+	c.Db.Where("contacttype LIKE ?", "%"+namePart+"%").Find(&contactTypes)
 	var result []bu.ContactTypeBO
 	for _, item := range contactTypes {
 		result = append(result, bu.ContactTypeBO{ContactType: item.ContactType, Id: item.ID})

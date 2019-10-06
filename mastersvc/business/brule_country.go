@@ -8,22 +8,22 @@ import (
 )
 
 type ICountry interface {
-	CreateCountry(db *gorm.DB, bo bu.CountryBO) (bool, error)
-	UpdateCountry(db *gorm.DB, bo bu.CountryBO) (bool, error)
-	DeleteCountry(db *gorm.DB, Id uint) (bool, error)
-	GetCountryById(db *gorm.DB, id uint) (bu.CountryBO, error)
-	GetAllCountries(db *gorm.DB) ([]bu.CountryBO, error)
+	CreateCountry(bo bu.CountryBO) (bool, error)
+	UpdateCountry(bo bu.CountryBO) (bool, error)
+	DeleteCountry(Id uint) (bool, error)
+	GetCountryById(id uint) (bu.CountryBO, error)
+	GetAllCountries() ([]bu.CountryBO, error)
 }
 
-type Country struct{}
+type Country struct{ Db *gorm.DB }
 
-func NewCountry() *Country { return &Country{} }
+func NewCountry(db *gorm.DB) *Country { return &Country{Db: db} }
 
 //--------------------------------------------
 //Create country
 //--------------------------------------------
-func (c *Country) CreateCountry(db *gorm.DB, bo bu.CountryBO) (bool, error) {
-	db.Create(&ent.TableCountry{CountryName: bo.CountryName,
+func (c *Country) CreateCountry(bo bu.CountryBO) (bool, error) {
+	c.Db.Create(&ent.TableCountry{CountryName: bo.CountryName,
 		RegionId: bo.RegionId,
 	})
 	return true, nil
@@ -32,38 +32,38 @@ func (c *Country) CreateCountry(db *gorm.DB, bo bu.CountryBO) (bool, error) {
 //---------------------------------------------
 //Update country
 //---------------------------------------------
-func (c *Country) UpdateCountry(db *gorm.DB, bo bu.CountryBO) (bool, error) {
+func (c *Country) UpdateCountry(bo bu.CountryBO) (bool, error) {
 	country := ent.TableCountry{}
-	db.First(&country, bo.Id)
+	c.Db.First(&country, bo.Id)
 	if country.ID == 0 {
 		return false, errors.New("country not found")
 	}
 	country.RegionId = bo.RegionId
 	country.CountryName = bo.CountryName
-	db.Save(&country)
+	c.Db.Save(&country)
 	return true, nil
 }
 
 //----------------------------------------------
 //Delete Country
 //----------------------------------------------
-func (c *Country) DeleteCountry(db *gorm.DB, Id uint) (bool, error) {
+func (c *Country) DeleteCountry(Id uint) (bool, error) {
 	country := ent.TableCountry{}
-	db.First(&country, Id)
+	c.Db.First(&country, Id)
 	if country.ID == 0 {
 		return false, errors.New("country not found")
 	}
-	db.Delete(&country)
+	c.Db.Delete(&country)
 	return true, nil
 }
 
 //------------------------------------------------
 //Get Country by Id
 //------------------------------------------------
-func (c *Country) GetCountryById(db *gorm.DB, id uint) (bu.CountryBO, error) {
+func (c *Country) GetCountryById(id uint) (bu.CountryBO, error) {
 
 	country := ent.TableCountry{}
-	db.First(&country, id).Related(&ent.TableRegion{})
+	c.Db.Preload("Region").First(&country, id)
 	if country.ID == 0 {
 		return bu.CountryBO{}, errors.New("country not found")
 	}
@@ -82,10 +82,10 @@ func (c *Country) GetCountryById(db *gorm.DB, id uint) (bu.CountryBO, error) {
 //-----------------------------------------------
 //Get country
 //-----------------------------------------------
-func (c *Country) GetAllCountries(db *gorm.DB) ([]bu.CountryBO, error) {
+func (c *Country) GetAllCountries() ([]bu.CountryBO, error) {
 	var result []bu.CountryBO
 	var countries []ent.TableCountry
-	db.Find(&countries)
+	c.Db.Preload("Region").Find(&countries)
 
 	for _, item := range countries {
 		result = append(result, bu.CountryBO{Id: item.ID,

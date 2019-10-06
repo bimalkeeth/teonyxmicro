@@ -5,12 +5,12 @@ import "time"
 type FleetBO struct {
 	Id                   uint
 	UpdatedAt            time.Time
-	FleetId              string
+	FleetCode            string
 	Name                 string
 	SurName              string
 	OtherName            string
 	DateRegistered       time.Time
-	RegistrationDuration int
+	RegistrationDuration float64
 	FleetContactId       uint
 	FleetLocationId      uint
 

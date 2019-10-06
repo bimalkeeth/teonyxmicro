@@ -11,64 +11,64 @@ import (
 // Interface for region management
 //-----------------------------------------------
 type IRegion interface {
-	CreateRegion(db *gorm.DB, bo bu.RegionBO) (bool, error)
-	UpdateRegion(db *gorm.DB, bo bu.RegionBO) (bool, error)
-	DeleteRegion(db *gorm.DB, id uint) (bool, error)
-	GetAllRegion(db *gorm.DB) ([]bu.RegionBO, error)
-	GetRegionById(db *gorm.DB, id uint) (bu.RegionBO, error)
-	GetRegionByName(db *gorm.DB, name string) (bu.RegionBO, error)
+	CreateRegion(bo bu.RegionBO) (bool, error)
+	UpdateRegion(bo bu.RegionBO) (bool, error)
+	DeleteRegion(id uint) (bool, error)
+	GetAllRegion() ([]bu.RegionBO, error)
+	GetRegionById(id uint) (bu.RegionBO, error)
+	GetRegionByName(name string) (bu.RegionBO, error)
 }
-type Region struct{}
+type Region struct{ Db *gorm.DB }
 
-func NewRegion() *Region { return &Region{} }
+func NewRegion(db *gorm.DB) *Region { return &Region{Db: db} }
 
 //------------------------------------------------
 //Create region for the given data
 //------------------------------------------------
-func (r *Region) CreateRegion(db *gorm.DB, bo bu.RegionBO) (bool, error) {
+func (r *Region) CreateRegion(bo bu.RegionBO) (bool, error) {
 
-	db.Create(&entities.TableRegion{Region: bo.Region, RegionName: bo.RegionName})
+	r.Db.Create(&entities.TableRegion{Region: bo.Region, RegionName: bo.RegionName})
 	return true, nil
 }
 
 //------------------------------------------------
 //Update the region given
 //------------------------------------------------
-func (r *Region) UpdateRegion(db *gorm.DB, bo bu.RegionBO) (bool, error) {
+func (r *Region) UpdateRegion(bo bu.RegionBO) (bool, error) {
 
 	region := entities.TableRegion{}
-	db.First(&region, bo.Id)
+	r.Db.First(&region, bo.Id)
 	if region.ID == 0 {
 		return false, errors.New("no record found for region")
 	}
 	region.Region = bo.Region
 	region.RegionName = bo.Region
-	db.Save(&region)
+	r.Db.Save(&region)
 	return true, nil
 }
 
 //------------------------------------------------
 // Delete region by Id
 //------------------------------------------------
-func (r *Region) DeleteRegion(db *gorm.DB, id uint) (bool, error) {
+func (r *Region) DeleteRegion(id uint) (bool, error) {
 
 	found := entities.TableRegion{}
-	db.First(&found, id)
+	r.Db.First(&found, id)
 	if found.ID == 0 {
 		return false, errors.New("contact type not found")
 	}
-	db.Delete(&found)
+	r.Db.Delete(&found)
 	return true, nil
 }
 
 //------------------------------------------------
 //Get al region
 //------------------------------------------------
-func (r *Region) GetAllRegion(db *gorm.DB) ([]bu.RegionBO, error) {
+func (r *Region) GetAllRegion() ([]bu.RegionBO, error) {
 	var regions []entities.TableRegion
 	var result []bu.RegionBO
 
-	db.Find(&regions)
+	r.Db.Find(&regions)
 	for _, item := range regions {
 		result = append(result, bu.RegionBO{Region: item.Region, RegionName: item.RegionName, Id: item.ID})
 	}
@@ -78,9 +78,9 @@ func (r *Region) GetAllRegion(db *gorm.DB) ([]bu.RegionBO, error) {
 //-----------------------------------------------
 // Get region by Id
 //-----------------------------------------------
-func (r *Region) GetRegionById(db *gorm.DB, id uint) (bu.RegionBO, error) {
+func (r *Region) GetRegionById(id uint) (bu.RegionBO, error) {
 	region := &entities.TableRegion{}
-	db.First(&region, id)
+	r.Db.First(&region, id)
 
 	result := bu.RegionBO{}
 	if region.ID == 0 {
@@ -92,9 +92,9 @@ func (r *Region) GetRegionById(db *gorm.DB, id uint) (bu.RegionBO, error) {
 //-----------------------------------------------
 // Get region by name
 //-----------------------------------------------
-func (r *Region) GetRegionByName(db *gorm.DB, name string) (bu.RegionBO, error) {
+func (r *Region) GetRegionByName(name string) (bu.RegionBO, error) {
 	region := entities.TableRegion{}
-	db.Where(&entities.TableRegion{RegionName: name}).First(&region)
+	r.Db.Where(&entities.TableRegion{RegionName: name}).First(&region)
 	if region.ID == 0 {
 		return bu.RegionBO{}, errors.New("record not found")
 	}

@@ -8,64 +8,64 @@ import (
 )
 
 type IAddressTypes interface {
-	CreateAddressType(db *gorm.DB, addressType bu.AddressTypeBO) (bool, error)
-	UpdateAddressType(db *gorm.DB, addressType bu.AddressTypeBO) (bool, error)
-	DeleteAddressType(db *gorm.DB, id uint) (bool, error)
-	GetAddressTypeById(db *gorm.DB, id uint) (bu.AddressTypeBO, error)
-	GetAddressTypeByName(db *gorm.DB, name string) (bu.AddressTypeBO, error)
-	GetAll(db *gorm.DB) ([]bu.AddressTypeBO, error)
-	GetAllNames(db *gorm.DB, namePart string) ([]bu.AddressTypeBO, error)
+	CreateAddressType(addressType bu.AddressTypeBO) (bool, error)
+	UpdateAddressType(addressType bu.AddressTypeBO) (bool, error)
+	DeleteAddressType(id uint) (bool, error)
+	GetAddressTypeById(id uint) (bu.AddressTypeBO, error)
+	GetAddressTypeByName(name string) (bu.AddressTypeBO, error)
+	GetAll() ([]bu.AddressTypeBO, error)
+	GetAllNames(namePart string) ([]bu.AddressTypeBO, error)
 }
-type AddressType struct{}
+type AddressType struct{ Db *gorm.DB }
 
-func NewAddressType() *AddressType { return &AddressType{} }
+func NewAddressType(db *gorm.DB) *AddressType { return &AddressType{Db: db} }
 
 //-----------------------------------------
 // Create Address type
 //-----------------------------------------
-func (at *AddressType) CreateAddressType(db *gorm.DB, addressType bu.AddressTypeBO) (bool, error) {
+func (at *AddressType) CreateAddressType(addressType bu.AddressTypeBO) (bool, error) {
 
-	db.Create(ent.TableAddressType{AddressType: addressType.Name})
+	at.Db.Create(ent.TableAddressType{AddressType: addressType.Name})
 	return true, nil
 }
 
 //----------------------------------------
 //Update Address type
 //----------------------------------------
-func (at *AddressType) UpdateAddressType(db *gorm.DB, addressType bu.AddressTypeBO) (bool, error) {
+func (at *AddressType) UpdateAddressType(addressType bu.AddressTypeBO) (bool, error) {
 
 	addressTypes := &ent.TableAddressType{}
-	db.First(&addressTypes, addressType.Id)
+	at.Db.First(&addressTypes, addressType.Id)
 	if addressTypes.ID == 0 {
 		return false, errors.New("address type cannot be found")
 	}
 	addressTypes.Name = addressType.Name
-	db.Save(&addressTypes)
+	at.Db.Save(&addressTypes)
 	return true, nil
 }
 
 //-----------------------------------------
 // Delete Address type
 //-----------------------------------------
-func (at *AddressType) DeleteAddressType(db *gorm.DB, id uint) (bool, error) {
+func (at *AddressType) DeleteAddressType(id uint) (bool, error) {
 
 	addressTypes := &ent.TableAddressType{}
-	db.First(&addressTypes, id)
+	at.Db.First(&addressTypes, id)
 
 	if addressTypes.ID == 0 {
 		return false, errors.New("the record not exists in the storage")
 	}
-	db.Delete(&addressTypes)
+	at.Db.Delete(&addressTypes)
 	return true, nil
 }
 
 //------------------------------------------
 //Get Address type by Address Id
 //------------------------------------------
-func (at *AddressType) GetAddressTypeById(db *gorm.DB, id uint) (bu.AddressTypeBO, error) {
+func (at *AddressType) GetAddressTypeById(id uint) (bu.AddressTypeBO, error) {
 
 	addressTypes := &ent.TableAddressType{}
-	db.First(&addressTypes, id)
+	at.Db.First(&addressTypes, id)
 
 	result := bu.AddressTypeBO{}
 	if addressTypes.ID == 0 {
@@ -77,10 +77,10 @@ func (at *AddressType) GetAddressTypeById(db *gorm.DB, id uint) (bu.AddressTypeB
 //------------------------------------------
 //Get Address by Address name
 //------------------------------------------
-func (at *AddressType) GetAddressTypeByName(db *gorm.DB, name string) (bu.AddressTypeBO, error) {
+func (at *AddressType) GetAddressTypeByName(name string) (bu.AddressTypeBO, error) {
 
 	addressType := ent.TableAddressType{}
-	db.Where(&ent.TableAddressType{Name: name}).First(&addressType)
+	at.Db.Where(&ent.TableAddressType{Name: name}).First(&addressType)
 	if addressType.ID == 0 {
 		return bu.AddressTypeBO{}, errors.New("record not found")
 	}
@@ -90,12 +90,12 @@ func (at *AddressType) GetAddressTypeByName(db *gorm.DB, name string) (bu.Addres
 //------------------------------------------
 //Get All Address
 //------------------------------------------
-func (at *AddressType) GetAll(db *gorm.DB) ([]bu.AddressTypeBO, error) {
+func (at *AddressType) GetAll() ([]bu.AddressTypeBO, error) {
 
 	var addressTypes []ent.TableAddressType
 	var result []bu.AddressTypeBO
 
-	db.Find(&addressTypes)
+	at.Db.Find(&addressTypes)
 	for _, item := range addressTypes {
 		result = append(result, bu.AddressTypeBO{Name: item.Name, Id: item.ID})
 	}
@@ -105,9 +105,9 @@ func (at *AddressType) GetAll(db *gorm.DB) ([]bu.AddressTypeBO, error) {
 //------------------------------------------
 //Get all address by name part
 //------------------------------------------
-func (at *AddressType) GetAllNames(db *gorm.DB, namePart string) ([]bu.AddressTypeBO, error) {
+func (at *AddressType) GetAllNames(namePart string) ([]bu.AddressTypeBO, error) {
 	var addressTypes []ent.TableAddressType
-	db.Where("name LIKE ?", "%"+namePart+"%").Find(&addressTypes)
+	at.Db.Where("name LIKE ?", "%"+namePart+"%").Find(&addressTypes)
 	var result []bu.AddressTypeBO
 	for _, item := range addressTypes {
 		result = append(result, bu.AddressTypeBO{Name: item.Name, Id: item.ID})
