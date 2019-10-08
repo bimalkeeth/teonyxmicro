@@ -1,5 +1,7 @@
 package bucontracts
 
+import "time"
+
 type AddressBO struct {
 	Id            uint
 	Address       string
@@ -12,4 +14,5 @@ type AddressBO struct {
 	AddressType   AddressTypeBO
 	State         StateBO
 	Country       CountryBO
+	UpdatedAt     time.Time
 }
