@@ -8,7 +8,7 @@ import (
 )
 
 type IFleetLocation interface {
-	CreateFleetLocation(fleetId uint, addressId uint) (bool, error)
+	CreateFleetLocation(fleetId uint, addressId uint) (uint, error)
 	UpdateFleetLocation(id uint, fleetId uint, addressId uint) (bool, error)
 	DeleteFleetLocation(id uint) (bool, error)
 	GetLocationByFleetId(fleetId uint) ([]bu.FleetAddressBO, error)
@@ -25,9 +25,10 @@ func NewFleetLocation(db *gorm.DB) FleetLocation {
 //-----------------------------------------------------------
 //Create Fleet location
 //-----------------------------------------------------------
-func (f *FleetLocation) CreateFleetLocation(fleetId uint, addressId uint) (bool, error) {
-	f.Db.Create(&ent.TableFleetLocation{FleetId: fleetId, AddressId: addressId})
-	return true, nil
+func (f *FleetLocation) CreateFleetLocation(fleetId uint, addressId uint) (uint, error) {
+	flContact := ent.TableFleetLocation{FleetId: fleetId, AddressId: addressId}
+	f.Db.Create(&flContact)
+	return flContact.ID, nil
 }
 
 //----------------------------------------------------------

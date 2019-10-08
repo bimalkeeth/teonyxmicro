@@ -8,7 +8,7 @@ import (
 )
 
 type IAddress interface {
-	CreateAddress(address bu.AddressBO) (bool, error)
+	CreateAddress(address bu.AddressBO) (uint, error)
 	UpdateAddress(address bu.AddressBO) (bool, error)
 	DeleteAddress(id uint) (bool, error)
 	GetAddressById(id uint) (bu.AddressBO, error)
@@ -24,17 +24,17 @@ func NewAddress(db *gorm.DB) *Address { return &Address{Db: db} }
 //---------------------------------------------------
 //Create address
 //---------------------------------------------------
-func (a *Address) CreateAddress(address bu.AddressBO) (bool, error) {
+func (a *Address) CreateAddress(address bu.AddressBO) (uint, error) {
 
-	a.Db.Create(&ent.TableAddress{CountryId: address.CountryId,
+	addr := ent.TableAddress{CountryId: address.CountryId,
 		AddressTypeId: address.AddressTypeId,
 		StateId:       address.StateId,
 		Location:      address.Location,
 		Address:       address.Address,
 		Street:        address.Street,
-		Suburb:        address.Suburb})
-
-	return true, nil
+		Suburb:        address.Suburb}
+	a.Db.Create(&addr)
+	return addr.ID, nil
 }
 
 //---------------------------------------------------

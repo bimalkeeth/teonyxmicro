@@ -8,7 +8,7 @@ import (
 )
 
 type IFleetContact interface {
-	CreateFleetContact(fleetId uint, contactId uint) (bool, error)
+	CreateFleetContact(fleetId uint, contactId uint) (uint, error)
 	UpdateFleetContact(id uint, fleetId uint, contactId uint) (bool, error)
 	DeleteFleetContact(id uint) (bool, error)
 	GetContactByFleetId(fleetId uint) ([]bu.FleetContactBO, error)
@@ -24,9 +24,10 @@ func NewFleetContact(db *gorm.DB) FleetContact {
 //-------------------------------------------------
 // Create Fleet Contact
 //-------------------------------------------------
-func (f *FleetContact) CreateFleetContact(fleetId uint, contactId uint) (bool, error) {
-	f.Db.Create(&ent.TableFleetContact{FleetId: fleetId, ContactId: contactId})
-	return true, nil
+func (f *FleetContact) CreateFleetContact(fleetId uint, contactId uint) (uint, error) {
+	fleetCon := ent.TableFleetContact{FleetId: fleetId, ContactId: contactId}
+	f.Db.Create(&fleetCon)
+	return fleetCon.ID, nil
 }
 
 //-------------------------------------------------

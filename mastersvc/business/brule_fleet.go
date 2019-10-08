@@ -34,6 +34,7 @@ func (f *Fleet) CreateFleet(bo bu.FleetBO) (bu.FleetBO, error) {
 		RegistrationDuration: bo.RegistrationDuration,
 	}
 	f.Db.Create(fleet)
+	bo.Id = fleet.ID
 	return bo, nil
 }
 

@@ -8,7 +8,7 @@ import (
 )
 
 type ICountry interface {
-	CreateCountry(bo bu.CountryBO) (bool, error)
+	CreateCountry(bo bu.CountryBO) (uint, error)
 	UpdateCountry(bo bu.CountryBO) (bool, error)
 	DeleteCountry(Id uint) (bool, error)
 	GetCountryById(id uint) (bu.CountryBO, error)
@@ -22,11 +22,12 @@ func NewCountry(db *gorm.DB) *Country { return &Country{Db: db} }
 //--------------------------------------------
 //Create country
 //--------------------------------------------
-func (c *Country) CreateCountry(bo bu.CountryBO) (bool, error) {
-	c.Db.Create(&ent.TableCountry{CountryName: bo.CountryName,
+func (c *Country) CreateCountry(bo bu.CountryBO) (uint, error) {
+	country := ent.TableCountry{CountryName: bo.CountryName,
 		RegionId: bo.RegionId,
-	})
-	return true, nil
+	}
+	c.Db.Create(&country)
+	return country.ID, nil
 }
 
 //---------------------------------------------

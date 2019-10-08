@@ -8,7 +8,7 @@ import (
 )
 
 type IContactTypes interface {
-	CreateContactType(contactType bu.ContactTypeBO) (bool, error)
+	CreateContactType(contactType bu.ContactTypeBO) (uint, error)
 	UpdateContactType(contactType bu.ContactTypeBO) (bool, error)
 	DeleteContactType(id uint) (bool, error)
 	GetContactTypeById(id uint) (bu.ContactTypeBO, error)
@@ -29,10 +29,11 @@ func NewContactType(db *gorm.DB) *ContactType {
 //-------------------------------------------
 // Create Address type
 //-------------------------------------------
-func (c *ContactType) CreateContactType(contactType bu.ContactTypeBO) (bool, error) {
+func (c *ContactType) CreateContactType(contactType bu.ContactTypeBO) (uint, error) {
 
-	c.Db.Create(&ent.TableContactType{ContactType: contactType.ContactType})
-	return true, nil
+	contType := ent.TableContactType{ContactType: contactType.ContactType}
+	c.Db.Create(&contType)
+	return contType.ID, nil
 }
 
 //-------------------------------------------

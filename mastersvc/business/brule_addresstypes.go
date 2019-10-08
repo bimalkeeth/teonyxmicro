@@ -8,7 +8,7 @@ import (
 )
 
 type IAddressTypes interface {
-	CreateAddressType(addressType bu.AddressTypeBO) (bool, error)
+	CreateAddressType(addressType bu.AddressTypeBO) (uint, error)
 	UpdateAddressType(addressType bu.AddressTypeBO) (bool, error)
 	DeleteAddressType(id uint) (bool, error)
 	GetAddressTypeById(id uint) (bu.AddressTypeBO, error)
@@ -23,10 +23,11 @@ func NewAddressType(db *gorm.DB) *AddressType { return &AddressType{Db: db} }
 //-----------------------------------------
 // Create Address type
 //-----------------------------------------
-func (at *AddressType) CreateAddressType(addressType bu.AddressTypeBO) (bool, error) {
+func (at *AddressType) CreateAddressType(addressType bu.AddressTypeBO) (uint, error) {
 
-	at.Db.Create(ent.TableAddressType{AddressType: addressType.Name})
-	return true, nil
+	addType := ent.TableAddressType{AddressType: addressType.Name}
+	at.Db.Create(&addType)
+	return addType.ID, nil
 }
 
 //----------------------------------------

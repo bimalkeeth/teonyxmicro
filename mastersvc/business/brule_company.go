@@ -11,7 +11,7 @@ import (
 //interface for company
 //----------------------------------------------
 type ICompany interface {
-	CreateCompany(company bu.CompanyBO) (bool, error)
+	CreateCompany(company bu.CompanyBO) (uint, error)
 	UpdateCompany(company bu.CompanyBO) (bool, error)
 	DeleteCompany(id uint) (bool, error)
 }
@@ -23,12 +23,14 @@ func NewCompany(db *gorm.DB) *Company { return &Company{Db: db} }
 //----------------------------------------------
 //Create Company
 //----------------------------------------------
-func (c Company) CreateCompany(company bu.CompanyBO) (bool, error) {
+func (c Company) CreateCompany(company bu.CompanyBO) (uint, error) {
 
-	c.Db.Create(&ent.TableCompany{Name: company.Name,
+	comp := ent.TableCompany{Name: company.Name,
 		AddressId:  company.AddressId,
-		ContractId: company.ContactId})
-	return true, nil
+		ContractId: company.ContactId}
+
+	c.Db.Create(&comp)
+	return comp.ID, nil
 }
 
 //-----------------------------------------------
