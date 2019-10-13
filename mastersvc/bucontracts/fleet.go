@@ -13,7 +13,7 @@ type FleetBO struct {
 	RegistrationDuration float64
 	FleetContactId       uint
 	FleetLocationId      uint
-
-	FleetContacts []ContactBO
-	Address       []AddressBO
+	CountryId            uint
+	FleetContacts        []ContactBO
+	Address              []AddressBO
 }

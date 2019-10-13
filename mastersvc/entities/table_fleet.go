@@ -15,6 +15,8 @@ type TableFleet struct {
 	DateRegistered       time.Time             `gorm:"column:dateregistered;not_null"`
 	DateExpire           time.Time             `gorm:"column:dateexpire"`
 	RegistrationDuration float64               `gorm:"column:regisrationduration;not_null"`
+	CountryId            uint                  `gorm:"column:countryid;not_null"`
+	Country              *TableCountry         `gorm:"foreignkey:countryid"`
 	FleetContacts        []*TableFleetContact  `gorm:"foreignkey:fleetid"`
 	FleetLocations       []*TableFleetLocation `gorm:"foreignkey:fleetid"`
 }

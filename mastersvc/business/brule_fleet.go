@@ -32,6 +32,7 @@ func (f *Fleet) CreateFleet(bo bu.FleetBO) (bu.FleetBO, error) {
 		OtherName:            bo.OtherName,
 		DateRegistered:       bo.DateRegistered,
 		RegistrationDuration: bo.RegistrationDuration,
+		CountryId:            bo.CountryId,
 	}
 	f.Db.Create(fleet)
 	bo.Id = fleet.ID
@@ -55,7 +56,7 @@ func (f *Fleet) UpdateFleet(bo bu.FleetBO) (bool, error) {
 	fleet.OtherName = bo.OtherName
 	fleet.DateRegistered = bo.DateRegistered
 	fleet.RegistrationDuration = bo.RegistrationDuration
-
+	fleet.CountryId = bo.CountryId
 	f.Db.Save(fleet)
 
 	return true, nil
@@ -96,6 +97,7 @@ func (f *Fleet) GetFleetById(id uint) (bu.FleetBO, error) {
 	result.FleetCode = fleet.FleetCode
 	result.SurName = fleet.SurName
 	result.Name = fleet.Name
+	result.CountryId = fleet.CountryId
 
 	result.FleetContacts = []bu.ContactBO{}
 	for _, item := range fleet.FleetContacts {
