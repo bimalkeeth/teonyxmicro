@@ -142,6 +142,21 @@ func (v *Vehicle) GetVehicleById(vehicleId uint) (bu.VehicleBO, error) {
 	}
 	vehicleResult.Operators = ops
 
+	var regis []bu.VehicleTrackRegBO
+	for _, reg := range vhTab.Registrations {
+
+		regis = append(regis, bu.VehicleTrackRegBO{
+			Id:           reg.ID,
+			Active:       reg.Active,
+			VehicleId:    reg.VehicleId,
+			UpdatedAt:    reg.UpdatedAt,
+			Duration:     reg.Duration,
+			ExpiredDate:  reg.ExpiredDate,
+			RegisterDate: reg.ExpiredDate,
+		})
+	}
+	vehicleResult.Registrations = regis
+
 	return vehicleResult, nil
 
 }
