@@ -12,4 +12,5 @@ require (
 	github.com/micro/go-micro v1.8.2
 	github.com/micro/go-plugins v1.2.0
 	golang.org/x/sys v0.0.0-20190804053845-51ab0e2deafa // indirect
+	gopkg.in/jeevatkm/go-model.v1 v1.1.0 // indirect
 )
