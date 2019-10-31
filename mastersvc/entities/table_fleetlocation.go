@@ -7,6 +7,7 @@ type TableFleetLocation struct {
 	gorm.Model
 	FleetId   uint          `gorm:"column:fleetid;not_null"`
 	AddressId uint          `gorm:"column:addressid;not_null"`
+	Primary   bool          `gorm:"column:primary;not_null"`
 	Fleet     *TableFleet   `gorm:"foreignkey:fleetid"`
 	Address   *TableAddress `gorm:"foreignkey:addressid"`
 }

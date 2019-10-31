@@ -24,8 +24,8 @@ func NewFleetContact(db *gorm.DB) FleetContact {
 //-------------------------------------------------
 // Create Fleet Contact
 //-------------------------------------------------
-func (f *FleetContact) CreateFleetContact(fleetId uint, contactId uint) (uint, error) {
-	fleetCon := ent.TableFleetContact{FleetId: fleetId, ContactId: contactId}
+func (f *FleetContact) CreateFleetContact(fleetId uint, contactId uint, primary bool) (uint, error) {
+	fleetCon := ent.TableFleetContact{FleetId: fleetId, ContactId: contactId, Primary: primary}
 	f.Db.Create(&fleetCon)
 	return fleetCon.ID, nil
 }
@@ -34,7 +34,7 @@ func (f *FleetContact) CreateFleetContact(fleetId uint, contactId uint) (uint, e
 // Update Fleet Contact
 //-------------------------------------------------
 
-func (f *FleetContact) UpdateFleetContact(id uint, fleetId uint, contactId uint) (bool, error) {
+func (f *FleetContact) UpdateFleetContact(id uint, fleetId uint, contactId uint, primary bool) (bool, error) {
 
 	fleetContact := &ent.TableFleetContact{}
 	f.Db.First(fleetContact, id)
@@ -43,6 +43,7 @@ func (f *FleetContact) UpdateFleetContact(id uint, fleetId uint, contactId uint)
 	}
 	fleetContact.ContactId = contactId
 	fleetContact.FleetId = fleetId
+	fleetContact.Primary = primary
 	f.Db.Save(fleetContact)
 	return true, nil
 }
@@ -77,6 +78,7 @@ func (f *FleetContact) GetContactByFleetId(fleetId uint) ([]bu.FleetContactBO, e
 			Id:        item.ID,
 			FleetId:   item.FleetId,
 			ContactId: item.ContactId,
+			Primary:   item.Primary,
 			Fleet: bu.FleetBO{
 				Id:                   item.Fleet.ID,
 				UpdatedAt:            item.Fleet.UpdatedAt,

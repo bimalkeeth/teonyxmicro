@@ -7,6 +7,7 @@ type TableFleetContact struct {
 	gorm.Model
 	ContactId uint          `gorm:"column:contactid;not_null"`
 	FleetId   uint          `gorm:"column:fleetid;not_null"`
+	Primary   bool          `gorm:"column:primary;not_null"`
 	Contact   *TableContact `gorm:"foreignkey:contactid"`
 	Fleet     *TableFleet   `gorm:"foreignkey:fleetid"`
 }

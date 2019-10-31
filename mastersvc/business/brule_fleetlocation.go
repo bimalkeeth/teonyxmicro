@@ -25,8 +25,8 @@ func NewFleetLocation(db *gorm.DB) FleetLocation {
 //-----------------------------------------------------------
 //Create Fleet location
 //-----------------------------------------------------------
-func (f *FleetLocation) CreateFleetLocation(fleetId uint, addressId uint) (uint, error) {
-	flContact := ent.TableFleetLocation{FleetId: fleetId, AddressId: addressId}
+func (f *FleetLocation) CreateFleetLocation(fleetId uint, addressId uint, primary bool) (uint, error) {
+	flContact := ent.TableFleetLocation{FleetId: fleetId, AddressId: addressId, Primary: primary}
 	f.Db.Create(&flContact)
 	return flContact.ID, nil
 }
@@ -34,7 +34,7 @@ func (f *FleetLocation) CreateFleetLocation(fleetId uint, addressId uint) (uint,
 //----------------------------------------------------------
 //Update fleet location
 //----------------------------------------------------------
-func (f *FleetLocation) UpdateFleetLocation(id uint, fleetId uint, addressId uint) (bool, error) {
+func (f *FleetLocation) UpdateFleetLocation(id uint, fleetId uint, addressId uint, primary bool) (bool, error) {
 
 	fleetLoc := ent.TableFleetLocation{}
 	f.Db.First(&fleetLoc, id)
@@ -43,6 +43,7 @@ func (f *FleetLocation) UpdateFleetLocation(id uint, fleetId uint, addressId uin
 	}
 	fleetLoc.AddressId = addressId
 	fleetLoc.FleetId = addressId
+	fleetLoc.Primary = primary
 	f.Db.Save(&fleetLoc)
 	return true, nil
 }
@@ -75,6 +76,7 @@ func (f *FleetLocation) GetLocationByFleetId(fleetId uint) ([]bu.FleetAddressBO,
 			Id:        item.ID,
 			FleetId:   item.FleetId,
 			AddressId: item.AddressId,
+			Primary:   item.Primary,
 			Fleet: bu.FleetBO{
 				Id:                   item.Fleet.ID,
 				UpdatedAt:            item.Fleet.UpdatedAt,

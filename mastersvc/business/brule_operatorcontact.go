@@ -25,8 +25,8 @@ func NewOperatorContact(db *gorm.DB) OperatorContact {
 //-----------------------------------------------------
 //Create operator contact
 //-----------------------------------------------------
-func (o *OperatorContact) CreateOperatorContact(contactId uint, operatorId uint) (uint, error) {
-	opContact := ent.TableVehicleOperatorContacts{ContactId: contactId, OperatorId: operatorId}
+func (o *OperatorContact) CreateOperatorContact(contactId uint, operatorId uint, primary bool) (uint, error) {
+	opContact := ent.TableVehicleOperatorContacts{ContactId: contactId, OperatorId: operatorId, Primary: primary}
 	o.Db.Create(&opContact)
 	return opContact.ID, nil
 }
@@ -34,7 +34,7 @@ func (o *OperatorContact) CreateOperatorContact(contactId uint, operatorId uint)
 //-----------------------------------------------------
 //Update operator contact
 //-----------------------------------------------------
-func (o *OperatorContact) UpdateOperatorContact(id uint, contactId uint, operatorId uint) (bool, error) {
+func (o *OperatorContact) UpdateOperatorContact(id uint, contactId uint, operatorId uint, primary bool) (bool, error) {
 
 	opContact := ent.TableVehicleOperatorContacts{}
 	o.Db.First(&opContact, id)
@@ -43,6 +43,7 @@ func (o *OperatorContact) UpdateOperatorContact(id uint, contactId uint, operato
 	}
 	opContact.OperatorId = operatorId
 	opContact.ContactId = contactId
+	opContact.Primary = primary
 	o.Db.Save(&opContact)
 	return true, nil
 }
@@ -77,6 +78,7 @@ func (o *OperatorContact) GetAllContactsByOperator(operatorId uint) ([]bu.Operat
 			Id:         item.ID,
 			ContactId:  item.ContactId,
 			OperatorId: item.OperatorId,
+			Primary:    item.Primary,
 			Contact: bu.ContactBO{
 				Id:            item.ContactId,
 				ContactTypeId: item.Contact.ContactTypeId,
