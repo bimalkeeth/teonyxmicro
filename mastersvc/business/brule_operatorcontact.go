@@ -36,6 +36,10 @@ func (o *OperatorContact) CreateOperatorContact(contactId uint, operatorId uint,
 //-----------------------------------------------------
 func (o *OperatorContact) UpdateOperatorContact(id uint, contactId uint, operatorId uint, primary bool) (bool, error) {
 
+	if primary {
+		setOCPrimaryOff(o)
+	}
+
 	opContact := ent.TableVehicleOperatorContacts{}
 	o.Db.First(&opContact, id)
 	if opContact.ID == 0 {
@@ -46,6 +50,15 @@ func (o *OperatorContact) UpdateOperatorContact(id uint, contactId uint, operato
 	opContact.Primary = primary
 	o.Db.Save(&opContact)
 	return true, nil
+}
+
+func setOCPrimaryOff(f *OperatorContact) {
+	oprCon := &ent.TableVehicleOperatorContacts{}
+	f.Db.Where("primary = ?", true).First(&oprCon)
+	if oprCon.ID > 0 {
+		oprCon.Primary = false
+		f.Db.Save(&oprCon)
+	}
 }
 
 //-----------------------------------------------------

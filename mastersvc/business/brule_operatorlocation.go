@@ -30,6 +30,7 @@ func (l *OperatorLocation) CreateOperatorLocation(bo bu.OperatorLocationBO) (uin
 
 	oprLoc.AddressId = bo.AddressId
 	oprLoc.OperatorId = bo.OperatorId
+	oprLoc.Primary = bo.Primary
 
 	l.Db.Create(&oprLoc)
 	return oprLoc.ID, nil
@@ -39,6 +40,9 @@ func (l *OperatorLocation) CreateOperatorLocation(bo bu.OperatorLocationBO) (uin
 //Update operator location
 //----------------------------------------------------
 func (l *OperatorLocation) UpdateOperatorLocation(bo bu.OperatorLocationBO) (bool, error) {
+	if bo.Primary {
+		setOLPrimaryOff(l)
+	}
 	oprLoc := en.TableVehicleOperatorLocation{}
 	l.Db.First(&oprLoc, bo.Id)
 	if oprLoc.ID == 0 {
@@ -46,9 +50,19 @@ func (l *OperatorLocation) UpdateOperatorLocation(bo bu.OperatorLocationBO) (boo
 	}
 	oprLoc.OperatorId = bo.OperatorId
 	oprLoc.AddressId = bo.AddressId
+	oprLoc.Primary = bo.Primary
 
 	l.Db.Save(&oprLoc)
 	return true, nil
+}
+
+func setOLPrimaryOff(f *OperatorLocation) {
+	oprLoc := &en.TableVehicleOperatorLocation{}
+	f.Db.Where("primary = ?", true).First(&oprLoc)
+	if oprLoc.ID > 0 {
+		oprLoc.Primary = false
+		f.Db.Save(&oprLoc)
+	}
 }
 
 //----------------------------------------------------

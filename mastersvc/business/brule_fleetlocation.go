@@ -36,6 +36,9 @@ func (f *FleetLocation) CreateFleetLocation(fleetId uint, addressId uint, primar
 //----------------------------------------------------------
 func (f *FleetLocation) UpdateFleetLocation(id uint, fleetId uint, addressId uint, primary bool) (bool, error) {
 
+	if primary {
+		setFLPrimaryOff(f)
+	}
 	fleetLoc := ent.TableFleetLocation{}
 	f.Db.First(&fleetLoc, id)
 	if fleetLoc.ID == 0 {
@@ -46,6 +49,15 @@ func (f *FleetLocation) UpdateFleetLocation(id uint, fleetId uint, addressId uin
 	fleetLoc.Primary = primary
 	f.Db.Save(&fleetLoc)
 	return true, nil
+}
+
+func setFLPrimaryOff(f *FleetLocation) {
+	fleetLocation := &ent.TableFleetLocation{}
+	f.Db.Where("primary = ?", true).First(&fleetLocation)
+	if fleetLocation.ID > 0 {
+		fleetLocation.Primary = false
+		f.Db.Save(&fleetLocation)
+	}
 }
 
 //----------------------------------------------------------

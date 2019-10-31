@@ -27,7 +27,7 @@ func NewVehicleLocation(db *gorm.DB) VehicleLocation {
 //----------------------------------------------------------
 func (l *VehicleLocation) CreateVehicleLocation(ad bu.VehicleAddressBO) (uint, error) {
 
-	vehicleLocation := ent.TableVehicleLocation{VehicleId: ad.VehicleId, AddressId: ad.AddressId}
+	vehicleLocation := ent.TableVehicleLocation{VehicleId: ad.VehicleId, AddressId: ad.AddressId, Primary: ad.Primary}
 	l.Db.Create(&vehicleLocation)
 	return vehicleLocation.ID, nil
 }
@@ -37,6 +37,9 @@ func (l *VehicleLocation) CreateVehicleLocation(ad bu.VehicleAddressBO) (uint, e
 //----------------------------------------------------------
 func (l *VehicleLocation) UpdateVehicleLocation(ad bu.VehicleAddressBO) (bool, error) {
 
+	if ad.Primary {
+		setVHPrimaryOff(l)
+	}
 	vehicleLocation := ent.TableVehicleLocation{}
 	l.Db.First(&vehicleLocation, ad.Id)
 	if vehicleLocation.ID == 0 {
@@ -44,9 +47,19 @@ func (l *VehicleLocation) UpdateVehicleLocation(ad bu.VehicleAddressBO) (bool, e
 	}
 	vehicleLocation.AddressId = ad.AddressId
 	vehicleLocation.VehicleId = ad.VehicleId
+	vehicleLocation.Primary = ad.Primary
 
 	l.Db.Save(&vehicleLocation)
 	return true, nil
+}
+
+func setVHPrimaryOff(f *VehicleLocation) {
+	vhLoc := &ent.TableVehicleLocation{}
+	f.Db.Where("primary = ?", true).First(&vhLoc)
+	if vhLoc.ID > 0 {
+		vhLoc.Primary = false
+		f.Db.Save(&vhLoc)
+	}
 }
 
 //----------------------------------------------------------

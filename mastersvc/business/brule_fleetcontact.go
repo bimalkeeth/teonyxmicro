@@ -36,6 +36,10 @@ func (f *FleetContact) CreateFleetContact(fleetId uint, contactId uint, primary 
 
 func (f *FleetContact) UpdateFleetContact(id uint, fleetId uint, contactId uint, primary bool) (bool, error) {
 
+	if primary {
+		setFleetContactPrimaryOff(f)
+	}
+
 	fleetContact := &ent.TableFleetContact{}
 	f.Db.First(fleetContact, id)
 	if fleetContact.ID == 0 {
@@ -46,6 +50,15 @@ func (f *FleetContact) UpdateFleetContact(id uint, fleetId uint, contactId uint,
 	fleetContact.Primary = primary
 	f.Db.Save(fleetContact)
 	return true, nil
+}
+
+func setFleetContactPrimaryOff(f *FleetContact) {
+	fleetContact := &ent.TableFleetContact{}
+	f.Db.Where("primary = ?", true).First(&fleetContact)
+	if fleetContact.ID > 0 {
+		fleetContact.Primary = false
+		f.Db.Save(&fleetContact)
+	}
 }
 
 //-------------------------------------------------
