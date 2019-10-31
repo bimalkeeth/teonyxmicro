@@ -3,7 +3,7 @@ package entities
 import "github.com/jinzhu/gorm"
 import "errors"
 
-type TableOperatorContacts struct {
+type TableVehicleOperatorContacts struct {
 	gorm.Model
 	ContactId  uint                   `gorm:"column:contactid;not_null"`
 	OperatorId uint                   `gorm:"column:operatorid;not_null"`
@@ -11,11 +11,11 @@ type TableOperatorContacts struct {
 	Operator   *TableVehicleOperators `gorm:"foreignkey:operatorid"`
 }
 
-func (t TableOperatorContacts) TableName() string {
+func (t TableVehicleOperatorContacts) TableName() string {
 	return "table_operatorcontacts"
 }
 
-func (t TableOperatorContacts) Validate(db *gorm.DB) {
+func (t TableVehicleOperatorContacts) Validate(db *gorm.DB) {
 
 	if t.ContactId == 0 {
 

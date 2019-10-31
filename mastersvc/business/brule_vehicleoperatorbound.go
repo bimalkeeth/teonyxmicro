@@ -17,6 +17,10 @@ type VehicleOprBound struct {
 	Db *gorm.DB
 }
 
+func NewOprBound(db *gorm.DB) *VehicleOprBound {
+	return &VehicleOprBound{Db: db}
+}
+
 //----------------------------------------------
 // Create vehicle operator bound
 //----------------------------------------------

@@ -5,4 +5,6 @@ type CompanyBO struct {
 	Name      string
 	AddressId uint
 	ContactId uint
+	Address   AddressBO
+	Contact   ContactBO
 }

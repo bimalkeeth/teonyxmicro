@@ -19,6 +19,10 @@ type VehicleReg struct {
 	Db *gorm.DB
 }
 
+func NewVhReg(db *gorm.DB) *VehicleReg {
+	return &VehicleReg{Db: db}
+}
+
 //---------------------------------------------
 //Create vehicle registration
 //---------------------------------------------

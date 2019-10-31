@@ -18,6 +18,10 @@ type VehicleStatus struct {
 	Db *gorm.DB
 }
 
+func NewVhStatus(db *gorm.DB) *VehicleStatus {
+	return &VehicleStatus{Db: db}
+}
+
 //-----------------------------------------------
 //Create vehicle status
 //-----------------------------------------------

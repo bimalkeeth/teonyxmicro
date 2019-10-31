@@ -26,7 +26,7 @@ func NewOperatorContact(db *gorm.DB) OperatorContact {
 //Create operator contact
 //-----------------------------------------------------
 func (o *OperatorContact) CreateOperatorContact(contactId uint, operatorId uint) (uint, error) {
-	opContact := ent.TableOperatorContacts{ContactId: contactId, OperatorId: operatorId}
+	opContact := ent.TableVehicleOperatorContacts{ContactId: contactId, OperatorId: operatorId}
 	o.Db.Create(&opContact)
 	return opContact.ID, nil
 }
@@ -36,7 +36,7 @@ func (o *OperatorContact) CreateOperatorContact(contactId uint, operatorId uint)
 //-----------------------------------------------------
 func (o *OperatorContact) UpdateOperatorContact(id uint, contactId uint, operatorId uint) (bool, error) {
 
-	opContact := ent.TableOperatorContacts{}
+	opContact := ent.TableVehicleOperatorContacts{}
 	o.Db.First(&opContact, id)
 	if opContact.ID == 0 {
 		return false, errors.New("operator contact not found")
@@ -51,7 +51,7 @@ func (o *OperatorContact) UpdateOperatorContact(id uint, contactId uint, operato
 //Delete operator contact
 //-----------------------------------------------------
 func (o *OperatorContact) DeleteOperatorContact(id uint) (bool, error) {
-	opContact := ent.TableOperatorContacts{}
+	opContact := ent.TableVehicleOperatorContacts{}
 	o.Db.First(&opContact, id)
 	if opContact.ID == 0 {
 		return false, errors.New("operator contact not found")
@@ -65,11 +65,11 @@ func (o *OperatorContact) DeleteOperatorContact(id uint) (bool, error) {
 //-----------------------------------------------------
 func (o *OperatorContact) GetAllContactsByOperator(operatorId uint) ([]bu.OperatorContactsBO, error) {
 
-	var operators []ent.TableOperatorContacts
+	var operators []ent.TableVehicleOperatorContacts
 	var oprResults []bu.OperatorContactsBO
 
 	o.Db.Preload("Contact").Preload("Operator").
-		Where(&ent.TableOperatorContacts{OperatorId: operatorId}).Find(&operators)
+		Where(&ent.TableVehicleOperatorContacts{OperatorId: operatorId}).Find(&operators)
 
 	for _, item := range operators {
 
@@ -85,4 +85,5 @@ func (o *OperatorContact) GetAllContactsByOperator(operatorId uint) ([]bu.Operat
 			},
 		})
 	}
+	return oprResults, nil
 }

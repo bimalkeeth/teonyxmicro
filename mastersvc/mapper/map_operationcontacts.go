@@ -8,11 +8,11 @@ import ent "teonyxmicro/mastersvc/entities"
 //--------------------------------------
 func MapVehicleOperatorContactsTable(db *gorm.DB) {
 
-	if !db.HasTable(&ent.TableOperatorContacts{}) {
+	if !db.HasTable(&ent.TableVehicleOperatorContacts{}) {
 
-		db.CreateTable(&ent.TableOperatorContacts{})
-		db.Model(&ent.TableOperatorContacts{}).AddUniqueIndex("ux_operatorcontacts_operationidcontactid", "operatorid", "contactid")
-		db.Model(&ent.TableOperatorContacts{}).AddForeignKey("contactid", "table_contacts(id)", "RESTRICT", "RESTRICT")
-		db.Model(&ent.TableOperatorContacts{}).AddForeignKey("operatorid", "table_vehicleoperators(id)", "RESTRICT", "RESTRICT")
+		db.CreateTable(&ent.TableVehicleOperatorContacts{})
+		db.Model(&ent.TableVehicleOperatorContacts{}).AddUniqueIndex("ux_operatorcontacts_operationidcontactid", "operatorid", "contactid")
+		db.Model(&ent.TableVehicleOperatorContacts{}).AddForeignKey("contactid", "table_contacts(id)", "RESTRICT", "RESTRICT")
+		db.Model(&ent.TableVehicleOperatorContacts{}).AddForeignKey("operatorid", "table_vehicleoperators(id)", "RESTRICT", "RESTRICT")
 	}
 }
