@@ -12,9 +12,18 @@ type IContactManager interface {
 	UpdateContact(con bu.ContactBO) bool
 	DeleteContact(id uint) bool
 	ContactById(Id uint) (bu.ContactBO, error)
+	CreateAddress(add bu.AddressBO) (bool, uint)
+	UpdateAddress(add bu.AddressBO) bool
+	DeleteAddress(id uint) bool
+	GetAddressById(id uint) (bu.AddressBO, error)
+	GetAddressByName(name string) ([]bu.AddressBO, error)
 }
 
 type ContactManager struct{}
+
+func NewContactManager() *ContactManager {
+	return &ContactManager{}
+}
 
 //---------------------------------------
 //Set database connection
@@ -93,11 +102,102 @@ func (c *ContactManager) ContactById(Id uint) (bu.ContactBO, error) {
 	if err != nil {
 		return bu.ContactBO{}, err
 	}
-	conn.Begin()
+
 	contact := bs.NewContact(conn)
 	co, err := contact.ContactById(Id)
 	if err != nil {
+
 		return bu.ContactBO{}, err
 	}
 	return co, nil
+}
+
+//------------------------------------
+//Create Address
+//------------------------------------
+func (c *ContactManager) CreateAddress(add bu.AddressBO) (bool, uint) {
+	conn, err := setconn()
+	if err != nil {
+		return false, 0
+	}
+	conn.Begin()
+	address := bs.NewAddress(conn)
+	res, err := address.CreateAddress(add)
+	if err != nil {
+		conn.Rollback()
+		return false, 0
+	}
+	conn.Commit()
+	return true, res
+}
+
+//------------------------------------
+//Update Address
+//------------------------------------
+func (c *ContactManager) UpdateAddress(add bu.AddressBO) bool {
+	conn, err := setconn()
+	if err != nil {
+		return false
+	}
+	conn.Begin()
+	address := bs.NewAddress(conn)
+	res, err := address.UpdateAddress(add)
+	if err != nil {
+		conn.Rollback()
+		return false
+	}
+	conn.Commit()
+	return res
+
+}
+
+//------------------------------------
+//Delete Address
+//------------------------------------
+func (c *ContactManager) DeleteAddress(id uint) bool {
+	conn, err := setconn()
+	if err != nil {
+		return false
+	}
+	conn.Begin()
+	address := bs.NewAddress(conn)
+	res, err := address.DeleteAddress(id)
+	if err != nil {
+		conn.Rollback()
+		return false
+	}
+	conn.Commit()
+	return res
+}
+
+//------------------------------------
+//Get Address by AddressId
+//------------------------------------
+func (c *ContactManager) GetAddressById(id uint) (bu.AddressBO, error) {
+	conn, err := setconn()
+	if err != nil {
+		return bu.AddressBO{}, err
+	}
+	address := bs.NewAddress(conn)
+	result, err := address.GetAddressById(id)
+	if err != nil {
+		return bu.AddressBO{}, err
+	}
+	return result, nil
+}
+
+//-------------------------------------
+//Get Address By Name
+//-------------------------------------
+func (c *ContactManager) GetAddressByName(name string) ([]bu.AddressBO, error) {
+	conn, err := setconn()
+	if err != nil {
+		return []bu.AddressBO{}, err
+	}
+	address := bs.NewAddress(conn)
+	result, err := address.GetAddressByName(name)
+	if err != nil {
+		return result, err
+	}
+	return result, nil
 }
