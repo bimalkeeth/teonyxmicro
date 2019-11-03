@@ -24,6 +24,10 @@ type IVehicleManager interface {
 	GetVehicleById(vehicleId uint) (bu.VehicleBO, error)
 	GetVehicleByRegistration(registration string) (bu.VehicleBO, error)
 	GetVehiclesByFleetId(fleetId uint) ([]bu.VehicleBO, error)
+	CreateVehicleHistory(history bu.VehicleHistoryBO) (uint, error)
+	UpdateVehicleHistory(history bu.VehicleHistoryBO) (bool, error)
+	DeleteVehicleHistory(id uint) (bool, error)
+	GetVehicleHistoryByVehicleId(vehicleId uint) ([]bu.VehicleHistoryBO, error)
 }
 
 type VehicleManager struct{}

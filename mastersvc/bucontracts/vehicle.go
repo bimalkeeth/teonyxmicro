@@ -10,6 +10,7 @@ type VehicleBO struct {
 	FleetId       uint
 	StatusId      uint
 	UpdatedAt     time.Time
+	OfficeName    string
 	VehicleModel  VehicleModelBO
 	VehicleMake   VehicleMakeBO
 	Fleet         FleetBO
