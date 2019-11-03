@@ -45,6 +45,6 @@ type IMasterManager interface {
 
 type MasterManager struct{}
 
-func NewMasterManager() *MasterManager {
+func New() *MasterManager {
 	return &MasterManager{}
 }
