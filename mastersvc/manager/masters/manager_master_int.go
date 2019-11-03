@@ -28,6 +28,19 @@ type IMasterManager interface {
 	GetAddressTypeByName(name string) (bu.AddressTypeBO, error)
 	GetAllAddressTypes() ([]bu.AddressTypeBO, error)
 	GetAllAddressTypeNames(namePart string) ([]bu.AddressTypeBO, error)
+	CreateRegion(bo bu.RegionBO) (bool, error)
+	UpdateRegion(bo bu.RegionBO) (bool, error)
+	DeleteRegion(id uint) (bool, error)
+	GetAllRegion() ([]bu.RegionBO, error)
+	GetRegionById(id uint) (bu.RegionBO, error)
+	GetRegionByName(name string) (bu.RegionBO, error)
+	CreateState(bo bu.StateBO) (bool, error)
+	UpdateState(bo bu.StateBO) (bool, error)
+	DeleteState(id uint) (bool, error)
+	GetStateById(id uint) (bu.StateBO, error)
+	GetStateByCountryId(id uint) ([]bu.StateBO, error)
+	GetStateByName(name string) (bu.StateBO, error)
+	GetAllStates() ([]bu.StateBO, error)
 }
 
 type MasterManager struct{}

@@ -143,3 +143,166 @@ func (m *MasterManager) GetAllAddressTypeNames(namePart string) ([]bu.AddressTyp
 	}
 	return res, nil
 }
+
+//------------------------------------------
+//Create Region
+//------------------------------------------
+func (m *MasterManager) CreateRegion(bo bu.RegionBO) (bool, error) {
+	master := masFac.New(bs.CRegion).(bs.Region)
+	masFac.Conn.Begin()
+	res, err := master.CreateRegion(bo)
+	if err != nil {
+		masFac.Conn.Rollback()
+		return false, err
+	}
+	masFac.Conn.Commit()
+	return res, nil
+}
+
+//-----------------------------------------
+//Update Region
+//-----------------------------------------
+func (m *MasterManager) UpdateRegion(bo bu.RegionBO) (bool, error) {
+	master := masFac.New(bs.CRegion).(bs.Region)
+	masFac.Conn.Begin()
+	res, err := master.UpdateRegion(bo)
+	if err != nil {
+		masFac.Conn.Rollback()
+		return false, err
+	}
+	masFac.Conn.Commit()
+	return res, nil
+}
+
+//-----------------------------------------
+//Delete Region
+//-----------------------------------------
+func (m *MasterManager) DeleteRegion(id uint) (bool, error) {
+	master := masFac.New(bs.CRegion).(bs.Region)
+	masFac.Conn.Begin()
+	res, err := master.DeleteRegion(id)
+	if err != nil {
+		masFac.Conn.Rollback()
+		return false, err
+	}
+	masFac.Conn.Commit()
+	return res, nil
+}
+
+//----------------------------------------
+//Get All Region
+//----------------------------------------
+func (m *MasterManager) GetAllRegion() ([]bu.RegionBO, error) {
+	master := masFac.New(bs.CRegion).(bs.Region)
+	res, err := master.GetAllRegion()
+	if err != nil {
+		return []bu.RegionBO{}, err
+	}
+	return res, nil
+}
+
+//-----------------------------------------
+//Get Region By Id
+//-----------------------------------------
+func (m *MasterManager) GetRegionById(id uint) (bu.RegionBO, error) {
+	master := masFac.New(bs.CRegion).(bs.Region)
+	res, err := master.GetRegionById(id)
+	if err != nil {
+		return bu.RegionBO{}, err
+	}
+	return res, nil
+}
+
+//-----------------------------------------
+//Get Region By Name
+//-----------------------------------------
+func (m *MasterManager) GetRegionByName(name string) (bu.RegionBO, error) {
+	master := masFac.New(bs.CRegion).(bs.Region)
+	res, err := master.GetRegionByName(name)
+	if err != nil {
+		return bu.RegionBO{}, err
+	}
+	return res, nil
+}
+
+//------------------------------------------
+//Create State
+//------------------------------------------
+func (m *MasterManager) CreateState(bo bu.StateBO) (bool, error) {
+	master := masFac.New(bs.CState).(bs.State)
+	masFac.Conn.Begin()
+	res, err := master.CreateState(bo)
+	if err != nil {
+		masFac.Conn.Rollback()
+		return false, err
+	}
+	masFac.Conn.Commit()
+	return res, nil
+}
+
+//------------------------------------------
+//Update State
+//------------------------------------------
+func (m *MasterManager) UpdateState(bo bu.StateBO) (bool, error) {
+	master := masFac.New(bs.CState).(bs.State)
+	masFac.Conn.Begin()
+	res, err := master.UpdateState(bo)
+	if err != nil {
+		masFac.Conn.Rollback()
+		return false, err
+	}
+	masFac.Conn.Commit()
+	return res, nil
+
+}
+
+//-------------------------------------------
+//Delete State
+//-------------------------------------------
+func (m *MasterManager) DeleteState(id uint) (bool, error) {
+	master := masFac.New(bs.CState).(bs.State)
+	masFac.Conn.Begin()
+	res, err := master.DeleteState(id)
+	if err != nil {
+		masFac.Conn.Rollback()
+		return false, err
+	}
+	masFac.Conn.Commit()
+	return res, nil
+}
+
+//-------------------------------------------
+//Get State by Id
+//-------------------------------------------
+func (m *MasterManager) GetStateById(id uint) (bu.StateBO, error) {
+	master := masFac.New(bs.CState).(bs.State)
+	res, err := master.GetStateById(id)
+	return res, err
+}
+
+//-------------------------------------------
+//Get State by Country
+//-------------------------------------------
+func (m *MasterManager) GetStateByCountryId(id uint) ([]bu.StateBO, error) {
+	master := masFac.New(bs.CState).(bs.State)
+	res, err := master.GetStateByCountryId(id)
+	return res, err
+}
+
+//-------------------------------------------
+//Get State by name
+//-------------------------------------------
+func (m *MasterManager) GetStateByName(name string) (bu.StateBO, error) {
+	master := masFac.New(bs.CState).(bs.State)
+	res, err := master.GetStateByName(name)
+	return res, err
+}
+
+//-------------------------------------------
+//Get All states
+//-------------------------------------------
+func (m MasterManager) GetAllStates() ([]bu.StateBO, error) {
+	master := masFac.New(bs.CState).(bs.State)
+	res, err := master.GetAll()
+	return res, err
+}
