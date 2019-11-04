@@ -49,3 +49,12 @@ func (v *VehicleManager) DeleteVehicleHistory(id uint) (bool, error) {
 	vehicleFac.Conn.Commit()
 	return res, nil
 }
+
+//--------------------------------------------
+//Get Vehicle By Id
+//--------------------------------------------
+func (v *VehicleManager) GetVehicleHistoryByVehicleId(vehicleId uint) ([]bu.VehicleHistoryBO, error) {
+	vh := vehicleFac.New(bs.CVehicleHistory).(bs.VehicleHistory)
+	res, err := vh.GetVehicleHistoryByVehicleId(vehicleId)
+	return res, err
+}
