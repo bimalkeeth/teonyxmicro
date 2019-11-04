@@ -67,3 +67,18 @@ func (v *VehicleManager) GetVehicleMakeById(id uint) (bu.VehicleMakeBO, error) {
 	res, err := vh.GetVehicleMakeById(id)
 	return res, err
 }
+
+//------------------------------------------
+//Create Vehicle Model
+//------------------------------------------
+func (v *VehicleManager) CreateVehicleModel(bo bu.VehicleModelBO) (uint, error) {
+	vh := vehicleFac.New(bs.CVehicleModel).(bs.VehicleModel)
+	vehicleFac.Conn.Begin()
+	res, err := vh.CreateVehicleModel(bo)
+	if err != nil {
+		vehicleFac.Conn.Rollback()
+		return res, err
+	}
+	vehicleFac.Conn.Commit()
+	return res, err
+}
