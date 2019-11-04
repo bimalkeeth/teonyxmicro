@@ -28,6 +28,15 @@ type IVehicleManager interface {
 	UpdateVehicleHistory(history bu.VehicleHistoryBO) (bool, error)
 	DeleteVehicleHistory(id uint) (bool, error)
 	GetVehicleHistoryByVehicleId(vehicleId uint) ([]bu.VehicleHistoryBO, error)
+	CreateVehicleLocation(ad bu.VehicleAddressBO) (uint, error)
+	UpdateVehicleLocation(ad bu.VehicleAddressBO) (bool, error)
+	DeleteVehicleLocation(id uint) (bool, error)
+	GetVehicleLocationByVehicle(vehicleId uint) ([]bu.VehicleAddressBO, error)
+	CreateVehicleMake(bo bu.VehicleMakeBO) (uint, error)
+	UpdateVehicleMake(bo bu.VehicleMakeBO) (bool, error)
+	DeleteVehicleMake(id uint) (bool, error)
+	GetAllVehicleMake() ([]bu.VehicleMakeBO, error)
+	GetVehicleMakeById(id uint) (bu.VehicleMakeBO, error)
 }
 
 type VehicleManager struct{}
