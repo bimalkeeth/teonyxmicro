@@ -42,6 +42,11 @@ type IVehicleManager interface {
 	DeleteVehicleModel(id uint) (bool, error)
 	GetAllModelByMake(makeid uint) ([]bu.VehicleModelBO, error)
 	GetModelById(id uint) (bu.VehicleModelBO, error)
+	CreateVehicleReg(bo bu.VehicleTrackRegBO) (uint, error)
+	UpdateVehicleReg(bo bu.VehicleTrackRegBO) (bool, error)
+	DeleteVehicleReg(id uint) (bool, error)
+	GetAllRegistrationsByVehicleId(id uint) ([]bu.VehicleTrackRegBO, error)
+	GetActiveRegistrationsByVehicleId(id uint) (bu.VehicleTrackRegBO, error)
 }
 
 type VehicleManager struct{}
