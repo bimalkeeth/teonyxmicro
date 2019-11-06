@@ -82,3 +82,52 @@ func (v *VehicleManager) CreateVehicleModel(bo bu.VehicleModelBO) (uint, error) 
 	vehicleFac.Conn.Commit()
 	return res, err
 }
+
+//------------------------------------------
+//Update vehicle model
+//------------------------------------------
+func (v *VehicleManager) UpdateVehicleModel(bo bu.VehicleModelBO) (bool, error) {
+	vh := vehicleFac.New(bs.CVehicleModel).(bs.VehicleModel)
+	vehicleFac.Conn.Begin()
+	res, err := vh.UpdateVehicleModel(bo)
+	if err != nil {
+		vehicleFac.Conn.Rollback()
+		return res, err
+	}
+	vehicleFac.Conn.Commit()
+	return res, err
+}
+
+//------------------------------------------
+//Delete vehicle model
+//------------------------------------------
+func (v *VehicleManager) DeleteVehicleModel(id uint) (bool, error) {
+	vh := vehicleFac.New(bs.CVehicleModel).(bs.VehicleModel)
+	vehicleFac.Conn.Begin()
+	res, err := vh.DeleteVehicleModel(id)
+	if err != nil {
+		vehicleFac.Conn.Rollback()
+		return res, err
+	}
+	vehicleFac.Conn.Commit()
+	return res, err
+}
+
+//------------------------------------------
+//Get all models by make
+//------------------------------------------
+func (v *VehicleManager) GetAllModelByMake(makeid uint) ([]bu.VehicleModelBO, error) {
+	vh := vehicleFac.New(bs.CVehicleModel).(bs.VehicleModel)
+	res, err := vh.GetAllModelByMake(makeid)
+	return res, err
+
+}
+
+//-------------------------------------------
+//Get Model by Id
+//-------------------------------------------
+func (v *VehicleManager) GetModelById(id uint) (bu.VehicleModelBO, error) {
+	vh := vehicleFac.New(bs.CVehicleModel).(bs.VehicleModel)
+	res, err := vh.GetModelById(id)
+	return res, err
+}
