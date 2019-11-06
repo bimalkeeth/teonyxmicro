@@ -131,7 +131,7 @@ func (v *Vehicle) GetVehicleById(vehicleId uint) (bu.VehicleBO, error) {
 			OperatorId: op.OperatorId,
 			VehicleId:  op.VehicleId,
 			Active:     op.Active,
-			Operator: &bu.VehicleOperatorBO{
+			Operator: &bu.OperatorBO{
 				Id:      op.Operator.ID,
 				Name:    op.Operator.Name,
 				SurName: op.Operator.SurName,
@@ -227,7 +227,7 @@ func (v *Vehicle) GetVehicleByRegistration(registration string) (bu.VehicleBO, e
 			OperatorId: op.OperatorId,
 			VehicleId:  op.VehicleId,
 			Active:     op.Active,
-			Operator: &bu.VehicleOperatorBO{
+			Operator: &bu.OperatorBO{
 				Id:      op.Operator.ID,
 				Name:    op.Operator.Name,
 				SurName: op.Operator.SurName,
@@ -322,7 +322,7 @@ func (v *Vehicle) GetVehiclesByFleetId(fleetId uint) ([]bu.VehicleBO, error) {
 				OperatorId: op.OperatorId,
 				VehicleId:  op.VehicleId,
 				Active:     op.Active,
-				Operator: &bu.VehicleOperatorBO{
+				Operator: &bu.OperatorBO{
 					Id:      op.Operator.ID,
 					Name:    op.Operator.Name,
 					SurName: op.Operator.SurName,

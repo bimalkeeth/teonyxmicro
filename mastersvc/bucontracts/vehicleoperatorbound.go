@@ -5,6 +5,6 @@ type VehicleOperatorBoundBO struct {
 	OperatorId uint
 	VehicleId  uint
 	Active     bool
-	Operator   *VehicleOperatorBO
+	Operator   *OperatorBO
 	Vehicle    *VehicleBO
 }
