@@ -28,6 +28,7 @@ const (
 	CVhRegistration    RuleType = 19
 	CVhStatus          RuleType = 20
 	CContactType       RuleType = 21
+	CVhOperator        RuleType = 22
 )
 
 type RuleFactory struct{ Conn *gorm.DB }
@@ -77,6 +78,8 @@ func (f *RuleFactory) New(ruleType RuleType) interface{} {
 		return NewVhReg(f.Conn)
 	case CVhStatus:
 		return NewVhStatus(f.Conn)
+	case CVhOperator:
+		return NewOperator(f.Conn)
 	default:
 		return nil
 	}
