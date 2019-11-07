@@ -51,6 +51,9 @@ type IVehicleManager interface {
 	UpdateVehicleStatus(bo bu.VehicleStatusBO) (bool, error)
 	DeleteVehicleStatus(id uint) (bool, error)
 	GetAllVehicleStatus() ([]bu.VehicleStatusBO, error)
+	CreateVehicleOpBound(op bu.VehicleOperatorBoundBO) (uint, error)
+	UpdateVehicleOpBound(op bu.VehicleOperatorBoundBO) (bool, error)
+	DeleteVehicleOpBound(id uint) (bool, error)
 }
 
 type VehicleManager struct{}
