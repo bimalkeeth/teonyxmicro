@@ -8,8 +8,8 @@ import (
 )
 
 type IOperatorContact interface {
-	CreateOperatorContact(contactId uint, operatorId uint) (uint, error)
-	UpdateOperatorContact(id uint, contactId uint, operatorId uint) (bool, error)
+	CreateOperatorContact(contactId uint, operatorId uint, primary bool) (uint, error)
+	UpdateOperatorContact(id uint, contactId uint, operatorId uint, primary bool) (bool, error)
 	DeleteOperatorContact(id uint) (bool, error)
 	GetAllContactsByOperator(operatorId uint) ([]bu.OperatorContactsBO, error)
 }
