@@ -27,6 +27,10 @@ type IOprManager interface {
 	UpdateOperatorContact(id uint, contactId uint, operatorId uint, primary bool) (bool, error)
 	DeleteOperatorContact(id uint) (bool, error)
 	GetAllContactsByOperator(operatorId uint) ([]bu.OperatorContactsBO, error)
+	CreateOperatorLocation(bo bu.OperatorLocationBO) (uint, error)
+	UpdateOperatorLocation(bo bu.OperatorLocationBO) (bool, error)
+	DeleteOperatorLocation(id uint) (bool, error)
+	GetOperatorLocationByOperator(id uint) ([]bu.OperatorLocationBO, error)
 }
 
 type OprManager struct{}
