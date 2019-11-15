@@ -8,8 +8,8 @@ import (
 )
 
 type IFleetLocation interface {
-	CreateFleetLocation(fleetId uint, addressId uint) (uint, error)
-	UpdateFleetLocation(id uint, fleetId uint, addressId uint) (bool, error)
+	CreateFleetLocation(fleetId uint, addressId uint, primary bool) (uint, error)
+	UpdateFleetLocation(id uint, fleetId uint, addressId uint, primary bool) (bool, error)
 	DeleteFleetLocation(id uint) (bool, error)
 	GetLocationByFleetId(fleetId uint) ([]bu.FleetAddressBO, error)
 }

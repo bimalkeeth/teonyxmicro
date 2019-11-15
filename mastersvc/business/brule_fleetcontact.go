@@ -8,8 +8,8 @@ import (
 )
 
 type IFleetContact interface {
-	CreateFleetContact(fleetId uint, contactId uint) (uint, error)
-	UpdateFleetContact(id uint, fleetId uint, contactId uint) (bool, error)
+	CreateFleetContact(fleetId uint, contactId uint, primary bool) (uint, error)
+	UpdateFleetContact(id uint, fleetId uint, contactId uint, primary bool) (bool, error)
 	DeleteFleetContact(id uint) (bool, error)
 	GetContactByFleetId(fleetId uint) ([]bu.FleetContactBO, error)
 }
