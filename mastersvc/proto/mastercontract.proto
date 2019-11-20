@@ -141,7 +141,7 @@ message RequestState{
 }
 
 message ResponseState{
-    StateProto State = 1;
+    repeated StateProto State = 1;
     bool IsError = 2;
     string ErrorMessage = 3;
 }

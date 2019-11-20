@@ -34,5 +34,10 @@ service MasterService{
     rpc CreateState(RequestState)returns(ResponseCreateSuccess)
     rpc UpdateState(RequestState)returns(ResponseSuccess)
     rpc DeleteState(RequestDelete)returns(ResponseSuccess)
+    rpc GetStateById(RequestKey)returns(ResponseState)
+    rpc GetStateByCountryId(RequestKey)returns(ResponseState)
+    rpc GetStateByName(RequestByName)returns(ResponseState)
+    rpc GetAllStates(google.protobuf.Empty)returns(ResponseState)
+
 }
 
