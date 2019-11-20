@@ -7,6 +7,6 @@ type CountryBO struct {
 	CountryName string
 	RegionId    uint
 	Region      RegionBO
-	States      []RegionBO
+	States      []StateBO
 	UpdatedAt   time.Time
 }

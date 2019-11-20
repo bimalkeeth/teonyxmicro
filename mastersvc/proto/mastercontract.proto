@@ -1,0 +1,147 @@
+syntax = "proto3";
+
+package teonyx.master;
+
+message StateProto{
+    uint64 Id = 1;
+    string Name = 2;
+    uint64 CountryId = 3;
+}
+
+message CountryProto{
+    uint64 Id = 1;
+    string CountryName = 2;
+    uint64 RegionId = 3;
+    repeated StateProto States = 4;
+    string UpdatedAt = 5;
+}
+
+message ContactProto{
+    uint64 Id = 1;
+    string Contact = 2;
+    uint64 ContactTypeId = 3;
+    string UpdatedAt = 4;
+}
+
+message AddressTypeProto{
+    uint64 Id = 1;
+    string Name = 2;
+}
+
+message RegionProto{
+    uint64 Id = 1;
+    string Region = 2;
+    string RegionName = 3;
+}
+
+message AddressProto{
+    uint64 Id = 1;
+    string Address = 2;
+    string Street  = 3;
+    string Suburb  = 4;
+    uint64 StateId = 5;
+    uint64 CountryId = 6;
+    uint64 AddressTypeId = 7;
+    string Location = 8;
+    AddressTypeProto AddressType = 9;
+    StateProto State =10;
+    CountryProto Country = 11;
+    string UpdatedAt = 12;
+}
+
+message CompanyProto{
+    uint64 Id = 1;
+    string Name = 2;
+    uint64 AddressId = 3;
+    uint64 ContactId = 4;
+    AddressProto Address = 5;
+    ContactProto Contact = 6;
+}
+
+message StateProto{
+    uint64 Id = 1;
+    string Name = 2;
+    uint64 CountryId = 3;
+}
+
+
+
+message RequestContact{
+    ContactProto Contact =1;
+}
+
+message ResponseCreateSuccess{
+    bool Success = 1;
+    uint64 Id  = 2;
+    bool IsError = 3;
+    string ErrorMessage = 4;
+}
+
+message RequestKey{
+    uint64 Id = 1;
+}
+
+message ResponseSuccess{
+    bool Success = 1;
+    bool IsError = 2;
+    string ErrorMessage = 3;
+}
+
+message RequestDelete{
+    uint64 Id =1;
+}
+
+message ResponseContact{
+    ContactProto Contact = 1;
+    bool IsError = 2;
+    string ErrorMessage = 3;
+}
+
+message RequestAddress{
+    AddressProto Address =1;
+}
+
+message RequestByName{
+    string Name = 1;
+}
+
+message ResponseAddress{
+    repeated AddressProto Address = 1;
+    bool IsError = 2;
+    string ErrorMessage = 3;
+}
+
+message RequestCompany {
+    CompanyProto Company = 1;
+}
+
+message RequestAddressType{
+    AddressTypeProto AddressType = 1;
+
+}
+
+message ResponseAddressType{
+    repeated AddressTypeProto AddressType = 1;
+    bool IsError = 2;
+    string ErrorMessage = 3;
+}
+
+message RequestRegion {
+    RegionProto Region = 1;
+}
+
+message ResponseRegion{
+    repeated RegionProto Region = 1;
+    bool IsError = 2;
+    string ErrorMessage = 3;
+}
+
+message RequestState{
+    StateProto State = 1;
+}
+
+message ResponseState{
+    StateProto State = 1;
+    bool IsError = 2;
+    string ErrorMessage = 3;
+}

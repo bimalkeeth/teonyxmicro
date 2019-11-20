@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+package teonyx.master;
+import "google/protobuf/timestamp.proto";
+import "proto/mastercontract.proto";
+import "google/protobuf/empty.proto";
+
+service MasterService{
+    rpc CreateContact(RequestContact) returns(ResponseCreateSuccess)
+    rpc UpdateContact(RequestContact) returns(ResponseSuccess)
+    rpc DeleteContact(RequestDelete) returns (ResponseSuccess)
+    rpc ContactById(RequestKey) returns(ResponseContact)
+    rpc CreateAddress(RequestAddress) returns(ResponseCreateSuccess)
+    rpc UpdateAddress(RequestAddress) returns(ResponseSuccess)
+    rpc DeleteAddress(RequestDelete) returns(ResponseSuccess)
+    rpc GetAddressById(RequestKey) returns(ResponseAddress)
+    rpc GetAddressByName(RequestByName) returns(ResponseAddress)
+    rpc CreateCompany(RequestCompany) returns(ResponseCreateSuccess)
+    rpc UpdateCompany(RequestCompany) returns(ResponseSuccess)
+    rpc DeleteCompany(RequestDelete) returns(ResponseSuccess)
+    rpc CreateAddressType(RequestAddressType)returns(ResponseCreateSuccess)
+    rpc UpdateAddressType(RequestAddressType)returns(ResponseSuccess)
+    rpc DeleteAddressType(RequestDelete) returns(ResponseSuccess)
+    rpc GetAddressTypeById(RequestKey) returns(ResponseAddressType)
+    rpc GetAddressTypeByName(RequestByName)returns(ResponseAddressType)
+    rpc GetAllAddressTypes(google.protobuf.Empty) returns(ResponseAddressType)
+    rpc GetAllAddressTypeNames(RequestByName)returns(ResponseAddressType)
+    rpc CreateRegion(RequestRegion) returns(ResponseCreateSuccess)
+    rpc UpdateRegion(RequestRegion) returns(ResponseSuccess)
+    rpc DeleteRegion(RequestDelete)returns(ResponseSuccess)
+    rpc GetAllRegion(google.protobuf.Empty) returns(ResponseRegion)
+    rpc GetRegionById(RequestKey)returns(ResponseRegion)
+    rpc GetRegionByName(RequestByName)returns(ResponseRegion)
+    rpc CreateState(RequestState)returns(ResponseCreateSuccess)
+    rpc UpdateState(RequestState)returns(ResponseSuccess)
+    rpc DeleteState(RequestDelete)returns(ResponseSuccess)
+}
+
