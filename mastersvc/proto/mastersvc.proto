@@ -38,6 +38,15 @@ service MasterService{
     rpc GetStateByCountryId(RequestKey)returns(ResponseState)
     rpc GetStateByName(RequestByName)returns(ResponseState)
     rpc GetAllStates(google.protobuf.Empty)returns(ResponseState)
-
+    rpc CreateVehicle(RequestVehicle)returns(ResponseCreateSuccess)
+    rpc UpdateVehicle(RequestVehicle)returns(ResponseSuccess)
+    rpc DeleteVehicle(RequestDelete) returns (ResponseSuccess)
+    rpc GetVehicleById(RequestKey)returns(ResponseVehicle)
+    rpc GetVehicleByRegistration(RequestByName)returns(ResponseVehicle)
+    rpc GetVehiclesByFleetId(RequestKey)returns(ResponseVehicle)
+    rpc CreateVehicleHistory(RequestVehicleHistory)returns(ResponseCreateSuccess)
+    rpc UpdateVehicleHistory(RequestVehicleHistory)returns(ResponseSuccess)
+    rpc DeleteVehicleHistory(RequestDelete)returns(ResponseSuccess)
+    rpc GetVehicleHistoryByVehicleId(RequestKey)returns(ResponseVehicleHistory)
 }
 

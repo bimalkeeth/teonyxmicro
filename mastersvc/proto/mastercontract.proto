@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package teonyx.master;
 
+import "google/protobuf/timestamp.proto";
+
 message StateProto{
     uint64 Id = 1;
     string Name = 2;
@@ -13,14 +15,14 @@ message CountryProto{
     string CountryName = 2;
     uint64 RegionId = 3;
     repeated StateProto States = 4;
-    string UpdatedAt = 5;
+    google.protobuf.Timestamp UpdatedAt = 5;
 }
 
 message ContactProto{
     uint64 Id = 1;
     string Contact = 2;
     uint64 ContactTypeId = 3;
-    string UpdatedAt = 4;
+    google.protobuf.Timestamp UpdatedAt = 4;
 }
 
 message AddressTypeProto{
@@ -46,7 +48,7 @@ message AddressProto{
     AddressTypeProto AddressType = 9;
     StateProto State =10;
     CountryProto Country = 11;
-    string UpdatedAt = 12;
+    google.protobuf.Timestamp UpdatedAt = 12;
 }
 
 message CompanyProto{
@@ -64,7 +66,156 @@ message StateProto{
     uint64 CountryId = 3;
 }
 
+message VehicleMakeProto{
+    uint64 Id = 1;
+    string Make = 2;
+    uint64 CountryId =3;
+    string UpdateAt = 4;
+    ContactProto Country = 5;
+}
 
+message VehicleModelProto{
+    uint64 Id = 1;
+    string ModelName = 2;
+    string Description = 3;
+    uint64 MakeId = 4;
+    google.protobuf.Timestamp UpdatedAt = 5;
+    VehicleMakeProto Make = 6;
+}
+message FleetProto{
+   uint64 Id = 1;
+   google.protobuf.Timestamp UpdatedAt = 2;
+   string FleetCode = 3;
+   string Name = 4;
+   string SurName = 5;
+   string OtherName = 6;
+   string DateRegistered = 7;
+   float RegistrationDuration =8;
+   uint64 FleetContactId = 9;
+   uint64 FleetLocationId = 10;
+   uint64 CountryId = 11;
+   repeated ContactProto FleetContacts = 12;
+   repeated AddressProto Address = 13;
+
+}
+message VehicleStatusProto{
+    uint64 Id = 1;
+    string StatusType = 2;
+    string StatusName = 3;
+    google.protobuf.Timestamp UpdatedAt = 4;
+}
+
+message VehicleAddressProto{
+   uint64 VehicleAddress = 1;
+   uint64 AddressId = 2;
+   uint64 VehicleId = 3;
+   bool Primary = 4;
+   string UpdateAt = 5;
+   AddressProto Address = 6;
+}
+
+
+message OperatorProto{
+    uint64 Id = 1;
+    string Name = 2;
+    string SurName = 3;
+    bool Active = 4;
+    string DrivingLic = 5;
+    google.protobuf.Timestamp UpdateAt = 6;
+    repeated OperatorLocationProto Locations = 7;
+    repeated OperatorContactsProto Contacts = 8;
+    repeated VehicleProto Vehicles = 9;
+}
+
+message OperatorLocationProto{
+  uint64 Id = 1;
+  uint64 AddressId = 2;
+  uint64 OperatorId = 3;
+  bool Primary = 4;
+  google.protobuf.Timestamp UpdateAt = 5;
+  AddressProto Address = 6;
+  OperatorProto Operator = 7;
+
+}
+
+message OperatorContactsProto{
+    uint64 Id = 1;
+    uint64 ContactId = 2;
+    uint64 OperatorId = 3;
+    bool Primary = 4;
+    ContactProto Contact = 5;
+
+}
+
+message VehicleOperatorBoundProto{
+    uint64 Id =1;
+    uint64 OperatorId = 2;
+    uint64 VehicleId = 3;
+    bool Active = 4;
+    OperatorProto Operator = 5;
+    VehicleProto Vehicle = 6;
+
+}
+
+message VehicleTrackRegProto{
+    uint64 Id = 1;
+    string RegisterDate = 2;
+    int32 Duration =3;
+    google.protobuf.Timestamp ExpiredDate =4;
+    bool Active = 5;
+    uint64 VehicleId =6;
+    google.protobuf.Timestamp UpdatedAt = 7;
+    VehicleProto Vehicle = 8;
+}
+
+message VehicleProto{
+    uint64 Id = 1;
+    uint64 ModelId = 2;
+    uint64 MakeId = 3;
+    string Registration = 4;
+    uint64 FleetId = 5;
+    uint64 StatusId = 6;
+    google.protobuf.Timestamp UpdatedAt = 7;
+    string OfficeName = 8;
+    VehicleModelProto VehicleModel = 9;
+    VehicleMakeProto VehicleMake = 10;
+    VehicleStatusProto Status = 11;
+    repeated VehicleAddressProto Locations =12;
+    repeated VehicleOperatorBoundProto Operators = 13;
+    repeated VehicleTrackRegProto Registrations = 14;
+
+}
+
+message VehicleHistoryProto{
+    uint64 Id = 1;
+    uint64 VehicleId = 2;
+    google.protobuf.Timestamp ChangeDate = 3;
+    string Description = 4;
+    uint64 FromStatusId = 5;
+    uint64 ToStatusId = 6;
+    string OfficerName = 7;
+    VehicleStatusProto FromStatus = 8 ;
+    VehicleStatusProto ToStatus = 9;
+}
+
+message RequestVehicleHistory{
+    VehicleHistoryProto VehicleHistory = 1;
+ }
+
+message ResponseVehicleHistory{
+    repeated VehicleHistoryProto VehicleHistory = 1;
+    bool IsError = 2;
+    string ErrorMessage = 3;
+}
+ message RequestVehicle{
+    VehicleProto Vehicle =1;
+}
+
+message ResponseVehicle{
+    repeated VehicleProto Vehicles = 1;
+    bool IsError = 2;
+    string ErrorMessage = 3;
+}
 
 message RequestContact{
     ContactProto Contact =1;
