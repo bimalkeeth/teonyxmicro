@@ -198,7 +198,11 @@ message VehicleHistoryProto{
     VehicleStatusProto ToStatus = 9;
 }
 
-message RequestVehicleHistory{
+message RequestVehicleAddress{
+    VehicleAddressProto VehicleAddress = 1;
+ }
+
+ message RequestVehicleHistory{
     VehicleHistoryProto VehicleHistory = 1;
  }
 

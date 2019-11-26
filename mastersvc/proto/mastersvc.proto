@@ -48,5 +48,7 @@ service MasterService{
     rpc UpdateVehicleHistory(RequestVehicleHistory)returns(ResponseSuccess)
     rpc DeleteVehicleHistory(RequestDelete)returns(ResponseSuccess)
     rpc GetVehicleHistoryByVehicleId(RequestKey)returns(ResponseVehicleHistory)
+    rpc CreateVehicleLocation(RequestVehicleAddress)returns(ResponseCreateSuccess)
+    rpc UpdateVehicleLocation(RequestVehicleAddress)returns(ResponseSuccess)
 }
 
