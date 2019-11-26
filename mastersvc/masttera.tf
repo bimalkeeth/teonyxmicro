@@ -12,8 +12,6 @@ variable "AMIS" {
     eu-west-1="my ami"
   }
 }
-
-
 resource "aws_instance" "masterservice" {
   ami = var.AMIS[var.AWS_REGION]
   instance_type = "t2.micro"
