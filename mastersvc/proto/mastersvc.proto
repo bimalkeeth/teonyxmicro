@@ -51,5 +51,9 @@ service MasterService{
     rpc CreateVehicleLocation(RequestVehicleAddress)returns(ResponseCreateSuccess)
     rpc UpdateVehicleLocation(RequestVehicleAddress)returns(ResponseSuccess)
     rpc DeleteVehicleLocation(RequestDelete) returns(ResponseSuccess)
+    rpc GetVehicleLocationByVehicle(RequestKey) returns(ResponseVehicleAddress)
+    rpc CreateVehicleMake(RequestVehicleMake)returns(ResponseCreateSuccess)
+    rpc UpdateVehicleMake(RequestVehicleMake)returns(ResponseSuccess)
+    rpc DeleteVehicleMake(RequestDelete)returns (ResponseSuccess)
 }
 

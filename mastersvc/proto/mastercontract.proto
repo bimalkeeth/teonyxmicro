@@ -71,7 +71,7 @@ message VehicleMakeProto{
     string Make = 2;
     uint64 CountryId =3;
     string UpdateAt = 4;
-    ContactProto Country = 5;
+    CountryProto Country = 5;
 }
 
 message VehicleModelProto{
@@ -299,4 +299,14 @@ message ResponseState{
     repeated StateProto State = 1;
     bool IsError = 2;
     string ErrorMessage = 3;
+}
+
+message ResponseVehicleAddress{
+    repeated VehicleAddressProto Address = 1;
+    bool IsError = 2;
+    string ErrorMessage = 3;
+}
+
+message RequestVehicleMake{
+    VehicleMakeProto VehicleMake =1;
 }
