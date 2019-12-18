@@ -55,5 +55,7 @@ service MasterService{
     rpc CreateVehicleMake(RequestVehicleMake)returns(ResponseCreateSuccess)
     rpc UpdateVehicleMake(RequestVehicleMake)returns(ResponseSuccess)
     rpc DeleteVehicleMake(RequestDelete)returns (ResponseSuccess)
+    rpc GetAllVehicleMake(google.protobuf.Empty) returns(ResponseVehicleMake)
+    rpc GetVehicleMakeById(RequestKey) returns(ResponseVehicleMake)
 }
 

@@ -310,3 +310,8 @@ message ResponseVehicleAddress{
 message RequestVehicleMake{
     VehicleMakeProto VehicleMake =1;
 }
+message ResponseVehicleMake{
+    repeated VehicleMakeProto VehicleMake = 1;
+    bool IsError = 2;
+    string ErrorMessage = 3;
+}
