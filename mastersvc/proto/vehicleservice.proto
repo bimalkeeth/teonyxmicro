@@ -2,10 +2,13 @@ syntax = "proto3";
 
 package teonyx.master;
 import "google/protobuf/timestamp.proto";
-import "proto/mastercontract.proto";
+import "proto/contracts/vehiclecontract.proto";
 import "google/protobuf/empty.proto";
 
-service MasterService{
+//-------------------------------------------
+// Master service functions
+//-------------------------------------------
+service VehicleService{
     rpc CreateContact(RequestContact) returns(ResponseCreateSuccess)
     rpc UpdateContact(RequestContact) returns(ResponseSuccess)
     rpc DeleteContact(RequestDelete) returns (ResponseSuccess)
@@ -57,5 +60,23 @@ service MasterService{
     rpc DeleteVehicleMake(RequestDelete)returns (ResponseSuccess)
     rpc GetAllVehicleMake(google.protobuf.Empty) returns(ResponseVehicleMake)
     rpc GetVehicleMakeById(RequestKey) returns(ResponseVehicleMake)
+    rpc CreateVehicleModel(RequestVehicleModel) returns(ResponseCreateSuccess)
+    rpc UpdateVehicleModel(RequestVehicleModel) returns(ResponseSuccess)
+    rpc DeleteVehicleModel(RequestDelete) returns(ResponseSuccess)
+    rpc GetAllModelByMake(RequestKey)returns(ResponseVehicleModel)
+    rpc GetModelById(RequestKey) returns(ResponseVehicleModel)
+    rpc CreateVehicleReg(RequestVehicleReg) returns(ResponseCreateSuccess)
+    rpc UpdateVehicleReg(RequestVehicleReg) returns(ResponseSuccess)
+    rpc DeleteVehicleReg(RequestDelete) returns(ResponseSuccess)
+    rpc GetAllRegistrationsByVehicleId(RequestKey) returns(ResponseVehicleReg)
+    rpc GetActiveRegistrationsByVehicleId(RequestKey) returns(ResponseVehicleReg)
+    rpc CreateVehicleStatus(RequestVehicleStatus) returns(ResponseCreateSuccess)
+    rpc UpdateVehicleStatus(RequestVehicleStatus) returns(ResponseSuccess)
+    rpc DeleteVehicleStatus(RequestDelete)returns(ResponseSuccess)
+    rpc GetAllVehicleStatus(google.protobuf.Empty) returns(ResponseVehicleStatus)
+    rpc CreateVehicleOpBound(RequestVehicleOprBound)returns(ResponseCreateSuccess)
+    rpc UpdateVehicleOpBound(RequestVehicleOprBound)returns(ResponseSuccess)
+    rpc DeleteVehicleOpBound(RequestDelete)returns(ResponseSuccess)
+
 }
 

@@ -315,3 +315,44 @@ message ResponseVehicleMake{
     bool IsError = 2;
     string ErrorMessage = 3;
 }
+
+message RequestVehicleModel{
+    VehicleModelProto VehicleModel = 1;
+}
+
+message ResponseVehicleModel{
+    repeated VehicleModelProto VehicleModel = 1;
+    bool IsError = 2;
+    string ErrorMessage = 3;
+}
+
+message RequestVehicleReg{
+    VehicleTrackRegProto VehicleReg = 1;
+}
+
+message ResponseVehicleReg{
+    repeated VehicleTrackRegProto VehicleReg = 1;
+    bool IsError = 2;
+    string ErrorMessage = 3;
+}
+
+message RequestVehicleStatus{
+    VehicleStatusProto VehicleStatus = 1;
+}
+
+message ResponseVehicleStatus{
+    repeated VehicleStatusProto VehicleStatus = 1;
+    bool IsError = 2;
+    string ErrorMessage = 3;
+}
+
+
+message RequestVehicleOprBound{
+    VehicleOperatorBoundProto VehicleOprBound = 1;
+}
+
+message ResponseVehicleOprBound{
+    repeated VehicleOperatorBoundProto VehicleOprBound = 1;
+    bool IsError = 2;
+    string ErrorMessage = 3;
+}
