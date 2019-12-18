@@ -40,7 +40,7 @@ type IVehicleManager interface {
 	CreateVehicleModel(bo bu.VehicleModelBO) (uint, error)
 	UpdateVehicleModel(bo bu.VehicleModelBO) (bool, error)
 	DeleteVehicleModel(id uint) (bool, error)
-	GetAllModelByMake(makeid uint) ([]bu.VehicleModelBO, error)
+	GetAllModelByMake(id uint) ([]bu.VehicleModelBO, error)
 	GetModelById(id uint) (bu.VehicleModelBO, error)
 	CreateVehicleReg(bo bu.VehicleTrackRegBO) (uint, error)
 	UpdateVehicleReg(bo bu.VehicleTrackRegBO) (bool, error)

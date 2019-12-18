@@ -116,9 +116,9 @@ func (v *VehicleManager) DeleteVehicleModel(id uint) (bool, error) {
 //------------------------------------------
 //Get all models by make
 //------------------------------------------
-func (v *VehicleManager) GetAllModelByMake(makeid uint) ([]bu.VehicleModelBO, error) {
+func (v *VehicleManager) GetAllModelByMake(id uint) ([]bu.VehicleModelBO, error) {
 	vh := vehicleFac.New(bs.CVehicleModel).(bs.VehicleModel)
-	res, err := vh.GetAllModelByMake(makeid)
+	res, err := vh.GetAllModelByMake(id)
 	return res, err
 
 }
