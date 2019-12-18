@@ -5,6 +5,3 @@ import "google/protobuf/timestamp.proto";
 import "proto/contracts/vehiclecontract.proto";
 import "google/protobuf/empty.proto";
 
-service OperatorService{
-
-}
