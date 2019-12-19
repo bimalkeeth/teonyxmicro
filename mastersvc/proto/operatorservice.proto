@@ -12,4 +12,6 @@ service OperatorService{
    rpc DeleteOperator(RequestDelete)returns(ResponseSuccess)
    rpc GetOperatorById(RequestKey)returns(ResponseOperator)
    rpc GetOperatorsByVehicleId(RequestKey)returns(ResponseOperator)
+   rpc CreateOperatorContact(RequestOperatorContact) returns(RequestOperatorContact)
+   rpc UpdateOperatorContact(RequestOperatorContact) returns(ResponseSuccess)
 }

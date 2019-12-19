@@ -14,3 +14,8 @@ message ResponseOperator{
     bool IsError = 2;
     string ErrorMessage = 3;
 }
+message RequestOperatorContact{
+    uint64 ContactId = 1;
+    uint64 OperatorId = 2;
+    bool Primary = 3;
+}
