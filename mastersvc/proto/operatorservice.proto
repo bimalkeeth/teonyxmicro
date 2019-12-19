@@ -4,7 +4,12 @@ package teonyx.master;
 import "google/protobuf/timestamp.proto";
 import "proto/contracts/vehiclecontract.proto";
 import "google/protobuf/empty.proto";
+import "proto/contracts/operatorcontracts.proto";
 
 service OperatorService{
-
+   rpc CreateOperator(RequestOperator) returns(ResponseCreateSuccess)
+   rpc UpdateOperator(RequestOperator) returns(ResponseSuccess)
+   rpc DeleteOperator(RequestDelete)returns(ResponseSuccess)
+   rpc GetOperatorById(RequestKey)returns(ResponseOperator)
+   rpc GetOperatorsByVehicleId(RequestKey)returns(ResponseOperator)
 }

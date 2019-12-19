@@ -5,3 +5,12 @@ import "google/protobuf/timestamp.proto";
 import "proto/contracts/vehiclecontract.proto";
 import "google/protobuf/empty.proto";
 
+message RequestOperator{
+    OperatorProto Operator = 1;
+}
+
+message ResponseOperator{
+    repeated OperatorProto Operator = 1;
+    bool IsError = 2;
+    string ErrorMessage = 3;
+}
