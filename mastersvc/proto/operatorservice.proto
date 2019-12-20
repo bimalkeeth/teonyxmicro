@@ -12,6 +12,12 @@ service OperatorService{
    rpc DeleteOperator(RequestDelete)returns(ResponseSuccess)
    rpc GetOperatorById(RequestKey)returns(ResponseOperator)
    rpc GetOperatorsByVehicleId(RequestKey)returns(ResponseOperator)
-   rpc CreateOperatorContact(RequestOperatorContact) returns(RequestOperatorContact)
+   rpc CreateOperatorContact(RequestOperatorContact) returns(ResponseCreateSuccess)
    rpc UpdateOperatorContact(RequestOperatorContact) returns(ResponseSuccess)
+   rpc DeleteOperatorContact(RequestDelete) returns(ResponseSuccess)
+   rpc GetAllContactsByOperator(RequestKey) returns(ResponseOperatorContacts)
+   rpc CreateOperatorLocation(RequestOperatorLocation)returns(ResponseCreateSuccess)
+   rpc UpdateOperatorLocation(RequestOperatorLocation)returns(ResponseSuccess)
+   rpc DeleteOperatorLocation(RequestDelete)returns(ResponseSuccess)
+   rpc GetOperatorLocationByOperator(RequestKey) returns(ResponseOperatorContacts)
 }
