@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package teonyx.master;
+import "google/protobuf/timestamp.proto";
+import "proto/contracts/vehiclecontract.proto";
+import "google/protobuf/empty.proto";
+
+service MasterService{
+    rpc CreateCompany(RequestCompany) returns(ResponseCreateSuccess)
+    rpc UpdateCompany(RequestCompany) returns(ResponseSuccess)
+    rpc DeleteCompany(RequestDelete) returns(ResponseSuccess)
+    rpc CreateAddressType(RequestAddressType)returns(ResponseCreateSuccess)
+    rpc UpdateAddressType(RequestAddressType)returns(ResponseSuccess)
+    rpc DeleteAddressType(RequestDelete) returns(ResponseSuccess)
+    rpc GetAddressTypeById(RequestKey) returns(ResponseAddressType)
+    rpc GetAddressTypeByName(RequestByName)returns(ResponseAddressType)
+    rpc GetAllAddressTypes(google.protobuf.Empty) returns(ResponseAddressType)
+    rpc GetAllAddressTypeNames(RequestByName)returns(ResponseAddressType)
+    rpc CreateRegion(RequestRegion) returns(ResponseCreateSuccess)
+    rpc UpdateRegion(RequestRegion) returns(ResponseSuccess)
+    rpc DeleteRegion(RequestDelete)returns(ResponseSuccess)
+    rpc GetAllRegion(google.protobuf.Empty) returns(ResponseRegion)
+    rpc GetRegionById(RequestKey)returns(ResponseRegion)
+    rpc GetRegionByName(RequestByName)returns(ResponseRegion)
+    rpc CreateState(RequestState)returns(ResponseCreateSuccess)
+    rpc UpdateState(RequestState)returns(ResponseSuccess)
+    rpc DeleteState(RequestDelete)returns(ResponseSuccess)
+    rpc GetStateById(RequestKey)returns(ResponseState)
+    rpc GetStateByCountryId(RequestKey)returns(ResponseState)
+    rpc GetStateByName(RequestByName)returns(ResponseState)
+    rpc GetAllStates(google.protobuf.Empty)returns(ResponseState)
+}

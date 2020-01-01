@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package teonyx.master;
+import "google/protobuf/timestamp.proto";
+import "proto/contracts/vehiclecontract.proto";
+import "google/protobuf/empty.proto";
+
+service ContractService{
+    rpc CreateContact(RequestContact) returns(ResponseCreateSuccess)
+    rpc UpdateContact(RequestContact) returns(ResponseSuccess)
+    rpc DeleteContact(RequestDelete) returns (ResponseSuccess)
+    rpc ContactById(RequestKey) returns(ResponseContact)
+    rpc CreateAddress(RequestAddress) returns(ResponseCreateSuccess)
+    rpc UpdateAddress(RequestAddress) returns(ResponseSuccess)
+    rpc DeleteAddress(RequestDelete) returns(ResponseSuccess)
+    rpc GetAddressById(RequestKey) returns(ResponseAddress)
+    rpc GetAddressByName(RequestByName) returns(ResponseAddress)
+}

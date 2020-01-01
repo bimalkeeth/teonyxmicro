@@ -9,7 +9,6 @@ message StateProto{
     string Name = 2;
     uint64 CountryId = 3;
 }
-
 message CountryProto{
     uint64 Id = 1;
     string CountryName = 2;
@@ -17,25 +16,21 @@ message CountryProto{
     repeated StateProto States = 4;
     google.protobuf.Timestamp UpdatedAt = 5;
 }
-
 message ContactProto{
     uint64 Id = 1;
     string Contact = 2;
     uint64 ContactTypeId = 3;
     google.protobuf.Timestamp UpdatedAt = 4;
 }
-
 message AddressTypeProto{
     uint64 Id = 1;
     string Name = 2;
 }
-
 message RegionProto{
     uint64 Id = 1;
     string Region = 2;
     string RegionName = 3;
 }
-
 message AddressProto{
     uint64 Id = 1;
     string Address = 2;
@@ -50,7 +45,6 @@ message AddressProto{
     CountryProto Country = 11;
     google.protobuf.Timestamp UpdatedAt = 12;
 }
-
 message CompanyProto{
     uint64 Id = 1;
     string Name = 2;
@@ -59,13 +53,11 @@ message CompanyProto{
     AddressProto Address = 5;
     ContactProto Contact = 6;
 }
-
 message StateProto{
     uint64 Id = 1;
     string Name = 2;
     uint64 CountryId = 3;
 }
-
 message VehicleMakeProto{
     uint64 Id = 1;
     string Make = 2;
@@ -73,7 +65,6 @@ message VehicleMakeProto{
     string UpdateAt = 4;
     CountryProto Country = 5;
 }
-
 message VehicleModelProto{
     uint64 Id = 1;
     string ModelName = 2;
@@ -96,7 +87,6 @@ message FleetProto{
    uint64 CountryId = 11;
    repeated ContactProto FleetContacts = 12;
    repeated AddressProto Address = 13;
-
 }
 message VehicleStatusProto{
     uint64 Id = 1;
@@ -104,7 +94,6 @@ message VehicleStatusProto{
     string StatusName = 3;
     google.protobuf.Timestamp UpdatedAt = 4;
 }
-
 message VehicleAddressProto{
    uint64 VehicleAddress = 1;
    uint64 AddressId = 2;
@@ -113,8 +102,6 @@ message VehicleAddressProto{
    string UpdateAt = 5;
    AddressProto Address = 6;
 }
-
-
 message OperatorProto{
     uint64 Id = 1;
     string Name = 2;
@@ -126,7 +113,6 @@ message OperatorProto{
     repeated OperatorContactsProto Contacts = 8;
     repeated VehicleProto Vehicles = 9;
 }
-
 message OperatorLocationProto{
   uint64 Id = 1;
   uint64 AddressId = 2;
@@ -137,7 +123,6 @@ message OperatorLocationProto{
   OperatorProto Operator = 7;
 
 }
-
 message OperatorContactsProto{
     uint64 Id = 1;
     uint64 ContactId = 2;
@@ -146,7 +131,6 @@ message OperatorContactsProto{
     ContactProto Contact = 5;
 
 }
-
 message VehicleOperatorBoundProto{
     uint64 Id =1;
     uint64 OperatorId = 2;
@@ -156,7 +140,6 @@ message VehicleOperatorBoundProto{
     VehicleProto Vehicle = 6;
 
 }
-
 message VehicleTrackRegProto{
     uint64 Id = 1;
     string RegisterDate = 2;
@@ -167,7 +150,6 @@ message VehicleTrackRegProto{
     google.protobuf.Timestamp UpdatedAt = 7;
     VehicleProto Vehicle = 8;
 }
-
 message VehicleProto{
     uint64 Id = 1;
     uint64 ModelId = 2;
@@ -185,7 +167,6 @@ message VehicleProto{
     repeated VehicleTrackRegProto Registrations = 14;
 
 }
-
 message VehicleHistoryProto{
     uint64 Id = 1;
     uint64 VehicleId = 2;
@@ -197,116 +178,110 @@ message VehicleHistoryProto{
     VehicleStatusProto FromStatus = 8 ;
     VehicleStatusProto ToStatus = 9;
 }
-
+message FleetContactProto{
+    uint64 Id = 1;
+    uint64 FleetId = 2;
+    uint64 ContactId = 3;
+    bool Primary = 4;
+    FleetProto Fleet = 5;
+    ContactProto Contact = 6;
+}
+message FleetLocationProto{
+    uint64 Id = 1;
+    uint64 FleetId = 2;
+    uint64 AddressId = 3;
+    bool Primary = 4;
+    FleetProto Fleet = 5;
+    AddressProto Address = 6;
+}
 message RequestVehicleAddress{
     VehicleAddressProto VehicleAddress = 1;
  }
-
- message RequestVehicleHistory{
+message RequestVehicleHistory{
     VehicleHistoryProto VehicleHistory = 1;
  }
-
 message ResponseVehicleHistory{
     repeated VehicleHistoryProto VehicleHistory = 1;
     bool IsError = 2;
     string ErrorMessage = 3;
 }
- message RequestVehicle{
+message RequestVehicle{
     VehicleProto Vehicle =1;
 }
-
 message ResponseVehicle{
     repeated VehicleProto Vehicles = 1;
     bool IsError = 2;
     string ErrorMessage = 3;
 }
-
 message RequestContact{
     ContactProto Contact =1;
 }
-
 message ResponseCreateSuccess{
     bool Success = 1;
     uint64 Id  = 2;
     bool IsError = 3;
     string ErrorMessage = 4;
 }
-
 message RequestKey{
     uint64 Id = 1;
 }
-
 message ResponseSuccess{
     bool Success = 1;
     bool IsError = 2;
     string ErrorMessage = 3;
 }
-
 message RequestDelete{
     uint64 Id =1;
 }
-
 message ResponseContact{
     ContactProto Contact = 1;
     bool IsError = 2;
     string ErrorMessage = 3;
 }
-
 message RequestAddress{
     AddressProto Address =1;
 }
-
 message RequestByName{
     string Name = 1;
 }
-
 message ResponseAddress{
     repeated AddressProto Address = 1;
     bool IsError = 2;
     string ErrorMessage = 3;
 }
-
 message RequestCompany {
     CompanyProto Company = 1;
 }
-
 message RequestAddressType{
     AddressTypeProto AddressType = 1;
 
 }
-
 message ResponseAddressType{
     repeated AddressTypeProto AddressType = 1;
     bool IsError = 2;
     string ErrorMessage = 3;
 }
-
 message RequestRegion {
     RegionProto Region = 1;
 }
-
 message ResponseRegion{
     repeated RegionProto Region = 1;
     bool IsError = 2;
     string ErrorMessage = 3;
 }
-
 message RequestState{
     StateProto State = 1;
 }
-
 message ResponseState{
     repeated StateProto State = 1;
     bool IsError = 2;
     string ErrorMessage = 3;
 }
-
 message ResponseVehicleAddress{
     repeated VehicleAddressProto Address = 1;
     bool IsError = 2;
     string ErrorMessage = 3;
 }
-
 message RequestVehicleMake{
     VehicleMakeProto VehicleMake =1;
 }
@@ -315,44 +290,91 @@ message ResponseVehicleMake{
     bool IsError = 2;
     string ErrorMessage = 3;
 }
-
 message RequestVehicleModel{
     VehicleModelProto VehicleModel = 1;
 }
-
 message ResponseVehicleModel{
     repeated VehicleModelProto VehicleModel = 1;
     bool IsError = 2;
     string ErrorMessage = 3;
 }
-
 message RequestVehicleReg{
     VehicleTrackRegProto VehicleReg = 1;
 }
-
 message ResponseVehicleReg{
     repeated VehicleTrackRegProto VehicleReg = 1;
     bool IsError = 2;
     string ErrorMessage = 3;
 }
-
 message RequestVehicleStatus{
     VehicleStatusProto VehicleStatus = 1;
 }
-
 message ResponseVehicleStatus{
     repeated VehicleStatusProto VehicleStatus = 1;
     bool IsError = 2;
     string ErrorMessage = 3;
 }
-
-
 message RequestVehicleOprBound{
     VehicleOperatorBoundProto VehicleOprBound = 1;
 }
-
 message ResponseVehicleOprBound{
     repeated VehicleOperatorBoundProto VehicleOprBound = 1;
+    bool IsError = 2;
+    string ErrorMessage = 3;
+}
+message RequestOperator{
+    OperatorProto Operator = 1;
+}
+message ResponseOperator{
+    repeated OperatorProto Operator = 1;
+    bool IsError = 2;
+    string ErrorMessage = 3;
+}
+message RequestOperatorContact{
+    uint64 ContactId = 1;
+    uint64 OperatorId = 2;
+    bool Primary = 3;
+}
+message ResponseOperatorContacts{
+    repeated OperatorContactsProto OperatorContacts =1;
+    bool IsError = 2;
+    string ErrorMessage = 3;
+}
+message RequestOperatorLocation{
+    OperatorLocationProto OperatorLocation = 1;
+}
+message ResponseOperatorContacts{
+    repeated OperatorLocationProto OperatorLocation = 1;
+    bool IsError = 2;
+    string ErrorMessage = 3;
+}
+message RequestFleet{
+    FleetProto Fleet = 1;
+}
+message ResponseFleet{
+    repeated FleetProto Fleet =1;
+    bool IsError = 2;
+    string ErrorMessage = 3;
+}
+message RequestFleetContact{
+    uint64 FleetId = 1;
+    uint64 ContactId = 2;
+    bool Primary = 3;
+}
+message ResponseFleetContact{
+    repeated FleetContactProto FleetContact =1;
+    bool IsError = 2;
+    string ErrorMessage = 3;
+
+}
+message RequestFleetLocation{
+    uint64 FleetId = 1;
+    uint64 AddressId = 2;
+    bool Primary = 3;
+}
+
+message ResponseFleetLocation{
+    repeated FleetLocationProto FleetLocation = 1;
     bool IsError = 2;
     string ErrorMessage = 3;
 }
