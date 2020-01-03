@@ -28,7 +28,7 @@ type IMasterManager interface {
 	GetAddressTypeByName(name string) (bu.AddressTypeBO, error)
 	GetAllAddressTypes() ([]bu.AddressTypeBO, error)
 	GetAllAddressTypeNames(namePart string) ([]bu.AddressTypeBO, error)
-	CreateRegion(bo bu.RegionBO) (bool, error)
+	CreateRegion(bo bu.RegionBO) (uint, error)
 	UpdateRegion(bo bu.RegionBO) (bool, error)
 	DeleteRegion(id uint) (bool, error)
 	GetAllRegion() ([]bu.RegionBO, error)

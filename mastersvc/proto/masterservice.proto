@@ -285,6 +285,12 @@ message FleetLocationProto{
     FleetProto Fleet = 5;
     AddressProto Address = 6;
 }
+
+message ResponseError{
+    bool IsError = 1;
+    string ErrorMessage = 2;
+}
+
 message RequestVehicleAddress{
     VehicleAddressProto VehicleAddress = 1;
 }
@@ -319,7 +325,7 @@ message RequestKey{
 message ResponseSuccess{
     bool Success = 1;
     bool IsError = 2;
-    string ErrorMessage = 3;
+    bytes ErrorMessage = 3;
 }
 message RequestDelete{
     uint64 Id =1;
@@ -327,7 +333,7 @@ message RequestDelete{
 message ResponseContact{
     ContactProto Contact = 1;
     bool IsError = 2;
-    string ErrorMessage = 3;
+    bytes ErrorMessage = 3;
 }
 message RequestAddress{
     AddressProto Address =1;
@@ -338,7 +344,7 @@ message RequestByName{
 message ResponseAddress{
     repeated AddressProto Address = 1;
     bool IsError = 2;
-    string ErrorMessage = 3;
+    bytes ErrorMessage = 3;
 }
 message RequestCompany {
     CompanyProto Company = 1;
@@ -350,7 +356,7 @@ message RequestAddressType{
 message ResponseAddressType{
     repeated AddressTypeProto AddressType = 1;
     bool IsError = 2;
-    string ErrorMessage = 3;
+    bytes ErrorMessage = 3;
 }
 message RequestRegion {
     RegionProto Region = 1;
@@ -358,7 +364,7 @@ message RequestRegion {
 message ResponseRegion{
     repeated RegionProto Region = 1;
     bool IsError = 2;
-    string ErrorMessage = 3;
+    bytes ErrorMessage = 3;
 }
 message RequestState{
     StateProto State = 1;
@@ -366,12 +372,12 @@ message RequestState{
 message ResponseState{
     repeated StateProto State = 1;
     bool IsError = 2;
-    string ErrorMessage = 3;
+    bytes ErrorMessage = 3;
 }
 message ResponseVehicleAddress{
     repeated VehicleAddressProto Address = 1;
     bool IsError = 2;
-    string ErrorMessage = 3;
+    bytes ErrorMessage = 3;
 }
 message RequestVehicleMake{
     VehicleMakeProto VehicleMake =1;
@@ -379,7 +385,7 @@ message RequestVehicleMake{
 message ResponseVehicleMake{
     repeated VehicleMakeProto VehicleMake = 1;
     bool IsError = 2;
-    string ErrorMessage = 3;
+    bytes ErrorMessage = 3;
 }
 message RequestVehicleModel{
     VehicleModelProto VehicleModel = 1;
@@ -387,7 +393,7 @@ message RequestVehicleModel{
 message ResponseVehicleModel{
     repeated VehicleModelProto VehicleModel = 1;
     bool IsError = 2;
-    string ErrorMessage = 3;
+    bytes ErrorMessage = 3;
 }
 message RequestVehicleReg{
     VehicleTrackRegProto VehicleReg = 1;
@@ -395,7 +401,7 @@ message RequestVehicleReg{
 message ResponseVehicleReg{
     repeated VehicleTrackRegProto VehicleReg = 1;
     bool IsError = 2;
-    string ErrorMessage = 3;
+    bytes ErrorMessage = 3;
 }
 message RequestVehicleStatus{
     VehicleStatusProto VehicleStatus = 1;
@@ -403,7 +409,7 @@ message RequestVehicleStatus{
 message ResponseVehicleStatus{
     repeated VehicleStatusProto VehicleStatus = 1;
     bool IsError = 2;
-    string ErrorMessage = 3;
+    bytes ErrorMessage = 3;
 }
 message RequestVehicleOprBound{
     VehicleOperatorBoundProto VehicleOprBound = 1;
@@ -411,7 +417,7 @@ message RequestVehicleOprBound{
 message ResponseVehicleOprBound{
     repeated VehicleOperatorBoundProto VehicleOprBound = 1;
     bool IsError = 2;
-    string ErrorMessage = 3;
+    bytes ErrorMessage = 3;
 }
 message RequestOperator{
     OperatorProto Operator = 1;
@@ -419,7 +425,7 @@ message RequestOperator{
 message ResponseOperator{
     repeated OperatorProto Operator = 1;
     bool IsError = 2;
-    string ErrorMessage = 3;
+    bytes ErrorMessage = 3;
 }
 message RequestOperatorContact{
     uint64 ContactId = 1;
@@ -429,7 +435,7 @@ message RequestOperatorContact{
 message ResponseOperatorContacts{
     repeated OperatorContactsProto OperatorContacts =1;
     bool IsError = 2;
-    string ErrorMessage = 3;
+    bytes ErrorMessage = 3;
 }
 message RequestOperatorLocation{
     OperatorLocationProto OperatorLocation = 1;
@@ -437,7 +443,7 @@ message RequestOperatorLocation{
 message ResponseOperatorLocation{
     repeated OperatorLocationProto OperatorLocation = 1;
     bool IsError = 2;
-    string ErrorMessage = 3;
+    bytes ErrorMessage = 3;
 }
 message RequestFleet{
     FleetProto Fleet = 1;
@@ -445,7 +451,7 @@ message RequestFleet{
 message ResponseFleet{
     repeated FleetProto Fleet =1;
     bool IsError = 2;
-    string ErrorMessage = 3;
+    bytes ErrorMessage = 3;
 }
 message RequestFleetContact{
     uint64 FleetId = 1;
@@ -455,7 +461,7 @@ message RequestFleetContact{
 message ResponseFleetContact{
     repeated FleetContactProto FleetContact =1;
     bool IsError = 2;
-    string ErrorMessage = 3;
+    bytes ErrorMessage = 3;
 
 }
 message RequestFleetLocation{
@@ -467,5 +473,5 @@ message RequestFleetLocation{
 message ResponseFleetLocation{
     repeated FleetLocationProto FleetLocation = 1;
     bool IsError = 2;
-    string ErrorMessage = 3;
+    bytes ErrorMessage = 3;
 }

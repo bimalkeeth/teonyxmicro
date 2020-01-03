@@ -147,13 +147,13 @@ func (m *MasterManager) GetAllAddressTypeNames(namePart string) ([]bu.AddressTyp
 //------------------------------------------
 //Create Region
 //------------------------------------------
-func (m *MasterManager) CreateRegion(bo bu.RegionBO) (bool, error) {
+func (m *MasterManager) CreateRegion(bo bu.RegionBO) (uint, error) {
 	master := masFac.New(bs.CRegion).(bs.Region)
 	masFac.Conn.Begin()
 	res, err := master.CreateRegion(bo)
 	if err != nil {
 		masFac.Conn.Rollback()
-		return false, err
+		return 0, err
 	}
 	masFac.Conn.Commit()
 	return res, nil

@@ -11,7 +11,7 @@ import (
 // Interface for region management
 //-----------------------------------------------
 type IRegion interface {
-	CreateRegion(bo bu.RegionBO) (bool, error)
+	CreateRegion(bo bu.RegionBO) (uint, error)
 	UpdateRegion(bo bu.RegionBO) (bool, error)
 	DeleteRegion(id uint) (bool, error)
 	GetAllRegion() ([]bu.RegionBO, error)
@@ -25,10 +25,10 @@ func NewRegion(db *gorm.DB) *Region { return &Region{Db: db} }
 //------------------------------------------------
 //Create region for the given data
 //------------------------------------------------
-func (r *Region) CreateRegion(bo bu.RegionBO) (bool, error) {
-
-	r.Db.Create(&entities.TableRegion{Region: bo.Region, RegionName: bo.RegionName})
-	return true, nil
+func (r *Region) CreateRegion(bo bu.RegionBO) (uint, error) {
+	region := &entities.TableRegion{Region: bo.Region, RegionName: bo.RegionName}
+	r.Db.Create(region)
+	return region.ID, nil
 }
 
 //------------------------------------------------
