@@ -8,7 +8,7 @@ import (
 )
 
 type IStates interface {
-	CreateState(bo bu.StateBO) (bool, error)
+	CreateState(bo bu.StateBO) (uint, error)
 	UpdateState(bo bu.StateBO) (bool, error)
 	DeleteState(id uint) (bool, error)
 	GetStateById(id uint) (bu.StateBO, error)
@@ -21,10 +21,10 @@ type State struct{ Db *gorm.DB }
 
 func NewState(db *gorm.DB) *State { return &State{Db: db} }
 
-func (s *State) CreateState(bo bu.StateBO) (bool, error) {
-
-	s.Db.Create(&entities.TableState{Name: bo.Name, CountryId: bo.CountryId})
-	return true, nil
+func (s *State) CreateState(bo bu.StateBO) (uint, error) {
+	state := entities.TableState{Name: bo.Name, CountryId: bo.CountryId}
+	s.Db.Create(&state)
+	return state.ID, nil
 }
 func (s *State) UpdateState(bo bu.StateBO) (bool, error) {
 

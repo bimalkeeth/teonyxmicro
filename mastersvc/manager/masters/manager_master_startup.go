@@ -34,7 +34,7 @@ type IMasterManager interface {
 	GetAllRegion() ([]bu.RegionBO, error)
 	GetRegionById(id uint) (bu.RegionBO, error)
 	GetRegionByName(name string) (bu.RegionBO, error)
-	CreateState(bo bu.StateBO) (bool, error)
+	CreateState(bo bu.StateBO) (uint, error)
 	UpdateState(bo bu.StateBO) (bool, error)
 	DeleteState(id uint) (bool, error)
 	GetStateById(id uint) (bu.StateBO, error)

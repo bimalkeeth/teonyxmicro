@@ -8,20 +8,20 @@ import (
 )
 
 type IContactManager interface {
-	CreateContact(con bu.ContactBO) (bool, uint)
-	UpdateContact(con bu.ContactBO) bool
-	DeleteContact(id uint) bool
+	CreateContact(con bu.ContactBO) (uint, error)
+	UpdateContact(con bu.ContactBO) (bool, error)
+	DeleteContact(id uint) (bool, error)
 	ContactById(Id uint) (bu.ContactBO, error)
-	CreateAddress(add bu.AddressBO) (bool, uint)
-	UpdateAddress(add bu.AddressBO) bool
-	DeleteAddress(id uint) bool
+	CreateAddress(add bu.AddressBO) (uint, error)
+	UpdateAddress(add bu.AddressBO) (bool, error)
+	DeleteAddress(id uint) (bool, error)
 	GetAddressById(id uint) (bu.AddressBO, error)
 	GetAddressByName(name string) ([]bu.AddressBO, error)
 }
 
 type ContactManager struct{}
 
-func New() *ContactManager {
+func New() IContactManager {
 	return &ContactManager{}
 }
 

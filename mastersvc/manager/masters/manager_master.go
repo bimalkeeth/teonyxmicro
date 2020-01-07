@@ -228,13 +228,13 @@ func (m *MasterManager) GetRegionByName(name string) (bu.RegionBO, error) {
 //------------------------------------------
 //Create State
 //------------------------------------------
-func (m *MasterManager) CreateState(bo bu.StateBO) (bool, error) {
+func (m *MasterManager) CreateState(bo bu.StateBO) (uint, error) {
 	master := masFac.New(bs.CState).(bs.State)
 	masFac.Conn.Begin()
 	res, err := master.CreateState(bo)
 	if err != nil {
 		masFac.Conn.Rollback()
-		return false, err
+		return 0, err
 	}
 	masFac.Conn.Commit()
 	return res, nil
