@@ -52,3 +52,12 @@ func (m *MasterService) UpdateFleet(ctx context.Context, in *pro.RequestFleet) (
 	response.Success = result
 	return response, nil
 }
+
+func (m *MasterService) DeleteFleet(ctx context.Context, in *pro.RequestDelete) (*pro.ResponseSuccess, error) {
+	fltManager := flt.New()
+	response := &pro.ResponseSuccess{}
+	result, err := fltManager.DeleteFleet(uint(in.Id))
+	response.Errors = ErrorResponse.GetCreateErrorJson(err)
+	response.Success = result
+	return response, nil
+}
