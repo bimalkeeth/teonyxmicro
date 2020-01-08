@@ -387,8 +387,8 @@ func (m *MasterService) GetAddressById(ctx context.Context, in *pro.RequestKey) 
 	response := &pro.ResponseAddress{}
 	response.Errors = ErrorResponse.GetCreateErrorJson(err)
 
-	timeUpdate, err := timestamp.TimestampProto(result.UpdatedAt)
-	if err != nil {
+	timeUpdate, errs := timestamp.TimestampProto(result.UpdatedAt)
+	if errs != nil {
 		timeUpdate, _ = timestamp.TimestampProto(time.Now())
 	}
 
@@ -403,5 +403,31 @@ func (m *MasterService) GetAddressById(ctx context.Context, in *pro.RequestKey) 
 		CountryId:     uint64(result.CountryId),
 		UpdatedAt:     timeUpdate,
 	})
+	return response, nil
+}
+
+func (m *MasterService) GetAddressByName(ctx context.Context, in *pro.RequestByName) (*pro.ResponseAddress, error) {
+	conManager := con.New()
+	result, err := conManager.GetAddressByName(in.Name)
+	response := &pro.ResponseAddress{}
+	response.Errors = ErrorResponse.GetCreateErrorJson(err)
+
+	for _, item := range result {
+		timeUpdate, errs := timestamp.TimestampProto(item.UpdatedAt)
+		if errs != nil {
+			timeUpdate, _ = timestamp.TimestampProto(time.Now())
+		}
+		response.Address = append(response.Address, &pro.AddressProto{
+			Address:       item.Address,
+			Id:            uint64(item.Id),
+			Suburb:        item.Suburb,
+			Street:        item.Street,
+			StateId:       uint64(item.StateId),
+			Location:      item.Location,
+			AddressTypeId: uint64(item.AddressTypeId),
+			CountryId:     uint64(item.CountryId),
+			UpdatedAt:     timeUpdate,
+		})
+	}
 	return response, nil
 }

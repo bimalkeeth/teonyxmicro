@@ -171,7 +171,7 @@ message FleetProto{
     string Name = 4;
     string SurName = 5;
     string OtherName = 6;
-    string DateRegistered = 7;
+    google.protobuf.Timestamp DateRegistered = 7;
     float RegistrationDuration =8;
     uint64 FleetContactId = 9;
     uint64 FleetLocationId = 10;
