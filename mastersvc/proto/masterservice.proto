@@ -412,9 +412,10 @@ message ResponseOperator{
     ResponseError Errors = 2;
 }
 message RequestOperatorContact{
-    uint64 ContactId = 1;
-    uint64 OperatorId = 2;
-    bool Primary = 3;
+    uint64 Id =1;
+    uint64 ContactId = 2;
+    uint64 OperatorId = 3;
+    bool Primary = 4;
 }
 message ResponseOperatorContacts{
     repeated OperatorContactsProto OperatorContacts =1;
@@ -435,9 +436,10 @@ message ResponseFleet{
     ResponseError Errors = 2;
 }
 message RequestFleetContact{
-    uint64 FleetId = 1;
-    uint64 ContactId = 2;
-    bool Primary = 3;
+    uint64 Id =1;
+    uint64 FleetId = 2;
+    uint64 ContactId = 3;
+    bool Primary = 4;
 }
 message ResponseFleetContact{
     repeated FleetContactProto FleetContact =1;
@@ -445,9 +447,10 @@ message ResponseFleetContact{
 
 }
 message RequestFleetLocation{
-    uint64 FleetId = 1;
-    uint64 AddressId = 2;
-    bool Primary = 3;
+    uint64 Id =1;
+    uint64 FleetId = 2;
+    uint64 AddressId = 3;
+    bool Primary = 4;
 }
 
 message ResponseFleetLocation{
