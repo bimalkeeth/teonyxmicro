@@ -61,7 +61,7 @@ service MasterService{
     rpc CreateOperatorLocation(RequestOperatorLocation)returns(ResponseCreateSuccess);
     rpc UpdateOperatorLocation(RequestOperatorLocation)returns(ResponseSuccess);
     rpc DeleteOperatorLocation(RequestDelete)returns(ResponseSuccess);
-    rpc GetOperatorLocationByOperator(RequestKey) returns(ResponseOperatorContacts);
+    rpc GetOperatorLocationByOperator(RequestKey) returns(ResponseOperatorLocation);
     rpc CreateVehicle(RequestVehicle)returns(ResponseCreateSuccess);
     rpc UpdateVehicle(RequestVehicle)returns(ResponseSuccess);
     rpc DeleteVehicle(RequestDelete) returns (ResponseSuccess);

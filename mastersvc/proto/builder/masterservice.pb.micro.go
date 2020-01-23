@@ -92,7 +92,7 @@ type MasterService interface {
 	CreateOperatorLocation(ctx context.Context, in *RequestOperatorLocation, opts ...client.CallOption) (*ResponseCreateSuccess, error)
 	UpdateOperatorLocation(ctx context.Context, in *RequestOperatorLocation, opts ...client.CallOption) (*ResponseSuccess, error)
 	DeleteOperatorLocation(ctx context.Context, in *RequestDelete, opts ...client.CallOption) (*ResponseSuccess, error)
-	GetOperatorLocationByOperator(ctx context.Context, in *RequestKey, opts ...client.CallOption) (*ResponseOperatorContacts, error)
+	GetOperatorLocationByOperator(ctx context.Context, in *RequestKey, opts ...client.CallOption) (*ResponseOperatorLocation, error)
 	CreateVehicle(ctx context.Context, in *RequestVehicle, opts ...client.CallOption) (*ResponseCreateSuccess, error)
 	UpdateVehicle(ctx context.Context, in *RequestVehicle, opts ...client.CallOption) (*ResponseSuccess, error)
 	DeleteVehicle(ctx context.Context, in *RequestDelete, opts ...client.CallOption) (*ResponseSuccess, error)
@@ -709,9 +709,9 @@ func (c *masterService) DeleteOperatorLocation(ctx context.Context, in *RequestD
 	return out, nil
 }
 
-func (c *masterService) GetOperatorLocationByOperator(ctx context.Context, in *RequestKey, opts ...client.CallOption) (*ResponseOperatorContacts, error) {
+func (c *masterService) GetOperatorLocationByOperator(ctx context.Context, in *RequestKey, opts ...client.CallOption) (*ResponseOperatorLocation, error) {
 	req := c.c.NewRequest(c.name, "MasterService.GetOperatorLocationByOperator", in)
-	out := new(ResponseOperatorContacts)
+	out := new(ResponseOperatorLocation)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
 		return nil, err
@@ -1138,7 +1138,7 @@ type MasterServiceHandler interface {
 	CreateOperatorLocation(context.Context, *RequestOperatorLocation, *ResponseCreateSuccess) error
 	UpdateOperatorLocation(context.Context, *RequestOperatorLocation, *ResponseSuccess) error
 	DeleteOperatorLocation(context.Context, *RequestDelete, *ResponseSuccess) error
-	GetOperatorLocationByOperator(context.Context, *RequestKey, *ResponseOperatorContacts) error
+	GetOperatorLocationByOperator(context.Context, *RequestKey, *ResponseOperatorLocation) error
 	CreateVehicle(context.Context, *RequestVehicle, *ResponseCreateSuccess) error
 	UpdateVehicle(context.Context, *RequestVehicle, *ResponseSuccess) error
 	DeleteVehicle(context.Context, *RequestDelete, *ResponseSuccess) error
@@ -1235,7 +1235,7 @@ func RegisterMasterServiceHandler(s server.Server, hdlr MasterServiceHandler, op
 		CreateOperatorLocation(ctx context.Context, in *RequestOperatorLocation, out *ResponseCreateSuccess) error
 		UpdateOperatorLocation(ctx context.Context, in *RequestOperatorLocation, out *ResponseSuccess) error
 		DeleteOperatorLocation(ctx context.Context, in *RequestDelete, out *ResponseSuccess) error
-		GetOperatorLocationByOperator(ctx context.Context, in *RequestKey, out *ResponseOperatorContacts) error
+		GetOperatorLocationByOperator(ctx context.Context, in *RequestKey, out *ResponseOperatorLocation) error
 		CreateVehicle(ctx context.Context, in *RequestVehicle, out *ResponseCreateSuccess) error
 		UpdateVehicle(ctx context.Context, in *RequestVehicle, out *ResponseSuccess) error
 		DeleteVehicle(ctx context.Context, in *RequestDelete, out *ResponseSuccess) error
@@ -1508,7 +1508,7 @@ func (h *masterServiceHandler) DeleteOperatorLocation(ctx context.Context, in *R
 	return h.MasterServiceHandler.DeleteOperatorLocation(ctx, in, out)
 }
 
-func (h *masterServiceHandler) GetOperatorLocationByOperator(ctx context.Context, in *RequestKey, out *ResponseOperatorContacts) error {
+func (h *masterServiceHandler) GetOperatorLocationByOperator(ctx context.Context, in *RequestKey, out *ResponseOperatorLocation) error {
 	return h.MasterServiceHandler.GetOperatorLocationByOperator(ctx, in, out)
 }
 
