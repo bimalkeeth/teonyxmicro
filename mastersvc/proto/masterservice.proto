@@ -190,7 +190,7 @@ message VehicleAddressProto{
     uint64 AddressId = 2;
     uint64 VehicleId = 3;
     bool Primary = 4;
-    string UpdateAt = 5;
+    google.protobuf.Timestamp UpdateAt = 5;
     AddressProto Address = 6;
 }
 message OperatorProto{
