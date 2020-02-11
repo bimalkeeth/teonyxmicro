@@ -76,9 +76,142 @@ func (m *MasterService) GetVehicleById(ctx context.Context, in *pro.RequestKey, 
 			AddressId: uint64(loc.AddressId),
 			VehicleId: uint64(loc.VehicleId),
 			UpdateAt:  updateLocAt,
+			Address: &pro.AddressProto{
+				Id:            uint64(loc.Address.Id),
+				Address:       loc.Address.Address,
+				Street:        loc.Address.Street,
+				Suburb:        loc.Address.Suburb,
+				StateId:       uint64(loc.Address.StateId),
+				CountryId:     uint64(loc.Address.CountryId),
+				AddressTypeId: uint64(loc.Address.AddressTypeId),
+				Location:      loc.Address.Location,
+				State: &pro.StateProto{
+					Id:        uint64(loc.Address.State.Id),
+					Name:      loc.Address.State.Name,
+					CountryId: uint64(loc.Address.State.CountryId),
+				},
+			},
 		}
-
 		data.Locations = append(data.Locations, location)
 	}
+	for _, op := range result.Operators {
+		opr := &pro.VehicleOperatorBoundProto{
+			Id:         uint64(op.Id),
+			OperatorId: uint64(op.OperatorId),
+			VehicleId:  uint64(op.VehicleId),
+			Active:     op.Active,
+			Operator: &pro.OperatorProto{
+				Id:         uint64(op.Operator.Id),
+				Name:       op.Operator.Name,
+				SurName:    op.Operator.SurName,
+				Active:     op.Operator.Active,
+				DrivingLic: op.Operator.DrivingLic,
+			},
+			Vehicle: nil,
+		}
+		data.Operators = append(data.Operators, opr)
+	}
 
+	for _, trc := range result.Registrations {
+		expiryDate, _ := timestamp.TimestampProto(trc.ExpiredDate)
+		updateDate, _ := timestamp.TimestampProto(trc.UpdatedAt)
+		track := &pro.VehicleTrackRegProto{
+			Id:           uint64(trc.Id),
+			RegisterDate: trc.RegisterDate.String(),
+			Duration:     int32(trc.Duration),
+			ExpiredDate:  expiryDate,
+			Active:       trc.Active,
+			VehicleId:    uint64(trc.VehicleId),
+			UpdatedAt:    updateDate,
+		}
+		data.Registrations = append(data.Registrations, track)
+	}
+	res.Vehicles = append(res.Vehicles, data)
+	return nil
+
+}
+
+func (m *MasterService) GetVehicleByRegistration(ctx context.Context, in *pro.RequestByName, res *pro.ResponseVehicle) error {
+
+	vehManager := vh.New()
+	result, err := vehManager.GetVehicleByRegistration(in.Name)
+	res.Errors = ErrorResponse.GetCreateErrorJson(err)
+
+	updateVehicleAt, _ := timestamp.TimestampProto(result.UpdatedAt)
+	data := &pro.VehicleProto{
+		Id:           uint64(result.Id),
+		OfficeName:   result.OfficeName,
+		StatusId:     uint64(result.StatusId),
+		FleetId:      uint64(result.FleetId),
+		Registration: result.Registration,
+		MakeId:       uint64(result.MakeId),
+		ModelId:      uint64(result.ModelId),
+		UpdatedAt:    updateVehicleAt,
+		Status: &pro.VehicleStatusProto{
+			Id:         uint64(result.Status.Id),
+			StatusType: result.Status.StatusType,
+			StatusName: result.Status.StatusName,
+		},
+	}
+
+	for _, loc := range result.Locations {
+
+		updateLocAt, _ := timestamp.TimestampProto(loc.UpdateAt)
+		location := &pro.VehicleAddressProto{
+			AddressId: uint64(loc.AddressId),
+			VehicleId: uint64(loc.VehicleId),
+			UpdateAt:  updateLocAt,
+			Address: &pro.AddressProto{
+				Id:            uint64(loc.Address.Id),
+				Address:       loc.Address.Address,
+				Street:        loc.Address.Street,
+				Suburb:        loc.Address.Suburb,
+				StateId:       uint64(loc.Address.StateId),
+				CountryId:     uint64(loc.Address.CountryId),
+				AddressTypeId: uint64(loc.Address.AddressTypeId),
+				Location:      loc.Address.Location,
+				State: &pro.StateProto{
+					Id:        uint64(loc.Address.State.Id),
+					Name:      loc.Address.State.Name,
+					CountryId: uint64(loc.Address.State.CountryId),
+				},
+			},
+		}
+		data.Locations = append(data.Locations, location)
+	}
+	for _, op := range result.Operators {
+		opr := &pro.VehicleOperatorBoundProto{
+			Id:         uint64(op.Id),
+			OperatorId: uint64(op.OperatorId),
+			VehicleId:  uint64(op.VehicleId),
+			Active:     op.Active,
+			Operator: &pro.OperatorProto{
+				Id:         uint64(op.Operator.Id),
+				Name:       op.Operator.Name,
+				SurName:    op.Operator.SurName,
+				Active:     op.Operator.Active,
+				DrivingLic: op.Operator.DrivingLic,
+			},
+			Vehicle: nil,
+		}
+		data.Operators = append(data.Operators, opr)
+	}
+
+	for _, trc := range result.Registrations {
+		expiryDate, _ := timestamp.TimestampProto(trc.ExpiredDate)
+		updateDate, _ := timestamp.TimestampProto(trc.UpdatedAt)
+		track := &pro.VehicleTrackRegProto{
+			Id:           uint64(trc.Id),
+			RegisterDate: trc.RegisterDate.String(),
+			Duration:     int32(trc.Duration),
+			ExpiredDate:  expiryDate,
+			Active:       trc.Active,
+			VehicleId:    uint64(trc.VehicleId),
+			UpdatedAt:    updateDate,
+		}
+		data.Registrations = append(data.Registrations, track)
+	}
+	res.Vehicles = append(res.Vehicles, data)
+
+	return nil
 }
