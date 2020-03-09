@@ -8,19 +8,19 @@ import bu "teonyxmicro/mastersvc/bucontracts"
 import opr "teonyxmicro/mastersvc/manager/operator"
 import timestamp "github.com/golang/protobuf/ptypes"
 
-func (m *MasterService) CreateOperator(ctx context.Context, req *pro.RequestOperator, res *pro.ResponseCreateSuccess) error {
+func (m *MasterService) CreateOperator(ctx context.Context, req *pro.RequestOperator, out *pro.ResponseCreateSuccess) error {
 	oprManager := opr.New()
 	result, err := oprManager.CreateOperator(bu.OperatorBO{
 		Name:       req.Operator.Name,
 		SurName:    req.Operator.SurName,
 		DrivingLic: req.Operator.DrivingLic,
 	})
-	res.Errors = ErrorResponse.GetCreateErrorJson(err)
-	res.Id = uint64(result)
+	out.Errors = ErrorResponse.GetCreateErrorJson(err)
+	out.Id = uint64(result)
 	return nil
 }
 
-func (m *MasterService) UpdateOperator(ctx context.Context, req *pro.RequestOperator, res *pro.ResponseSuccess) error {
+func (m *MasterService) UpdateOperator(ctx context.Context, req *pro.RequestOperator, out *pro.ResponseSuccess) error {
 	oprManager := opr.New()
 	result, err := oprManager.UpdateOperator(bu.OperatorBO{
 		Id:         uint(req.Operator.Id),
@@ -29,23 +29,23 @@ func (m *MasterService) UpdateOperator(ctx context.Context, req *pro.RequestOper
 		Active:     req.Operator.Active,
 		DrivingLic: req.Operator.DrivingLic,
 	})
-	res.Errors = ErrorResponse.GetCreateErrorJson(err)
-	res.Success = result
+	out.Errors = ErrorResponse.GetCreateErrorJson(err)
+	out.Success = result
 	return nil
 }
 
-func (m *MasterService) DeleteOperator(ctx context.Context, req *pro.RequestDelete, res *pro.ResponseSuccess) error {
+func (m *MasterService) DeleteOperator(ctx context.Context, req *pro.RequestDelete, out *pro.ResponseSuccess) error {
 	oprManager := opr.New()
 	result, err := oprManager.DeleteOperator(uint(req.Id))
-	res.Errors = ErrorResponse.GetCreateErrorJson(err)
-	res.Success = result
+	out.Errors = ErrorResponse.GetCreateErrorJson(err)
+	out.Success = result
 	return nil
 }
 
-func (m *MasterService) GetOperatorById(ctx context.Context, req *pro.RequestKey, res *pro.ResponseOperator) error {
+func (m *MasterService) GetOperatorById(ctx context.Context, req *pro.RequestKey, out *pro.ResponseOperator) error {
 	oprManager := opr.New()
 	result, err := oprManager.GetOperatorById(uint(req.Id))
-	res.Errors = ErrorResponse.GetCreateErrorJson(err)
+	out.Errors = ErrorResponse.GetCreateErrorJson(err)
 
 	data := &pro.OperatorProto{}
 	data.Id = uint64(result.Id)
@@ -106,15 +106,15 @@ func (m *MasterService) GetOperatorById(ctx context.Context, req *pro.RequestKey
 		}
 		data.Vehicles = append(data.Vehicles, vehicle)
 	}
-	res.Operator = append(res.Operator, data)
+	out.Operator = append(out.Operator, data)
 	return nil
 
 }
 
-func (m *MasterService) GetOperatorsByVehicleId(ctx context.Context, req *pro.RequestKey, res *pro.ResponseOperator) error {
+func (m *MasterService) GetOperatorsByVehicleId(ctx context.Context, req *pro.RequestKey, out *pro.ResponseOperator) error {
 	oprManager := opr.New()
 	result, err := oprManager.GetOperatorsByVehicleId(uint(req.Id))
-	res.Errors = ErrorResponse.GetCreateErrorJson(err)
+	out.Errors = ErrorResponse.GetCreateErrorJson(err)
 
 	for _, opr := range result {
 
@@ -177,39 +177,39 @@ func (m *MasterService) GetOperatorsByVehicleId(ctx context.Context, req *pro.Re
 			}
 			data.Vehicles = append(data.Vehicles, vehicle)
 		}
-		res.Operator = append(res.Operator, data)
+		out.Operator = append(out.Operator, data)
 	}
 	return nil
 }
 
-func (m *MasterService) CreateOperatorContact(ctx context.Context, req *pro.RequestOperatorContact, res *pro.ResponseCreateSuccess) error {
+func (m *MasterService) CreateOperatorContact(ctx context.Context, req *pro.RequestOperatorContact, out *pro.ResponseCreateSuccess) error {
 	oprManager := opr.New()
 	result, err := oprManager.CreateOperatorContact(uint(req.ContactId), uint(req.OperatorId), req.Primary)
-	res.Errors = ErrorResponse.GetCreateErrorJson(err)
-	res.Id = uint64(result)
+	out.Errors = ErrorResponse.GetCreateErrorJson(err)
+	out.Id = uint64(result)
 	return nil
 }
 
-func (m *MasterService) UpdateOperatorContact(ctx context.Context, in *pro.RequestOperatorContact, res *pro.ResponseSuccess) error {
+func (m *MasterService) UpdateOperatorContact(ctx context.Context, in *pro.RequestOperatorContact, out *pro.ResponseSuccess) error {
 	oprManager := opr.New()
 	result, err := oprManager.UpdateOperatorContact(uint(in.Id), uint(in.ContactId), uint(in.OperatorId), in.Primary)
-	res.Errors = ErrorResponse.GetCreateErrorJson(err)
-	res.Success = result
+	out.Errors = ErrorResponse.GetCreateErrorJson(err)
+	out.Success = result
 	return nil
 }
 
-func (m *MasterService) DeleteOperatorContact(ctx context.Context, in *pro.RequestDelete, res *pro.ResponseSuccess) error {
+func (m *MasterService) DeleteOperatorContact(ctx context.Context, in *pro.RequestDelete, out *pro.ResponseSuccess) error {
 	oprManager := opr.New()
 	result, err := oprManager.DeleteOperatorContact(uint(in.Id))
-	res.Errors = ErrorResponse.GetCreateErrorJson(err)
-	res.Success = result
+	out.Errors = ErrorResponse.GetCreateErrorJson(err)
+	out.Success = result
 	return nil
 }
 
-func (m *MasterService) GetAllContactsByOperator(ctx context.Context, in *pro.RequestKey, res *pro.ResponseOperatorContacts) error {
+func (m *MasterService) GetAllContactsByOperator(ctx context.Context, in *pro.RequestKey, out *pro.ResponseOperatorContacts) error {
 	oprManager := opr.New()
 	result, err := oprManager.GetAllContactsByOperator(uint(in.Id))
-	res.Errors = ErrorResponse.GetCreateErrorJson(err)
+	out.Errors = ErrorResponse.GetCreateErrorJson(err)
 
 	for _, op := range result {
 		oprCon := pro.OperatorContactsProto{}
@@ -224,24 +224,24 @@ func (m *MasterService) GetAllContactsByOperator(ctx context.Context, in *pro.Re
 			ContactTypeId: uint64(op.Contact.ContactTypeId),
 			UpdatedAt:     conUpdate,
 		}
-		res.OperatorContacts = append(res.OperatorContacts, &oprCon)
+		out.OperatorContacts = append(out.OperatorContacts, &oprCon)
 	}
 	return nil
 }
 
-func (m *MasterService) CreateOperatorLocation(ctx context.Context, in *pro.RequestOperatorLocation, res *pro.ResponseCreateSuccess) error {
+func (m *MasterService) CreateOperatorLocation(ctx context.Context, in *pro.RequestOperatorLocation, out *pro.ResponseCreateSuccess) error {
 	oprManager := opr.New()
 	result, err := oprManager.CreateOperatorLocation(bu.OperatorLocationBO{
 		OperatorId: uint(in.OperatorLocation.OperatorId),
 		Primary:    in.OperatorLocation.Primary,
 		AddressId:  uint(in.OperatorLocation.AddressId),
 	})
-	res.Errors = ErrorResponse.GetCreateErrorJson(err)
-	res.Id = uint64(result)
+	out.Errors = ErrorResponse.GetCreateErrorJson(err)
+	out.Id = uint64(result)
 	return nil
 }
 
-func (m *MasterService) UpdateOperatorLocation(ctx context.Context, in *pro.RequestOperatorLocation, res *pro.ResponseSuccess) error {
+func (m *MasterService) UpdateOperatorLocation(ctx context.Context, in *pro.RequestOperatorLocation, out *pro.ResponseSuccess) error {
 	oprManager := opr.New()
 	result, err := oprManager.UpdateOperatorLocation(bu.OperatorLocationBO{
 		Id:         uint(in.OperatorLocation.Id),
@@ -249,22 +249,22 @@ func (m *MasterService) UpdateOperatorLocation(ctx context.Context, in *pro.Requ
 		Primary:    in.OperatorLocation.Primary,
 		AddressId:  uint(in.OperatorLocation.AddressId),
 	})
-	res.Errors = ErrorResponse.GetCreateErrorJson(err)
-	res.Success = result
+	out.Errors = ErrorResponse.GetCreateErrorJson(err)
+	out.Success = result
 	return nil
 }
-func (m *MasterService) DeleteOperatorLocation(ctx context.Context, in *pro.RequestDelete, res *pro.ResponseSuccess) error {
+func (m *MasterService) DeleteOperatorLocation(ctx context.Context, in *pro.RequestDelete, out *pro.ResponseSuccess) error {
 	oprManager := opr.New()
 	result, err := oprManager.DeleteOperatorLocation(uint(in.Id))
-	res.Errors = ErrorResponse.GetCreateErrorJson(err)
-	res.Success = result
+	out.Errors = ErrorResponse.GetCreateErrorJson(err)
+	out.Success = result
 	return nil
 }
 
-func (m *MasterService) GetOperatorLocationByOperator(ctx context.Context, in *pro.RequestKey, res *pro.ResponseOperatorLocation) error {
+func (m *MasterService) GetOperatorLocationByOperator(ctx context.Context, in *pro.RequestKey, out *pro.ResponseOperatorLocation) error {
 	oprManager := opr.New()
 	result, err := oprManager.GetOperatorLocationByOperator(uint(in.Id))
-	res.Errors = ErrorResponse.GetCreateErrorJson(err)
+	out.Errors = ErrorResponse.GetCreateErrorJson(err)
 	for _, item := range result {
 		updateOpr, _ := timestamp.TimestampProto(item.UpdateAt)
 		opLoc := &pro.OperatorLocationProto{
@@ -286,7 +286,7 @@ func (m *MasterService) GetOperatorLocationByOperator(ctx context.Context, in *p
 			Location:      item.Address.Location,
 			UpdatedAt:     updateAdd,
 		}
-		res.OperatorLocation = append(res.OperatorLocation, opLoc)
+		out.OperatorLocation = append(out.OperatorLocation, opLoc)
 	}
 	return nil
 }

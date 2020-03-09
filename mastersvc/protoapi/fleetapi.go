@@ -8,12 +8,12 @@ import bu "teonyxmicro/mastersvc/bucontracts"
 import flt "teonyxmicro/mastersvc/manager/fleets"
 import timestamp "github.com/golang/protobuf/ptypes"
 
-func (m *MasterService) CreateFleet(ctx context.Context, req *pro.RequestFleet, res *pro.ResponseCreateSuccess) error {
+func (m *MasterService) CreateFleet(ctx context.Context, req *pro.RequestFleet, out *pro.ResponseCreateSuccess) error {
 	fltManager := flt.New()
 
 	dateRegistered, err := timestamp.Timestamp(req.Fleet.DateRegistered)
 	if err != nil {
-		res.Errors = ErrorResponse.GetCreateErrorJson(err)
+		out.Errors = ErrorResponse.GetCreateErrorJson(err)
 		return nil
 	}
 	result, errs := fltManager.CreateFleet(bu.FleetBO{
@@ -25,16 +25,16 @@ func (m *MasterService) CreateFleet(ctx context.Context, req *pro.RequestFleet, 
 		RegistrationDuration: float64(req.Fleet.RegistrationDuration),
 		DateRegistered:       dateRegistered,
 	})
-	res.Errors = ErrorResponse.GetCreateErrorJson(errs)
-	res.Id = uint64(result.Id)
+	out.Errors = ErrorResponse.GetCreateErrorJson(errs)
+	out.Id = uint64(result.Id)
 	return nil
 }
 
-func (m *MasterService) UpdateFleet(ctx context.Context, req *pro.RequestFleet, res *pro.ResponseSuccess) error {
+func (m *MasterService) UpdateFleet(ctx context.Context, req *pro.RequestFleet, out *pro.ResponseSuccess) error {
 	fltManager := flt.New()
 	dateRegistered, err := timestamp.Timestamp(req.Fleet.DateRegistered)
 	if err != nil {
-		res.Errors = ErrorResponse.GetCreateErrorJson(err)
+		out.Errors = ErrorResponse.GetCreateErrorJson(err)
 		return nil
 	}
 	result, errs := fltManager.UpdateFleet(bu.FleetBO{
@@ -47,28 +47,28 @@ func (m *MasterService) UpdateFleet(ctx context.Context, req *pro.RequestFleet, 
 		RegistrationDuration: float64(req.Fleet.RegistrationDuration),
 		DateRegistered:       dateRegistered,
 	})
-	res.Errors = ErrorResponse.GetCreateErrorJson(errs)
-	res.Success = result
+	out.Errors = ErrorResponse.GetCreateErrorJson(errs)
+	out.Success = result
 	return nil
 }
 
-func (m *MasterService) DeleteFleet(ctx context.Context, req *pro.RequestDelete, res *pro.ResponseSuccess) error {
+func (m *MasterService) DeleteFleet(ctx context.Context, req *pro.RequestDelete, out *pro.ResponseSuccess) error {
 	fltManager := flt.New()
 	result, err := fltManager.DeleteFleet(uint(req.Id))
-	res.Errors = ErrorResponse.GetCreateErrorJson(err)
-	res.Success = result
+	out.Errors = ErrorResponse.GetCreateErrorJson(err)
+	out.Success = result
 	return nil
 }
 
-func (m *MasterService) GetFleetById(ctx context.Context, req *pro.RequestKey, res *pro.ResponseFleet) error {
+func (m *MasterService) GetFleetById(ctx context.Context, req *pro.RequestKey, out *pro.ResponseFleet) error {
 	fltManager := flt.New()
 	result, err := fltManager.GetFleetById(uint(req.Id))
-	res.Errors = ErrorResponse.GetCreateErrorJson(err)
+	out.Errors = ErrorResponse.GetCreateErrorJson(err)
 
 	updatedat, _ := timestamp.TimestampProto(result.UpdatedAt)
 	dateRegistered, _ := timestamp.TimestampProto(result.DateRegistered)
 
-	res.Fleet = append(res.Fleet, &pro.FleetProto{
+	out.Fleet = append(out.Fleet, &pro.FleetProto{
 		Id:                   uint64(result.Id),
 		UpdatedAt:            updatedat,
 		FleetCode:            result.FleetCode,
@@ -84,35 +84,35 @@ func (m *MasterService) GetFleetById(ctx context.Context, req *pro.RequestKey, r
 	return nil
 }
 
-func (m *MasterService) CreateFleetContact(ctx context.Context, req *pro.RequestFleetContact, res *pro.ResponseCreateSuccess) error {
+func (m *MasterService) CreateFleetContact(ctx context.Context, req *pro.RequestFleetContact, out *pro.ResponseCreateSuccess) error {
 	fltManager := flt.New()
 	result, err := fltManager.CreateFleetContact(uint(req.FleetId), uint(req.ContactId), req.Primary)
-	res.Errors = ErrorResponse.GetCreateErrorJson(err)
-	res.Id = uint64(result)
+	out.Errors = ErrorResponse.GetCreateErrorJson(err)
+	out.Id = uint64(result)
 	return nil
 }
 
-func (m *MasterService) UpdateFleetContact(ctx context.Context, req *pro.RequestFleetContact, res *pro.ResponseSuccess) error {
+func (m *MasterService) UpdateFleetContact(ctx context.Context, req *pro.RequestFleetContact, out *pro.ResponseSuccess) error {
 	fltManager := flt.New()
 	result, err := fltManager.UpdateFleetContact(uint(req.Id), uint(req.FleetId), uint(req.ContactId), req.Primary)
-	res.Errors = ErrorResponse.GetCreateErrorJson(err)
-	res.Success = result
+	out.Errors = ErrorResponse.GetCreateErrorJson(err)
+	out.Success = result
 	return nil
 }
 
-func (m *MasterService) DeleteFleetContact(ctx context.Context, req *pro.RequestDelete, res *pro.ResponseSuccess) error {
+func (m *MasterService) DeleteFleetContact(ctx context.Context, req *pro.RequestDelete, out *pro.ResponseSuccess) error {
 	fltManager := flt.New()
 	result, err := fltManager.DeleteFleetContact(uint(req.Id))
-	res.Errors = ErrorResponse.GetCreateErrorJson(err)
-	res.Success = result
+	out.Errors = ErrorResponse.GetCreateErrorJson(err)
+	out.Success = result
 	return nil
 
 }
 
-func (m *MasterService) GetContactByFleetId(ctx context.Context, req *pro.RequestKey, res *pro.ResponseFleetContact) error {
+func (m *MasterService) GetContactByFleetId(ctx context.Context, req *pro.RequestKey, out *pro.ResponseFleetContact) error {
 	fltManager := flt.New()
 	result, err := fltManager.GetContactByFleetId(uint(req.Id))
-	res.Errors = ErrorResponse.GetCreateErrorJson(err)
+	out.Errors = ErrorResponse.GetCreateErrorJson(err)
 
 	for _, con := range result {
 
@@ -138,16 +138,16 @@ func (m *MasterService) GetContactByFleetId(ctx context.Context, req *pro.Reques
 			Contact:       con.Contact.Contact,
 			ContactTypeId: uint64(con.Contact.ContactTypeId),
 		}
-		res.FleetContact = append(res.FleetContact, contact)
+		out.FleetContact = append(out.FleetContact, contact)
 	}
 	return nil
 }
 
-func (m *MasterService) CreateFleetLocation(ctx context.Context, req *pro.RequestFleetLocation, res *pro.ResponseCreateSuccess) error {
+func (m *MasterService) CreateFleetLocation(ctx context.Context, req *pro.RequestFleetLocation, out *pro.ResponseCreateSuccess) error {
 	fltManager := flt.New()
 	result, err := fltManager.CreateFleetLocation(uint(req.FleetId), uint(req.AddressId), req.Primary)
-	res.Errors = ErrorResponse.GetCreateErrorJson(err)
-	res.Id = uint64(result)
+	out.Errors = ErrorResponse.GetCreateErrorJson(err)
+	out.Id = uint64(result)
 	return nil
 }
 
@@ -160,18 +160,18 @@ func (m *MasterService) UpdateFleetLocation(ctx context.Context, in *pro.Request
 	return response, nil
 }
 
-func (m *MasterService) DeleteFleetLocation(ctx context.Context, req *pro.RequestDelete, res *pro.ResponseSuccess) error {
+func (m *MasterService) DeleteFleetLocation(ctx context.Context, req *pro.RequestDelete, out *pro.ResponseSuccess) error {
 	fltManager := flt.New()
 	result, err := fltManager.DeleteFleetLocation(uint(req.Id))
-	res.Errors = ErrorResponse.GetCreateErrorJson(err)
-	res.Success = result
+	out.Errors = ErrorResponse.GetCreateErrorJson(err)
+	out.Success = result
 	return nil
 }
 
-func (m *MasterService) GetLocationByFleetId(ctx context.Context, req *pro.RequestKey, res *pro.ResponseFleetLocation) error {
+func (m *MasterService) GetLocationByFleetId(ctx context.Context, req *pro.RequestKey, out *pro.ResponseFleetLocation) error {
 	fltManager := flt.New()
 	result, err := fltManager.GetLocationByFleetId(uint(req.Id))
-	res.Errors = ErrorResponse.GetCreateErrorJson(err)
+	out.Errors = ErrorResponse.GetCreateErrorJson(err)
 	for _, loc := range result {
 		item := &pro.FleetLocationProto{
 			Id:        uint64(loc.Id),
@@ -202,7 +202,7 @@ func (m *MasterService) GetLocationByFleetId(ctx context.Context, req *pro.Reque
 			Name:           loc.Fleet.Name,
 			UpdatedAt:      fltUpdatedAt,
 		}
-		res.FleetLocation = append(res.FleetLocation, item)
+		out.FleetLocation = append(out.FleetLocation, item)
 	}
 	return nil
 }
