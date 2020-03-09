@@ -3,6 +3,7 @@ package protoapi
 import (
 	"context"
 	timestamp "github.com/golang/protobuf/ptypes"
+	"github.com/golang/protobuf/ptypes/empty"
 )
 import pro "teonyxmicro/mastersvc/proto/builder"
 import bu "teonyxmicro/mastersvc/bucontracts"
@@ -434,5 +435,76 @@ func (m *MasterService) GetVehicleLocationByVehicle(ctx context.Context, in *pro
 		out.Address = append(out.Address, vehicleAddress)
 	}
 	out.Errors = ErrorResponse.GetCreateErrorJson(err)
+	return nil
+}
+
+func (m *MasterService) CreateVehicleMake(ctx context.Context, in *pro.RequestVehicleMake, out *pro.ResponseCreateSuccess) error {
+	vehManager := vh.New()
+	result, err := vehManager.CreateVehicleMake(bu.VehicleMakeBO{
+		CountryId: uint(in.VehicleMake.CountryId),
+		Make:      in.VehicleMake.Make,
+	})
+
+	out.Errors = ErrorResponse.GetCreateErrorJson(err)
+	out.Id = uint64(result)
+	return nil
+}
+
+func (m *MasterService) UpdateVehicleMake(ctx context.Context, in *pro.RequestVehicleMake, out *pro.ResponseSuccess) error {
+	vehManager := vh.New()
+	result, err := vehManager.UpdateVehicleMake(bu.VehicleMakeBO{
+		Id:        uint(in.VehicleMake.Id),
+		CountryId: uint(in.VehicleMake.CountryId),
+		Make:      in.VehicleMake.Make,
+	})
+	out.Errors = ErrorResponse.GetCreateErrorJson(err)
+	out.Success = result
+	return nil
+}
+
+func (m *MasterService) DeleteVehicleMake(ctx context.Context, in *pro.RequestDelete, out *pro.ResponseSuccess) error {
+	vehManager := vh.New()
+	result, err := vehManager.DeleteVehicleMake(uint(in.Id))
+	out.Errors = ErrorResponse.GetCreateErrorJson(err)
+	out.Success = result
+	return nil
+
+}
+
+func (m *MasterService) GetAllVehicleMake(ctx context.Context, in *empty.Empty, out *pro.ResponseVehicleMake) error {
+	vehManager := vh.New()
+	result, err := vehManager.GetAllVehicleMake()
+	out.Errors = ErrorResponse.GetCreateErrorJson(err)
+	for _, item := range result {
+		out.VehicleMake = append(out.VehicleMake, &pro.VehicleMakeProto{
+			Id:        uint64(item.Id),
+			Make:      item.Make,
+			CountryId: uint64(item.CountryId),
+			UpdateAt:  item.UpdateAt.String(),
+			Country: &pro.CountryProto{
+				Id:          uint64(item.Country.Id),
+				CountryName: item.Country.CountryName,
+				RegionId:    uint64(item.Country.RegionId),
+			},
+		})
+	}
+	return nil
+}
+
+func (m *MasterService) GetVehicleMakeById(ctx context.Context, in *pro.RequestKey, out *pro.ResponseVehicleMake) error {
+	vehManager := vh.New()
+	result, err := vehManager.GetVehicleMakeById(uint(in.Id))
+	out.Errors = ErrorResponse.GetCreateErrorJson(err)
+	out.VehicleMake = append(out.VehicleMake, &pro.VehicleMakeProto{
+		Id:        uint64(result.Id),
+		Make:      result.Make,
+		CountryId: uint64(result.CountryId),
+		UpdateAt:  result.UpdateAt.String(),
+		Country: &pro.CountryProto{
+			Id:          uint64(result.Country.Id),
+			CountryName: result.Country.CountryName,
+			RegionId:    uint64(result.Country.RegionId),
+		}})
+
 	return nil
 }
