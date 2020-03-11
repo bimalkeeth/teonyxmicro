@@ -153,7 +153,7 @@ message VehicleMakeProto{
     uint64 Id = 1;
     string Make = 2;
     uint64 CountryId =3;
-    string UpdateAt = 4;
+    google.protobuf.Timestamp UpdateAt = 4;
     CountryProto Country = 5;
 }
 message VehicleModelProto{

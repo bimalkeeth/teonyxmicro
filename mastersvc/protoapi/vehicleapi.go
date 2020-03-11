@@ -495,11 +495,12 @@ func (m *MasterService) GetVehicleMakeById(ctx context.Context, in *pro.RequestK
 	vehManager := vh.New()
 	result, err := vehManager.GetVehicleMakeById(uint(in.Id))
 	out.Errors = ErrorResponse.GetCreateErrorJson(err)
+	makeDate, _ := timestamp.TimestampProto(result.UpdateAt)
 	out.VehicleMake = append(out.VehicleMake, &pro.VehicleMakeProto{
 		Id:        uint64(result.Id),
 		Make:      result.Make,
 		CountryId: uint64(result.CountryId),
-		UpdateAt:  result.UpdateAt.String(),
+		UpdateAt:  makeDate,
 		Country: &pro.CountryProto{
 			Id:          uint64(result.Country.Id),
 			CountryName: result.Country.CountryName,
@@ -507,4 +508,70 @@ func (m *MasterService) GetVehicleMakeById(ctx context.Context, in *pro.RequestK
 		}})
 
 	return nil
+}
+
+func (m *MasterService) CreateVehicleModel(ctx context.Context, in *pro.RequestVehicleModel, out *pro.ResponseCreateSuccess) error {
+	vehManager := vh.New()
+	result, err := vehManager.CreateVehicleModel(bu.VehicleModelBO{
+		Description: in.VehicleModel.Description,
+		ModelName:   in.VehicleModel.ModelName,
+		MakeId:      uint(in.VehicleModel.MakeId),
+	})
+	out.Errors = ErrorResponse.GetCreateErrorJson(err)
+	out.Id = uint64(result)
+	return nil
+}
+
+func (m *MasterService) UpdateVehicleModel(ctx context.Context, in *pro.RequestVehicleModel, out *pro.ResponseSuccess) error {
+	vehManager := vh.New()
+	result, err := vehManager.UpdateVehicleModel(bu.VehicleModelBO{
+		MakeId:      uint(in.VehicleModel.MakeId),
+		ModelName:   in.VehicleModel.ModelName,
+		Description: in.VehicleModel.Description,
+	})
+	out.Errors = ErrorResponse.GetCreateErrorJson(err)
+	out.Success = result
+	return nil
+}
+
+func (m *MasterService) DeleteVehicleModel(ctx context.Context, in *pro.RequestDelete, out *pro.ResponseSuccess) error {
+	vehManager := vh.New()
+	result, err := vehManager.DeleteVehicleModel(uint(in.Id))
+	out.Errors = ErrorResponse.GetCreateErrorJson(err)
+	out.Success = result
+	return nil
+}
+func (m *MasterService) GetAllModelByMake(ctx context.Context, in *pro.RequestKey, out *pro.ResponseVehicleModel) error {
+	vehManager := vh.New()
+	result, err := vehManager.GetAllModelByMake(uint(in.Id))
+	out.Errors = ErrorResponse.GetCreateErrorJson(err)
+	for _, item := range result {
+		modelDate, _ := timestamp.TimestampProto(item.UpdatedAt)
+		makeDate, _ := timestamp.TimestampProto(item.Make.UpdateAt)
+		countryDate, _ := timestamp.TimestampProto(item.Make.Country.UpdatedAt)
+		out.VehicleModel = append(out.VehicleModel, &pro.VehicleModelProto{
+			Id:          uint64(item.Id),
+			ModelName:   item.ModelName,
+			Description: item.Description,
+			MakeId:      uint64(item.MakeId),
+			UpdatedAt:   modelDate,
+			Make: &pro.VehicleMakeProto{
+				Id:        uint64(item.Make.Id),
+				Make:      item.Make.Make,
+				CountryId: uint64(item.Make.CountryId),
+				UpdateAt:  makeDate,
+				Country: &pro.CountryProto{
+					Id:          uint64(item.Make.Country.Id),
+					CountryName: item.Make.Country.CountryName,
+					RegionId:    uint64(item.Make.Country.RegionId),
+					UpdatedAt:   countryDate,
+				},
+			},
+		})
+	}
+	return nil
+}
+
+func (m *MasterService) GetModelById(ctx context.Context, in *pro.RequestKey, out *pro.ResponseVehicleModel) error {
+
 }
