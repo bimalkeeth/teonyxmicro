@@ -4,7 +4,6 @@ go 1.12
 
 require (
 	cloud.google.com/go v0.44.0 // indirect
-	github.com/cydev/zero v0.0.0-20160322155811-4a4535dd56e7 // indirect
 	github.com/denisenkom/go-mssqldb v0.0.0-20190806190131-db2462fef53b // indirect
 	github.com/golang/protobuf v1.3.2
 	github.com/jinzhu/gorm v1.9.10
@@ -12,5 +11,4 @@ require (
 	github.com/mattn/go-sqlite3 v1.11.0 // indirect
 	github.com/micro/go-micro v1.18.0
 	github.com/micro/go-plugins v1.2.0
-	gopkg.in/jeevatkm/go-model.v1 v1.1.0 // indirect
 )
