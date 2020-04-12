@@ -233,7 +233,7 @@ message VehicleOperatorBoundProto{
 }
 message VehicleTrackRegProto{
     uint64 Id = 1;
-    string RegisterDate = 2;
+    google.protobuf.Timestamp RegisterDate = 2;
     int32 Duration =3;
     google.protobuf.Timestamp ExpiredDate =4;
     bool Active = 5;

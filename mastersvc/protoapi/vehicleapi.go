@@ -573,5 +573,223 @@ func (m *MasterService) GetAllModelByMake(ctx context.Context, in *pro.RequestKe
 }
 
 func (m *MasterService) GetModelById(ctx context.Context, in *pro.RequestKey, out *pro.ResponseVehicleModel) error {
+	vehManager := vh.New()
+	result, err := vehManager.GetModelById(uint(in.Id))
+	out.Errors = ErrorResponse.GetCreateErrorJson(err)
 
+	modelDate, _ := timestamp.TimestampProto(result.UpdatedAt)
+	makeDate, _ := timestamp.TimestampProto(result.Make.UpdateAt)
+	countryDate, _ := timestamp.TimestampProto(result.Make.Country.UpdatedAt)
+
+	out.VehicleModel = append(out.VehicleModel, &pro.VehicleModelProto{
+		Id:          uint64(result.Id),
+		ModelName:   result.ModelName,
+		Description: result.Description,
+		MakeId:      uint64(result.MakeId),
+		UpdatedAt:   modelDate,
+		Make: &pro.VehicleMakeProto{
+			Id:        uint64(result.Make.Id),
+			Make:      result.Make.Make,
+			CountryId: uint64(result.Make.CountryId),
+			UpdateAt:  makeDate,
+			Country: &pro.CountryProto{
+				Id:          uint64(result.Make.Country.Id),
+				CountryName: result.Make.Country.CountryName,
+				RegionId:    uint64(result.Make.Country.RegionId),
+				UpdatedAt:   countryDate,
+			},
+		},
+	})
+	return nil
+}
+
+func (m *MasterService) CreateVehicleReg(ctx context.Context, in *pro.RequestVehicleReg, out *pro.ResponseCreateSuccess) error {
+	vehManager := vh.New()
+	expireDate, _ := timestamp.Timestamp(in.VehicleReg.ExpiredDate)
+	regDate, _ := timestamp.Timestamp(in.VehicleReg.RegisterDate)
+
+	result, err := vehManager.CreateVehicleReg(bu.VehicleTrackRegBO{
+		Active:       in.VehicleReg.Active,
+		Duration:     int(in.VehicleReg.Duration),
+		ExpiredDate:  expireDate,
+		VehicleId:    uint(in.VehicleReg.VehicleId),
+		RegisterDate: regDate,
+	})
+	out.Id = uint64(result)
+	out.Errors = ErrorResponse.GetCreateErrorJson(err)
+	return nil
+}
+func (m *MasterService) UpdateVehicleReg(ctx context.Context, in *pro.RequestVehicleReg, out *pro.ResponseSuccess) error {
+	vehManager := vh.New()
+	expireDate, _ := timestamp.Timestamp(in.VehicleReg.ExpiredDate)
+	regDate, _ := timestamp.Timestamp(in.VehicleReg.RegisterDate)
+
+	result, err := vehManager.UpdateVehicleReg(bu.VehicleTrackRegBO{
+		Id:           uint(in.VehicleReg.Id),
+		VehicleId:    uint(in.VehicleReg.VehicleId),
+		ExpiredDate:  expireDate,
+		Duration:     int(in.VehicleReg.Duration),
+		Active:       in.VehicleReg.Active,
+		RegisterDate: regDate,
+	})
+	out.Errors = ErrorResponse.GetCreateErrorJson(err)
+	out.Success = result
+
+	return nil
+}
+
+func (m *MasterService) DeleteVehicleReg(ctx context.Context, in *pro.RequestDelete, out *pro.ResponseSuccess) error {
+	vehManager := vh.New()
+	result, err := vehManager.DeleteVehicleReg(uint(in.Id))
+	out.Errors = ErrorResponse.GetCreateErrorJson(err)
+	out.Success = result
+	return nil
+}
+
+func (m *MasterService) GetAllRegistrationsByVehicleId(ctx context.Context, in *pro.RequestKey, out *pro.ResponseVehicleReg) error {
+	vehManager := vh.New()
+	result, err := vehManager.GetAllRegistrationsByVehicleId(uint(in.Id))
+	out.Errors = ErrorResponse.GetCreateErrorJson(err)
+
+	for _, vh := range result {
+
+		expireDate, _ := timestamp.TimestampProto(vh.ExpiredDate)
+		regDate, _ := timestamp.TimestampProto(vh.RegisterDate)
+		updateAt, _ := timestamp.TimestampProto(vh.UpdatedAt)
+		vhUpdateAt, _ := timestamp.TimestampProto(vh.Vehicle.UpdatedAt)
+
+		out.VehicleReg = append(out.VehicleReg, &pro.VehicleTrackRegProto{
+			Id:           uint64(vh.Id),
+			RegisterDate: regDate,
+			Duration:     int32(vh.Duration),
+			ExpiredDate:  expireDate,
+			Active:       vh.Active,
+			VehicleId:    uint64(vh.VehicleId),
+			UpdatedAt:    updateAt,
+			Vehicle: &pro.VehicleProto{
+				Id:           uint64(vh.Vehicle.Id),
+				UpdatedAt:    vhUpdateAt,
+				Registration: vh.Vehicle.Registration,
+				StatusId:     uint64(vh.Vehicle.StatusId),
+				MakeId:       uint64(vh.Vehicle.MakeId),
+				ModelId:      uint64(vh.Vehicle.ModelId),
+			},
+		})
+	}
+	return nil
+
+}
+
+func (m *MasterService) GetActiveRegistrationsByVehicleId(ctx context.Context, in *pro.RequestKey, out *pro.ResponseVehicleReg) error {
+
+	vehManager := vh.New()
+	result, err := vehManager.GetActiveRegistrationsByVehicleId(uint(in.Id))
+	out.Errors = ErrorResponse.GetCreateErrorJson(err)
+
+	expireDate, _ := timestamp.TimestampProto(result.ExpiredDate)
+	regDate, _ := timestamp.TimestampProto(result.RegisterDate)
+	updateAt, _ := timestamp.TimestampProto(result.UpdatedAt)
+	vhUpdateAt, _ := timestamp.TimestampProto(result.Vehicle.UpdatedAt)
+
+	out.VehicleReg = append(out.VehicleReg, &pro.VehicleTrackRegProto{
+		Id:           uint64(result.Id),
+		RegisterDate: regDate,
+		Duration:     int32(result.Duration),
+		ExpiredDate:  expireDate,
+		Active:       result.Active,
+		VehicleId:    uint64(result.VehicleId),
+		UpdatedAt:    updateAt,
+		Vehicle: &pro.VehicleProto{
+			Id:           uint64(result.Vehicle.Id),
+			UpdatedAt:    vhUpdateAt,
+			Registration: result.Vehicle.Registration,
+			StatusId:     uint64(result.Vehicle.StatusId),
+			MakeId:       uint64(result.Vehicle.MakeId),
+			ModelId:      uint64(result.Vehicle.ModelId),
+		},
+	})
+	return nil
+}
+
+func (m *MasterService) CreateVehicleStatus(ctx context.Context, in *pro.RequestVehicleStatus, out *pro.ResponseCreateSuccess) error {
+	vehManager := vh.New()
+	result, err := vehManager.CreateVehicleStatus(bu.VehicleStatusBO{
+		Id:         uint(in.VehicleStatus.Id),
+		StatusName: in.VehicleStatus.StatusName,
+		StatusType: in.VehicleStatus.StatusType,
+	})
+
+	out.Errors = ErrorResponse.GetCreateErrorJson(err)
+	out.Success = true
+	out.Id = uint64(result)
+}
+
+func (m *MasterService) UpdateVehicleStatus(ctx context.Context, in *pro.RequestVehicleStatus, out *pro.ResponseSuccess) error {
+	vehManager := vh.New()
+	result, err := vehManager.UpdateVehicleStatus(bu.VehicleStatusBO{
+		Id:         uint(in.VehicleStatus.Id),
+		StatusType: in.VehicleStatus.StatusType,
+		StatusName: in.VehicleStatus.StatusName,
+	})
+	out.Errors = ErrorResponse.GetCreateErrorJson(err)
+	out.Success = result
+	return nil
+}
+
+func (m *MasterService) DeleteVehicleStatus(ctx context.Context, in *pro.RequestDelete, out *pro.ResponseSuccess) error {
+	vehManager := vh.New()
+	result, err := vehManager.DeleteVehicleStatus(uint(in.Id))
+	out.Errors = ErrorResponse.GetCreateErrorJson(err)
+	out.Success = result
+	return nil
+}
+
+func (m *MasterService) GetAllVehicleStatus(ctx context.Context, in *empty.Empty, out *pro.ResponseVehicleStatus) error {
+	vehManager := vh.New()
+	result, err := vehManager.GetAllVehicleStatus()
+	out.Errors = ErrorResponse.GetCreateErrorJson(err)
+	for _, item := range result {
+
+		updateAt, _ := timestamp.TimestampProto(item.UpdatedAt)
+		out.VehicleStatus = append(out.VehicleStatus, &pro.VehicleStatusProto{
+			Id:         uint64(item.Id),
+			StatusName: item.StatusName,
+			StatusType: item.StatusType,
+			UpdatedAt:  updateAt,
+		})
+	}
+	return nil
+}
+
+func (m *MasterService) CreateVehicleOpBound(ctx context.Context, in *pro.RequestVehicleOprBound, out *pro.ResponseCreateSuccess) error {
+	vehManager := vh.New()
+	result, err := vehManager.CreateVehicleOpBound(bu.VehicleOperatorBoundBO{
+		Active:     in.VehicleOprBound.Active,
+		VehicleId:  uint(in.VehicleOprBound.VehicleId),
+		OperatorId: uint(in.VehicleOprBound.OperatorId),
+	})
+	out.Errors = ErrorResponse.GetCreateErrorJson(err)
+	out.Id = uint64(result)
+	return nil
+}
+
+func (m *MasterService) UpdateVehicleOpBound(ctx context.Context, in *pro.RequestVehicleOprBound, out *pro.ResponseSuccess) error {
+	vehManager := vh.New()
+	result, err := vehManager.UpdateVehicleOpBound(bu.VehicleOperatorBoundBO{
+		Id:         uint(in.VehicleOprBound.Id),
+		Active:     in.VehicleOprBound.Active,
+		VehicleId:  uint(in.VehicleOprBound.VehicleId),
+		OperatorId: uint(in.VehicleOprBound.OperatorId),
+	})
+	out.Errors = ErrorResponse.GetCreateErrorJson(err)
+	out.Success = result
+	return nil
+}
+
+func (m *MasterService) DeleteVehicleOpBound(ctx context.Context, in *pro.RequestDelete, out *pro.ResponseSuccess) error {
+	vehManager := vh.New()
+	result, err := vehManager.DeleteVehicleOpBound(uint(in.Id))
+	out.Errors = ErrorResponse.GetCreateErrorJson(err)
+	out.Success = result
+	return nil
 }
