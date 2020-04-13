@@ -16,5 +16,6 @@ func main() {
 	}
 	r := routers.New()
 	r.MasterRoutes(apiServer)
+	apiServer.Logger.Fatal(apiServer.Start(":8181"), nil)
 
 }
