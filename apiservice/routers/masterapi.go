@@ -3,7 +3,7 @@ package routers
 import (
 	"github.com/labstack/echo/v4"
 	"github.com/micro/go-micro"
-	"net/http"
+	master "teonyxmicro/apiservice/services/master"
 )
 
 var service micro.Service
@@ -13,15 +13,10 @@ func init() {
 	service.Init()
 
 }
-
-func New() ITeoRoutes {
-	return TeoRoutes{}
+func New() IRoutes {
+	return Routes{}
 }
-func (TeoRoutes) MasterRoutes(server *echo.Echo) {
-	server.GET("/", getHome)
-
-}
-func getHome(context echo.Context) error {
-
-	return context.JSON(http.StatusOK, "Hello World")
+func (Routes) MasterRoutes(server *echo.Echo) {
+	routes := master.New(service)
+	server.GET("/", routes.GetHome)
 }

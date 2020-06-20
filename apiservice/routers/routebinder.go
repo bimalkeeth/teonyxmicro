@@ -1,3 +1,3 @@
 package routers
 
-type TeoRoutes struct{}
+type Routes struct{}
