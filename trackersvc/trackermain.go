@@ -1,13 +1,13 @@
 package main
 
 import (
-	"github.com/micro/go-micro"
-	"github.com/micro/go-micro/broker/nats"
-	"github.com/micro/go-micro/config/cmd"
-	"github.com/micro/go-micro/server"
-	_ "github.com/micro/go-plugins/broker/nats"
-	_ "github.com/micro/go-plugins/registry/nats"
-	_ "github.com/micro/go-plugins/transport/nats"
+	"github.com/micro/go-micro/v2"
+	"github.com/micro/go-micro/v2/broker/nats"
+	"github.com/micro/go-micro/v2/config/cmd"
+	"github.com/micro/go-micro/v2/server"
+	_ "github.com/micro/go-plugins/broker/nats/v2"
+	_ "github.com/micro/go-plugins/registry/nats/v2"
+	_ "github.com/micro/go-plugins/transport/nats/v2"
 	"log"
 	"net"
 	"time"
