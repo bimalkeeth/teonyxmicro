@@ -6,6 +6,5 @@ import (
 )
 
 func (m *Master) GetHome(context echo.Context) error {
-
 	return context.JSON(http.StatusOK, "Hello World")
 }
