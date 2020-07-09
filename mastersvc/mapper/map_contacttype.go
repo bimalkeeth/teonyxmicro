@@ -8,8 +8,7 @@ import ent "teonyxmicro/mastersvc/entities"
 //--------------------------------------
 func MapContactTypeTable(db *gorm.DB) {
 
-	if !db.HasTable(&ent.TableAddressType{}) {
-
+	if !db.HasTable(&ent.TableContactType{}) {
 		db.CreateTable(&ent.TableContactType{})
 		db.Model(&ent.TableContactType{}).AddUniqueIndex("ux_addresstype_contacttype", "contacttype")
 	}

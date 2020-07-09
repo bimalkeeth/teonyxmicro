@@ -10,7 +10,7 @@ type TableVehicleTrackReg struct {
 	gorm.Model
 	RegisterDate time.Time     `gorm:"column:registrationdate;not_null"`
 	Duration     int           `gorm:"column:duration;not_null"`
-	ExpiredDate  time.Time     `gorm:"column:duration"`
+	ExpiredDate  time.Time     `gorm:"column:expiredate"`
 	Active       bool          `gorm:"column:active;not_null"`
 	VehicleId    uint          `gorm:"column:vehicleid;not_null"`
 	Vehicle      *TableVehicle `gorm:"foreignkey:vehicleid"`

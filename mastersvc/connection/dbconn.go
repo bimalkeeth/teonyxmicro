@@ -2,6 +2,7 @@ package connection
 
 import (
 	"github.com/jinzhu/gorm"
+	_ "github.com/jinzhu/gorm/dialects/postgres"
 	"log"
 )
 
@@ -19,9 +20,9 @@ func New() *DB {
 // open connection
 //-----------------------------------
 func (db DB) Open() (*gorm.DB, error) {
-	pdb, err := gorm.Open("postgres", "host=localhost port=5432 user=postgres dbname=test password=root sslmode=disable")
+	pdb, err := gorm.Open("postgres", "host=localhost port=5432 user=postgres dbname=teonyx password=root sslmode=disable")
 	if err != nil {
-		log.Fatal("error in connecting to the database")
+		log.Fatal("error in connecting to the database->", err)
 		return nil, err
 	}
 	return pdb, nil
