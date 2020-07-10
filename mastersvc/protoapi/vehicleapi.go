@@ -116,9 +116,10 @@ func (m *MasterService) GetVehicleById(ctx context.Context, in *pro.RequestKey, 
 	for _, trc := range result.Registrations {
 		expiryDate, _ := timestamp.TimestampProto(trc.ExpiredDate)
 		updateDate, _ := timestamp.TimestampProto(trc.UpdatedAt)
+		registrationDate, _ := timestamp.TimestampProto(trc.RegisterDate)
 		track := &pro.VehicleTrackRegProto{
 			Id:           uint64(trc.Id),
-			RegisterDate: trc.RegisterDate.String(),
+			RegisterDate: registrationDate,
 			Duration:     int32(trc.Duration),
 			ExpiredDate:  expiryDate,
 			Active:       trc.Active,
@@ -201,9 +202,10 @@ func (m *MasterService) GetVehicleByRegistration(ctx context.Context, in *pro.Re
 	for _, trc := range result.Registrations {
 		expiryDate, _ := timestamp.TimestampProto(trc.ExpiredDate)
 		updateDate, _ := timestamp.TimestampProto(trc.UpdatedAt)
+		registrationDate, _ := timestamp.TimestampProto(trc.RegisterDate)
 		track := &pro.VehicleTrackRegProto{
 			Id:           uint64(trc.Id),
-			RegisterDate: trc.RegisterDate.String(),
+			RegisterDate: registrationDate,
 			Duration:     int32(trc.Duration),
 			ExpiredDate:  expiryDate,
 			Active:       trc.Active,
@@ -286,9 +288,10 @@ func (m *MasterService) GetVehiclesByFleetId(ctx context.Context, in *pro.Reques
 		for _, trc := range item.Registrations {
 			expiryDate, _ := timestamp.TimestampProto(trc.ExpiredDate)
 			updateDate, _ := timestamp.TimestampProto(trc.UpdatedAt)
+			registrationDate, _ := timestamp.TimestampProto(trc.RegisterDate)
 			track := &pro.VehicleTrackRegProto{
 				Id:           uint64(trc.Id),
-				RegisterDate: trc.RegisterDate.String(),
+				RegisterDate: registrationDate,
 				Duration:     int32(trc.Duration),
 				ExpiredDate:  expiryDate,
 				Active:       trc.Active,
@@ -476,11 +479,12 @@ func (m *MasterService) GetAllVehicleMake(ctx context.Context, in *empty.Empty, 
 	result, err := vehManager.GetAllVehicleMake()
 	out.Errors = ErrorResponse.GetCreateErrorJson(err)
 	for _, item := range result {
+		updateAt, _ := timestamp.TimestampProto(item.UpdateAt)
 		out.VehicleMake = append(out.VehicleMake, &pro.VehicleMakeProto{
 			Id:        uint64(item.Id),
 			Make:      item.Make,
 			CountryId: uint64(item.CountryId),
-			UpdateAt:  item.UpdateAt.String(),
+			UpdateAt:  updateAt,
 			Country: &pro.CountryProto{
 				Id:          uint64(item.Country.Id),
 				CountryName: item.Country.CountryName,
@@ -722,6 +726,7 @@ func (m *MasterService) CreateVehicleStatus(ctx context.Context, in *pro.Request
 	out.Errors = ErrorResponse.GetCreateErrorJson(err)
 	out.Success = true
 	out.Id = uint64(result)
+	return nil
 }
 
 func (m *MasterService) UpdateVehicleStatus(ctx context.Context, in *pro.RequestVehicleStatus, out *pro.ResponseSuccess) error {

@@ -2,7 +2,7 @@ package master
 
 import (
 	"github.com/labstack/echo/v4"
-	"github.com/micro/go-micro"
+	"github.com/micro/go-micro/v2"
 )
 
 type Master struct{}

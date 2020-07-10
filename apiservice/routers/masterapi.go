@@ -2,7 +2,7 @@ package routers
 
 import (
 	"github.com/labstack/echo/v4"
-	"github.com/micro/go-micro"
+	"github.com/micro/go-micro/v2"
 	master "teonyxmicro/apiservice/services/master"
 )
 

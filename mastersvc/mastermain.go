@@ -1,11 +1,11 @@
 package main
 
 import (
-	"github.com/micro/go-micro"
+	"github.com/micro/go-micro/v2"
 	"log"
+	serviceproto "teonyxmicro/mastersvc/proto/builder"
+	api "teonyxmicro/mastersvc/protoapi"
 )
-import serviceproto "teonyxmicro/mastersvc/proto/builder"
-import api "teonyxmicro/mastersvc/protoapi"
 
 func main() {
 	service := micro.NewService(
@@ -14,11 +14,12 @@ func main() {
 		micro.AfterStart(serviceStop),
 		micro.BeforeStart(serviceStart))
 
+	service.Init()
 	err := serviceproto.RegisterMasterServiceHandler(service.Server(), new(api.MasterService))
 	if err != nil {
 		log.Fatal(err)
 	}
-	service.Init()
+
 	if err := service.Run(); err != nil {
 		log.Fatal(err)
 	}
@@ -26,8 +27,9 @@ func main() {
 
 func serviceStart() error {
 
+	return nil
 }
 
 func serviceStop() error {
-
+	return nil
 }
